@@ -6,11 +6,21 @@ import { GraduationCap, Award, Server } from 'lucide-react';
 <Layout title="About - Brent Zey">
   <div class="max-w-4xl mx-auto px-6 py-16 md:py-24 space-y-24 animate-fade-in">
     
-    <section class="space-y-6">
-      <h1 class="text-5xl md:text-6xl font-black uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-synth-cyan to-synth-blue synth-text-glow">About Me</h1>
-      <p class="text-xl md:text-2xl text-[var(--text-secondary)] leading-relaxed font-light">
-        I’m a software engineer in healthcare technology, formerly fintech, and I build full stack, native, and mobile applications.
-      </p>
+    <section class="flex flex-col md:flex-row items-center gap-12">
+      <div class="flex-1 space-y-6">
+        <h1 class="text-5xl md:text-6xl font-black uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-synth-cyan to-synth-blue synth-text-glow">About Me</h1>
+        <p class="text-xl md:text-2xl text-[var(--text-secondary)] leading-relaxed font-light">
+          I’m a software engineer in healthcare technology, formerly fintech, and I build full stack, native, and mobile applications.
+        </p>
+      </div>
+      <div class="relative group">
+        <div class="absolute -inset-1 bg-gradient-to-r from-synth-cyan to-synth-blue rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+        <img 
+          src="/profile.png" 
+          alt="Brent Zey" 
+          class="relative w-48 h-48 md:w-64 md:h-64 rounded-3xl border border-[var(--border-color)] object-cover shadow-2xl grayscale hover:grayscale-0 transition-all duration-500"
+        />
+      </div>
     </section>
 
     {/* Professional Role Section */}

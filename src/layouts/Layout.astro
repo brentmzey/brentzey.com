@@ -16,7 +16,11 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#020617" />
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="icon" href="/favicon.png">
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <script is:inline>
@@ -100,7 +104,7 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
         <footer class="border-t border-[var(--border-color)] py-12 mt-20 text-center space-y-4 bg-[var(--nav-bg)] backdrop-blur-md">
           <div class="flex justify-center gap-6">
             <a href="https://github.com/brentmzey" class="text-[var(--text-secondary)] hover:text-synth-cyan transition-colors">GitHub</a>
-            <a href="mailto:contact@brentzey.com" class="text-[var(--text-secondary)] hover:text-synth-pink transition-colors">Email</a>
+            <a href="mailto:brentmzey4795@gmail.com" class="text-[var(--text-secondary)] hover:text-synth-pink transition-colors">Email</a>
           </div>
           <p class="text-[var(--text-secondary)] text-sm">&copy; {new Date().getFullYear()} Brent Zey. All rights reserved.</p>
         </footer>
