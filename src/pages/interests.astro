@@ -71,7 +71,7 @@ const interests = [
             </p>
             <div class="flex flex-wrap justify-center md:justify-start gap-4">
               <a href="https://music.apple.com/profile/brentzey" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#fa243c]/10 text-[#fa243c] hover:bg-[#fa243c] hover:text-white transition-all font-bold uppercase tracking-widest text-sm border border-[#fa243c]/20">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.188 13.064c-.214.341-.652.443-.984.237-2.383-1.432-5.385-1.758-8.914-.963-.385.088-.767-.152-.855-.536-.088-.384.152-.767.536-.855 3.84-.863 7.152-.488 9.832 1.12.336.202.44.636.237.973-.001.002-.001.003-.002.004zm1.11-2.45c-.27.42-.821.547-1.241.277-2.727-1.657-6.879-2.134-10.106-1.155-.47.143-.967-.123-1.11-.593-.143-.47.123-.967.593-1.11 3.684-1.117 8.267-.582 11.397 1.319.421.258.552.805.281 1.229-.001.001-.002.002-.002.003zm.106-2.583C14.156 8.04 8.791 7.864 5.7 8.803a1.03 1.03 0 01-1.3-.647 1.03 1.03 0 01.647-1.3C8.61 5.787 14.53 5.987 18.2 8.165a1.03 1.03 0 01.353 1.408 1.03 1.03 0 01-1.407.353l-.001.001z"/></svg>
+                <Music class="w-5 h-5" />
                 Apple Music
               </a>
               <a href="https://open.spotify.com/user/1261049078?si=i86wEaEGQnGJOycnCn0pJg" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#1DB954]/10 text-[#1DB954] hover:bg-[#1DB954] hover:text-white transition-all font-bold uppercase tracking-widest text-sm border border-[#1DB954]/20">
@@ -113,7 +113,7 @@ const interests = [
     </section>
 
     <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {interests.map((item, index) => {
+      {interests.map((item) => {
         const Icon = item.icon;
         return (
           <div class={`group p-8 rounded-3xl bg-[var(--card-bg)] border border-[var(--border-color)] transition-all ${item.borderColor} hover:shadow-lg flex flex-col h-full`}>
@@ -127,16 +127,21 @@ const interests = [
               {item.description}
             </p>
             {item.links && (
-              <div class="flex gap-4 mt-6 pt-6 border-t border-[var(--border-color)]">
+              <div class="flex gap-6 mt-6 pt-6 border-t border-[var(--border-color)]">
                 {item.links.map(link => (
-                  <a href={link.url} target="_blank" rel="noopener noreferrer" class={`text-sm font-bold uppercase tracking-widest ${link.color} transition-colors`}>
+                  <a href={link.url} target="_blank" rel="noopener noreferrer" class={`flex items-center gap-2 text-sm font-bold uppercase tracking-widest ${link.color} transition-colors group/link`}>
+                    {link.label === "Apple Music" ? (
+                      <Music class="w-4 h-4 transition-transform group-hover/link:scale-110" />
+                    ) : (
+                      <svg class="w-4 h-4 transition-transform group-hover/link:scale-110" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-.1.24-2.82-1.74-6.36-2.1-10.561-1.141-.418.122-.779-.179-.839-.539-.121-.418.179-.779.539-.839 4.5-.961 8.461-.539 11.641 1.5.359.24.48.66.24 1.021zM18.961 14.1c-.3.479-.9.6-1.379.3-3.239-1.979-8.159-2.519-11.939-1.38-.54.18-.1.019-.3.42-.18.54-.779.84-1.319.66-.54-.18-.84-.779-.66-1.319 4.38-1.32 9.78-.719 13.5 1.559.48.3.6.9.3 1.38zM19.08 10.68c-3.9-2.341-10.32-2.521-14.1-1.441a1.2 1.2 0 11-.661-2.34c4.321-1.321 11.401-1.021 15.9 1.681a1.2 1.2 0 01-1.14 2.1z"/></svg>
+                    )}
                     {link.label}
                   </a>
                 ))}
               </div>
             )}
           </div>
-        )
+        );
       })}
     </section>
 
