@@ -64,4 +64,4 @@ If you like what you see or found some of my open-source work helpful, consider 
 
 ---
 
-*“Engineering the future with a neon edge.”*
+*“Engineering impactful solutions across healthcare, open source, and creative exploration.”*
