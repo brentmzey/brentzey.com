@@ -39,8 +39,8 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
         const thumb = document.getElementById('themeThumb');
         const thumbMobile = document.getElementById('themeThumbMobile');
         
-        const positions = { light: '2px', system: '22px', dark: '42px' };
-        const positionsMobile = { light: '2px', system: '18px', dark: '34px' };
+        const positions = { light: '4px', system: '36px', dark: '68px' };
+        const positionsMobile = { light: '4px', system: '32px', dark: '60px' };
         
         if (thumb) {
           thumb.style.left = positions[theme];
@@ -76,7 +76,25 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
       {/* Background Layers */}
       <div class="parallax-layer parallax-bg-slow pointer-events-none">
         <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,var(--accent-glow),transparent)] opacity-40"></div>
+        <div class="absolute inset-0 pixel-grid"></div>
         <div class="absolute inset-0 techno-lines opacity-20"></div>
+        
+        {/* Digital Rain / Dripping Lines */}
+        <div class="digital-rain">
+          {Array.from({ length: 20 }).map((_, i) => {
+            const colors = ['#00f3ff', '#9d00ff', '#ff00ea'];
+            const color = colors[i % colors.length];
+            const left = Math.floor(Math.random() * 100);
+            const delay = (Math.random() * 5).toFixed(2);
+            const duration = (3 + Math.random() * 4).toFixed(2);
+            return (
+              <div 
+                class="rain-column" 
+                style={`left: ${left}%; animation-delay: ${delay}s; animation-duration: ${duration}s; --rain-color: ${color};`}
+              ></div>
+            );
+          })}
+        </div>
       </div>
 
       <div class="parallax-layer parallax-bg-med pointer-events-none">
@@ -102,16 +120,22 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
                 <a href="/gallery" class="flex items-center gap-1 text-[var(--text-secondary)] hover:text-synth-cyan transition-colors text-sm font-semibold uppercase tracking-widest"><Camera class="w-4 h-4"/> Gallery</a>
                 <a href="/interests" class="flex items-center gap-1 text-[var(--text-secondary)] hover:text-synth-purple transition-colors text-sm font-semibold uppercase tracking-widest"><MonitorSmartphone class="w-4 h-4"/> Interests</a>
                 
-                <div class="relative flex items-center p-1 rounded-full bg-[var(--card-bg)] border border-[var(--border-color)] w-[70px] h-8 shadow-inner group">
-                  <button id="modeLight" class="z-10 w-5 h-5 flex items-center justify-center opacity-40 hover:opacity-100 transition-opacity" aria-label="Light mode"><Sun class="w-3 h-3 text-yellow-500" /></button>
-                  <button id="modeSystem" class="z-10 w-5 h-5 flex items-center justify-center opacity-40 hover:opacity-100 transition-opacity" aria-label="System mode"><MonitorSmartphone class="w-3 h-3 text-synth-cyan" /></button>
-                  <button id="modeDark" class="z-10 w-5 h-5 flex items-center justify-center opacity-40 hover:opacity-100 transition-opacity" aria-label="Dark mode"><Moon class="w-3 h-3 text-synth-purple" /></button>
-                  
-                  <div id="themeThumb" class="absolute top-[3px] left-[2px] w-6 h-6 rounded-full bg-white dark:bg-slate-800 shadow-md transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-center justify-center pointer-events-none">
-                    <Sun id="thumbIconSun" class="w-3.5 h-3.5 text-yellow-500 hidden" />
-                    <MonitorSmartphone id="thumbIconSystem" class="w-3.5 h-3.5 text-synth-cyan hidden" />
-                    <Moon id="thumbIconMoon" class="w-3.5 h-3.5 text-synth-purple hidden" />
+                <div class="relative flex items-center p-1 rounded-full bg-[var(--card-bg)] border border-[var(--border-color)] w-[100px] h-10 shadow-inner group/toggle">
+                  <div id="themeThumb" class="absolute top-[4px] left-[4px] w-7 h-7 rounded-full bg-white dark:bg-slate-800 shadow-lg transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-center justify-center pointer-events-none z-20">
+                    <Sun id="thumbIconSun" class="w-4 h-4 text-yellow-500 hidden" />
+                    <MonitorSmartphone id="thumbIconSystem" class="w-4 h-4 text-synth-cyan hidden" />
+                    <Moon id="thumbIconMoon" class="w-4 h-4 text-synth-purple hidden" />
                   </div>
+
+                  <button id="modeLight" class="relative z-10 flex-1 h-full flex items-center justify-center opacity-40 hover:opacity-100 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-synth-cyan rounded-l-full" aria-label="Switch to Light Mode" title="Light Mode">
+                    <Sun class="w-4 h-4 text-yellow-500" />
+                  </button>
+                  <button id="modeSystem" class="relative z-10 flex-1 h-full flex items-center justify-center opacity-40 hover:opacity-100 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-synth-cyan" aria-label="Switch to System Mode" title="System Mode">
+                    <MonitorSmartphone class="w-4 h-4 text-synth-cyan" />
+                  </button>
+                  <button id="modeDark" class="relative z-10 flex-1 h-full flex items-center justify-center opacity-40 hover:opacity-100 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-synth-cyan rounded-r-full" aria-label="Switch to Dark Mode" title="Dark Mode">
+                    <Moon class="w-4 h-4 text-synth-purple" />
+                  </button>
                 </div>
                 
                 <a href="https://buymeacoffee.com/brentmzey4795" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-black font-bold text-sm transition-transform hover:scale-105 shadow-lg shadow-[#FFDD00]/20">
@@ -122,16 +146,15 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
 
               {/* Mobile menu button */}
               <div class="md:hidden flex items-center gap-4">
-                <div class="relative flex items-center p-1 rounded-full bg-[var(--card-bg)] border border-[var(--border-color)] w-[60px] h-7 shadow-inner">
-                  <button id="modeLightMobile" class="z-10 w-4 h-4 flex items-center justify-center opacity-40" aria-label="Light mode"><Sun class="w-2.5 h-2.5 text-yellow-500" /></button>
-                  <button id="modeSystemMobile" class="z-10 w-4 h-4 flex items-center justify-center opacity-40" aria-label="System mode"><MonitorSmartphone class="w-2.5 h-2.5 text-synth-cyan" /></button>
-                  <button id="modeDarkMobile" class="z-10 w-4 h-4 flex items-center justify-center opacity-40" aria-label="Dark mode"><Moon class="w-2.5 h-2.5 text-synth-purple" /></button>
-                  
-                  <div id="themeThumbMobile" class="absolute top-[2px] left-[2px] w-5 h-5 rounded-full bg-white dark:bg-slate-800 shadow-md transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-center justify-center pointer-events-none">
-                    <Sun id="thumbIconSunMobile" class="w-3 h-3 text-yellow-500 hidden" />
-                    <MonitorSmartphone id="thumbIconSystemMobile" class="w-3 h-3 text-synth-cyan hidden" />
-                    <Moon id="thumbIconMoonMobile" class="w-3 h-3 text-synth-purple hidden" />
+                <div class="relative flex items-center p-1 rounded-full bg-[var(--card-bg)] border border-[var(--border-color)] w-[90px] h-9 shadow-inner">
+                  <div id="themeThumbMobile" class="absolute top-[4px] left-[4px] w-6 h-6 rounded-full bg-white dark:bg-slate-800 shadow-md transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-center justify-center pointer-events-none z-20">
+                    <Sun id="thumbIconSunMobile" class="w-3.5 h-3.5 text-yellow-500 hidden" />
+                    <MonitorSmartphone id="thumbIconSystemMobile" class="w-3.5 h-3.5 text-synth-cyan hidden" />
+                    <Moon id="thumbIconMoonMobile" class="w-3.5 h-3.5 text-synth-purple hidden" />
                   </div>
+                  <button id="modeLightMobile" class="relative z-10 flex-1 h-full flex items-center justify-center opacity-40" aria-label="Light Mode"><Sun class="w-3.5 h-3.5 text-yellow-500" /></button>
+                  <button id="modeSystemMobile" class="relative z-10 flex-1 h-full flex items-center justify-center opacity-40" aria-label="System Mode"><MonitorSmartphone class="w-3.5 h-3.5 text-synth-cyan" /></button>
+                  <button id="modeDarkMobile" class="relative z-10 flex-1 h-full flex items-center justify-center opacity-40" aria-label="Dark Mode"><Moon class="w-3.5 h-3.5 text-synth-purple" /></button>
                 </div>
               </div>
             </div>

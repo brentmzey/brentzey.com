@@ -1,8 +1,20 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Coffee, Plane, Code2, Headphones, Activity } from 'lucide-react';
+import { Coffee, Plane, Code2, Headphones, Activity, Music } from 'lucide-react';
 
 const interests = [
+  {
+    icon: Headphones,
+    title: "Music & Curation",
+    color: "text-synth-purple",
+    bgColor: "bg-synth-purple/10",
+    borderColor: "hover:border-synth-purple/50",
+    description: "A profound passion for auditory storytelling. From the intricate structures of Classical and Jazz to the raw energy of Hip-Hop, Rap, and Alternative. I meticulously curate my library on Apple Music and keep it synced with Spotify to share the vibes.",
+    links: [
+      { label: "Apple Music", url: "https://music.apple.com/profile/brentzey", color: "hover:text-[#fa243c]" },
+      { label: "Spotify", url: "https://open.spotify.com/user/1261049078?si=i86wEaEGQnGJOycnCn0pJg", color: "hover:text-[#1DB954]" }
+    ]
+  },
   {
     icon: Coffee,
     title: "Craft Coffee",
@@ -26,14 +38,6 @@ const interests = [
     bgColor: "bg-synth-pink/10",
     borderColor: "hover:border-synth-pink/50",
     description: "Maintaining a balance between the digital world and physical well-being through weightlifting, running, and active living."
-  },
-  {
-    icon: Headphones,
-    title: "Music & Synthwave",
-    color: "text-synth-purple",
-    bgColor: "bg-synth-purple/10",
-    borderColor: "hover:border-synth-purple/50",
-    description: "Deep diving into electronic, synthwave, and '80s/'90s nostalgia. The soundtracks that power late-night coding sessions."
   }
 ];
 ---
@@ -46,6 +50,66 @@ const interests = [
       <p class="text-xl md:text-2xl text-[var(--text-secondary)] leading-relaxed font-light">
         Life beyond the terminal. The pursuits and passions that keep me grounded, inspired, and constantly learning.
       </p>
+    </section>
+
+    {/* Featured Music Section */}
+    <section class="space-y-8">
+      <div class="p-1 rounded-[2.5rem] bg-gradient-to-r from-synth-purple via-synth-pink to-synth-cyan animate-pulse opacity-70 blur-sm absolute -z-10 w-full h-full max-w-4xl"></div>
+      <div class="relative overflow-hidden rounded-[2.5rem] bg-[var(--card-bg)] border border-[var(--border-color)] p-8 md:p-12 shadow-2xl backdrop-blur-xl">
+        <div class="flex flex-col md:flex-row gap-12 items-center">
+          <div class="flex-1 space-y-6 text-center md:text-left">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-synth-purple/10 text-synth-purple text-xs font-bold uppercase tracking-widest">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-synth-purple opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-synth-purple"></span>
+              </span>
+              Now Spinning
+            </div>
+            <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tighter">Sonic Landscapes</h2>
+            <p class="text-[var(--text-secondary)] text-lg leading-relaxed">
+              Music isn't just background noise; it's the architecture of my focus. My rotations range from <strong>Classical</strong> and <strong>Jazz</strong> for deep work to <strong>Hip-Hop</strong>, <strong>Rap</strong>, and <strong>Alternative</strong> for everything else.
+            </p>
+            <div class="flex flex-wrap justify-center md:justify-start gap-4">
+              <a href="https://music.apple.com/profile/brentzey" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#fa243c]/10 text-[#fa243c] hover:bg-[#fa243c] hover:text-white transition-all font-bold uppercase tracking-widest text-sm border border-[#fa243c]/20">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.188 13.064c-.214.341-.652.443-.984.237-2.383-1.432-5.385-1.758-8.914-.963-.385.088-.767-.152-.855-.536-.088-.384.152-.767.536-.855 3.84-.863 7.152-.488 9.832 1.12.336.202.44.636.237.973-.001.002-.001.003-.002.004zm1.11-2.45c-.27.42-.821.547-1.241.277-2.727-1.657-6.879-2.134-10.106-1.155-.47.143-.967-.123-1.11-.593-.143-.47.123-.967.593-1.11 3.684-1.117 8.267-.582 11.397 1.319.421.258.552.805.281 1.229-.001.001-.002.002-.002.003zm.106-2.583C14.156 8.04 8.791 7.864 5.7 8.803a1.03 1.03 0 01-1.3-.647 1.03 1.03 0 01.647-1.3C8.61 5.787 14.53 5.987 18.2 8.165a1.03 1.03 0 01.353 1.408 1.03 1.03 0 01-1.407.353l-.001.001z"/></svg>
+                Apple Music
+              </a>
+              <a href="https://open.spotify.com/user/1261049078?si=i86wEaEGQnGJOycnCn0pJg" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#1DB954]/10 text-[#1DB954] hover:bg-[#1DB954] hover:text-white transition-all font-bold uppercase tracking-widest text-sm border border-[#1DB954]/20">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-.1.24-2.82-1.74-6.36-2.1-10.561-1.141-.418.122-.779-.179-.839-.539-.121-.418.179-.779.539-.839 4.5-.961 8.461-.539 11.641 1.5.359.24.48.66.24 1.021zM18.961 14.1c-.3.479-.9.6-1.379.3-3.239-1.979-8.159-2.519-11.939-1.38-.54.18-.1.019-.3.42-.18.54-.779.84-1.319.66-.54-.18-.84-.779-.66-1.319 4.38-1.32 9.78-.719 13.5 1.559.48.3.6.9.3 1.38zM19.08 10.68c-3.9-2.341-10.32-2.521-14.1-1.441a1.2 1.2 0 11-.661-2.34c4.321-1.321 11.401-1.021 15.9 1.681a1.2 1.2 0 01-1.14 2.1z"/></svg>
+                Spotify
+              </a>
+            </div>
+          </div>
+          <div class="w-full md:w-[320px] aspect-square relative group">
+            <div class="absolute inset-0 bg-gradient-to-br from-synth-purple to-synth-pink rounded-[2rem] rotate-6 opacity-20 group-hover:rotate-12 transition-transform"></div>
+            <div class="relative w-full h-full rounded-[2rem] bg-black/40 overflow-hidden border border-white/10 flex flex-col items-center justify-center p-6 space-y-6">
+              {/* Fake Player UI */}
+              <div class="w-48 h-48 rounded-2xl bg-gradient-to-tr from-gray-800 to-gray-700 shadow-2xl flex items-center justify-center relative overflow-hidden group/disk">
+                <div class="absolute inset-4 rounded-full border-4 border-white/5 animate-[spin_8s_linear_infinite] group-hover/disk:animate-none">
+                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/20"></div>
+                </div>
+                <Music class="w-16 h-16 text-synth-purple/40" />
+              </div>
+              <div class="w-full space-y-2 text-center">
+                <div class="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                  <div class="h-full w-1/3 bg-gradient-to-r from-synth-purple to-synth-pink animate-pulse"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-white/40 font-mono uppercase tracking-tighter">
+                  <span>01:24</span>
+                  <span>04:12</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-6 text-white/60">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 18V6h2v12H6zm3.5-6L18 6v12l-8.5-6z"/></svg>
+                <div class="p-3 rounded-full bg-white text-black hover:scale-110 transition-transform cursor-pointer">
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M16 18V6h-2v12h2zM6 12l8.5 6V6L6 12z"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -62,6 +126,15 @@ const interests = [
             <p class="text-[var(--text-secondary)] leading-relaxed text-lg flex-grow">
               {item.description}
             </p>
+            {item.links && (
+              <div class="flex gap-4 mt-6 pt-6 border-t border-[var(--border-color)]">
+                {item.links.map(link => (
+                  <a href={link.url} target="_blank" rel="noopener noreferrer" class={`text-sm font-bold uppercase tracking-widest ${link.color} transition-colors`}>
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         )
       })}

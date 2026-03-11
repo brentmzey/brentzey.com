@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { GraduationCap, Award, Server } from 'lucide-react';
+import { GraduationCap, Award, Server, FileText, Download } from 'lucide-react';
 ---
 
 <Layout title="About - Brent Zey">
@@ -20,6 +20,75 @@ import { GraduationCap, Award, Server } from 'lucide-react';
           alt="Brent Zey" 
           class="relative w-48 h-48 md:w-64 md:h-64 rounded-3xl border border-[var(--border-color)] object-cover shadow-2xl grayscale hover:grayscale-0 transition-all duration-500"
         />
+      </div>
+    </section>
+
+    {/* Resume Section */}
+    <section class="space-y-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div class="space-y-2">
+          <h2 class="text-3xl font-bold uppercase tracking-widest text-[var(--text-primary)]">Resume Highlights</h2>
+          <div class="w-24 h-1 bg-gradient-to-r from-synth-cyan via-synth-periwinkle to-synth-pink rounded-full"></div>
+        </div>
+        <a 
+          href="/resume.pdf" 
+          target="_blank" 
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-synth-cyan/10 text-synth-cyan hover:bg-synth-cyan hover:text-black transition-all font-bold uppercase tracking-widest text-sm border border-synth-cyan/20 group"
+        >
+          <Download class="w-4 h-4 group-hover:animate-bounce" />
+          Download PDF (2025)
+        </a>
+      </div>
+      
+      <div class="relative group p-8 md:p-12 rounded-[2.5rem] bg-[var(--card-bg)] border border-[var(--border-color)] shadow-xl overflow-hidden">
+        <div class="absolute top-0 right-0 p-8 opacity-5">
+          <FileText class="w-32 h-32" />
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-12 relative z-10">
+          <div class="space-y-8">
+            <div>
+              <h3 class="text-xs font-black uppercase tracking-[0.3em] text-synth-cyan mb-4">Core Expertise</h3>
+              <ul class="space-y-3 text-[var(--text-secondary)]">
+                <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-synth-cyan mt-2"></span> Enterprise Healthcare Architectures</li>
+                <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-synth-cyan mt-2"></span> High-Availability SAAS & Web Services</li>
+                <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-synth-cyan mt-2"></span> Full Stack, Native & Mobile Development</li>
+                <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-synth-cyan mt-2"></span> Quantitative Economic Analysis</li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 class="text-xs font-black uppercase tracking-[0.3em] text-synth-pink mb-4">Technical Stack</h3>
+              <div class="flex flex-wrap gap-2">
+                {["Kotlin", "Java", "TypeScript", "Scala", "Spring Boot", "Quarkus", "KMP", "PostgreSQL", "React", "Astro", "Docker"].map(tech => (
+                  <span class="px-3 py-1 rounded-lg bg-[var(--nav-bg)] border border-[var(--border-color)] text-xs font-mono text-[var(--text-secondary)]">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          <div class="space-y-8">
+            <div>
+              <h3 class="text-xs font-black uppercase tracking-[0.3em] text-synth-purple mb-4">Experience Highlights</h3>
+              <div class="space-y-6">
+                <div class="relative pl-6 border-l border-[var(--border-color)]">
+                  <div class="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-synth-purple"></div>
+                  <h4 class="font-bold text-[var(--text-primary)]">Enterprise Healthcare Engineer</h4>
+                  <p class="text-xs text-[var(--text-secondary)] uppercase tracking-wider mb-2">Government & Private Sector focus</p>
+                  <p class="text-sm text-[var(--text-secondary)]">Architecting robust, compliant systems for high-stakes healthcare environments.</p>
+                </div>
+                <div class="relative pl-6 border-l border-[var(--border-color)]">
+                  <div class="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-synth-periwinkle"></div>
+                  <h4 class="font-bold text-[var(--text-primary)]">Software Engineer (Fintech)</h4>
+                  <p class="text-xs text-[var(--text-secondary)] uppercase tracking-wider mb-2">Financial Services</p>
+                  <p class="text-sm text-[var(--text-secondary)]">Built secure, performant applications in the fintech space.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
