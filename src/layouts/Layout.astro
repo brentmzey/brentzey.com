@@ -81,18 +81,37 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
         
         {/* Digital Rain / Dripping Dots */}
         <div class="digital-rain">
-          {Array.from({ length: 40 }).map((_, i) => {
+          {Array.from({ length: 60 }).map((_, i) => {
             const colors = ['#00f3ff', '#9d00ff', '#ff00ea', '#a49aff'];
             const color = colors[i % colors.length];
-            // Divide screen into segments with more jitter for retro feel
-            const left = (i * (100 / 40)) + (Math.random() * 5 - 2.5);
-            const delay = (Math.random() * 12).toFixed(2);
-            const duration = (6 + Math.random() * 8).toFixed(2);
-            const startPos = -(150 + Math.random() * 300); // Random starting heights
+            
+            // Randomize distribution and depth
+            const left = (Math.random() * 100).toFixed(2);
+            const delay = (Math.random() * 20).toFixed(2);
+            const duration = (4 + Math.random() * 10).toFixed(2);
+            const startPos = -(200 + Math.random() * 400);
+            
+            // Parallax/Depth Factors (0 = far/small, 1 = near/large)
+            const depth = Math.random();
+            const size = (1 + depth * 3).toFixed(1); // 1px to 4px
+            const opacity = (0.1 + depth * 0.6).toFixed(2);
+            const blur = ((1 - depth) * 3).toFixed(1); // Farther is blurrier
+            const speedMultiplier = 0.5 + depth * 1.5; // Nearer moves faster
+            const finalDuration = (duration / speedMultiplier).toFixed(2);
+
             return (
               <div 
                 class="dotted-column" 
-                style={`left: ${left}%; top: ${startPos}px; animation-delay: ${delay}s; animation-duration: ${duration}s; --rain-color: ${color};`}
+                style={`
+                  left: ${left}%; 
+                  top: ${startPos}px; 
+                  animation-delay: ${delay}s; 
+                  animation-duration: ${finalDuration}s; 
+                  --rain-color: ${color};
+                  --rain-size: ${size}px;
+                  --rain-opacity: ${opacity};
+                  --rain-blur: ${blur}px;
+                `}
               ></div>
             );
           })}
@@ -169,6 +188,21 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
             
             {/* Music Profile Links (The Hub) */}
             <div class="flex justify-center gap-3 pointer-events-auto">
+              <div class="relative group/bmc">
+                <a href="https://buymeacoffee.com/brentmzey" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 rounded-2xl bg-black/80 backdrop-blur-md border border-yellow-500/30 text-white hover:border-yellow-500 transition-all shadow-xl">
+                  <Coffee class="w-5 h-5 text-yellow-500" />
+                  <span class="text-xs font-bold uppercase tracking-widest hidden sm:inline">Support Me</span>
+                </a>
+                
+                {/* QR Code Hover Reveal (Desktop Only) */}
+                <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 p-3 bg-white rounded-2xl shadow-2xl scale-0 group-hover/bmc:scale-100 transition-all duration-300 origin-bottom pointer-events-none hidden md:block">
+                  <div class="w-32 h-32 bg-slate-100 rounded-xl overflow-hidden">
+                    <img src="/bmc-qr.png" alt="Buy Me A Coffee QR Code" class="w-full h-full object-contain" />
+                  </div>
+                  <div class="absolute bottom-[-8px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-white"></div>
+                </div>
+              </div>
+
               <a href="https://music.apple.com/profile/brentzey" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 rounded-2xl bg-black/80 backdrop-blur-md border border-[#fa243c]/30 text-white hover:border-[#fa243c] transition-all shadow-xl group">
                 <svg class="w-5 h-5 text-[#fa243c]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.188 13.064c-.214.341-.652.443-.984.237-2.383-1.432-5.385-1.758-8.914-.963-.385.088-.767-.152-.855-.536-.088-.384.152-.767.536-.855 3.84-.863 7.152-.488 9.832 1.12.336.202.44.636.237.973-.001.002-.001.003-.002.004zm1.11-2.45c-.27.42-.821.547-1.241.277-2.727-1.657-6.879-2.134-10.106-1.155-.47.143-.967-.123-1.11-.593-.143-.47.123-.967.593-1.11 3.684-1.117 8.267-.582 11.397 1.319.421.258.552.805.281 1.229-.001.001-.002.002-.002.003zm.106-2.583C14.156 8.04 8.791 7.864 5.7 8.803a1.03 1.03 0 01-1.3-.647 1.03 1.03 0 01.647-1.3C8.61 5.787 14.53 5.987 18.2 8.165a1.03 1.03 0 01.353 1.408 1.03 1.03 0 01-1.407.353l-.001.001z"/></svg>
                 <span class="text-xs font-bold uppercase tracking-widest hidden sm:inline">Apple Music</span>

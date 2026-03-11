@@ -63,23 +63,41 @@
     inset: 0;
     overflow: hidden;
     pointer-events: none;
-    opacity: 0.25;
+    opacity: 1; /* Handle opacity per-drip for depth */
   }
 
   .dotted-column {
     position: absolute;
-    width: 4px;
-    height: 180px;
-    background-image: radial-gradient(circle, var(--rain-color, #00f3ff) 20%, transparent 25%);
-    background-size: 4px 12px;
-    filter: drop-shadow(0 0 5px var(--rain-color, #00f3ff));
+    width: var(--rain-size, 2px);
+    height: 250px; /* Longer trails */
+    /* Fading trail (bottom is lead) */
+    background: linear-gradient(to bottom, 
+      transparent 0%, 
+      var(--rain-color, #00f3ff) 80%, 
+      rgba(255, 255, 255, 0.8) 100%
+    );
+    opacity: var(--rain-opacity, 0.25);
+    filter: blur(var(--rain-blur, 0px)) drop-shadow(0 0 8px var(--rain-color, #00f3ff));
     animation: digital-drop linear infinite;
   }
 
+  .dotted-column::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: calc(var(--rain-size, 2px) * 2);
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 12px 2px #fff, 0 0 20px 4px var(--rain-color);
+  }
+
   @keyframes digital-drop {
-    0% { transform: translateY(-200px); opacity: 0; }
-    5% { opacity: 1; }
-    95% { opacity: 1; }
+    0% { transform: translateY(-250px); opacity: 0; }
+    5% { opacity: var(--rain-opacity, 1); }
+    90% { opacity: var(--rain-opacity, 1); }
     100% { transform: translateY(115vh); opacity: 0; }
   }
 
