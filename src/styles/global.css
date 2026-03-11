@@ -50,11 +50,31 @@
   }
 
   .synth-text-glow {
-    text-shadow: 0 0 8px rgba(0, 243, 255, 0.6);
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.5), 0 0 20px rgba(0, 243, 255, 0.2);
   }
 
   .synth-text-glow-pink {
-    text-shadow: 0 0 8px rgba(255, 0, 234, 0.6);
+    text-shadow: 0 0 10px rgba(255, 0, 234, 0.5), 0 0 20px rgba(255, 0, 234, 0.2);
+  }
+
+  .synth-text-glow-strong {
+    text-shadow: 0 0 15px rgba(0, 243, 255, 0.8), 0 0 30px rgba(0, 243, 255, 0.4), 0 0 45px rgba(0, 243, 255, 0.2);
+  }
+
+  .synth-text-glow-strong-pink {
+    text-shadow: 0 0 15px rgba(255, 0, 234, 0.8), 0 0 30px rgba(255, 0, 234, 0.4), 0 0 45px rgba(255, 0, 234, 0.2);
+  }
+
+  .synth-bg-glow-cyan {
+    filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.4));
+  }
+
+  .synth-bg-glow-pink {
+    filter: drop-shadow(0 0 15px rgba(255, 0, 234, 0.4));
+  }
+
+  .neon-card-glow {
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.15), inset 0 0 10px rgba(0, 243, 255, 0.05);
   }
 
   /* Retro Digital Dots */

@@ -75,9 +75,10 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
       
       {/* Background Layers */}
       <div class="parallax-layer parallax-bg-slow pointer-events-none">
-        <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,var(--accent-glow),transparent)] opacity-40"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,var(--accent-glow),transparent)] opacity-50"></div>
         <div class="absolute inset-0 pixel-grid"></div>
-        <div class="absolute inset-0 techno-lines opacity-20"></div>
+        <div class="absolute inset-0 techno-lines opacity-25"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-synth-cyan/5 via-transparent to-synth-pink/5 opacity-30"></div>
         
         {/* Digital Rain / Dripping Dots */}
         <div class="digital-rain">
@@ -129,10 +130,11 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
         <nav class="hidden md:block sticky top-0 z-50 backdrop-blur-md bg-[var(--nav-bg)] border-b border-[var(--border-color)] transition-colors duration-300">
           <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-              <a href="/" class="flex items-center gap-2 group">
-                <span class="text-xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-synth-cyan to-synth-pink uppercase group-hover:synth-text-glow transition-all">
-                  BRENT.ZEY
+              <a href="/" class="flex items-center gap-2 group relative">
+                <span class="text-xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-synth-cyan via-synth-purple to-synth-pink uppercase group-hover:synth-text-glow-strong transition-all synth-text-glow relative z-10">
+                  BRENT ZEY
                 </span>
+                <div class="absolute -inset-2 bg-synth-cyan/5 blur-xl -z-10 rounded-full group-hover:bg-synth-cyan/10 transition-colors"></div>
               </a>
               
               <div class="flex items-center space-x-6">
@@ -165,7 +167,10 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
 
         {/* Mobile Header (Brand + Theme Only) */}
         <header class="md:hidden sticky top-0 z-50 backdrop-blur-md bg-[var(--nav-bg)] border-b border-[var(--border-color)] px-6 h-16 flex items-center justify-between">
-          <a href="/" class="text-lg font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-synth-cyan to-synth-pink uppercase">BRENT.ZEY</a>
+          <a href="/" class="relative">
+            <span class="text-lg font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-synth-cyan via-synth-purple to-synth-pink uppercase synth-text-glow relative z-10">BRENT ZEY</span>
+            <div class="absolute -inset-2 bg-synth-cyan/5 blur-lg -z-10 rounded-full"></div>
+          </a>
           <div class="relative flex items-center p-1 rounded-full bg-[var(--card-bg)] border border-[var(--border-color)] w-[80px] h-8 shadow-inner">
             <div id="themeThumbMobile" class="absolute top-[3px] left-[3px] w-6 h-6 rounded-full bg-white dark:bg-slate-800 shadow-md transition-all duration-300 flex items-center justify-center pointer-events-none z-20">
               <Sun id="thumbIconSunMobile" class="w-3.5 h-3.5 text-yellow-500 hidden" />
