@@ -24,21 +24,48 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <script is:inline>
-      const theme = (() => {
-        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-          return localStorage.getItem('theme');
+      // Theme initialization
+      const getTheme = () => {
+        const saved = typeof localStorage !== 'undefined' ? localStorage.getItem('theme') : null;
+        if (saved && saved !== 'system') return saved;
+        return 'system';
+      };
+
+      const applyTheme = (theme) => {
+        const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('dark', isDark);
+        
+        // Update toggle UI if elements exist
+        const thumb = document.getElementById('themeThumb');
+        const thumbMobile = document.getElementById('themeThumbMobile');
+        
+        const positions = { light: '2px', system: '22px', dark: '42px' };
+        const positionsMobile = { light: '2px', system: '18px', dark: '34px' };
+        
+        if (thumb) {
+          thumb.style.left = positions[theme];
+          // Show correct icon in thumb
+          ['Sun', 'System', 'Moon'].forEach(mode => {
+            const icon = document.getElementById(`thumbIcon${mode}`);
+            if (icon) icon.classList.toggle('hidden', mode.toLowerCase() !== theme);
+          });
         }
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          return 'dark';
+        if (thumbMobile) {
+          thumbMobile.style.left = positionsMobile[theme];
+          ['Sun', 'System', 'Moon'].forEach(mode => {
+            const icon = document.getElementById(`thumbIcon${mode}Mobile`);
+            if (icon) icon.classList.toggle('hidden', mode.toLowerCase() !== theme);
+          });
         }
-        return 'light';
-      })();
-      if (theme === 'light') {
-        document.documentElement.classList.remove('dark');
-      } else {
-        document.documentElement.classList.add('dark');
-      }
-      window.localStorage.setItem('theme', theme);
+      };
+
+      const theme = getTheme();
+      applyTheme(theme);
+
+      // Listen for system changes
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (getTheme() === 'system') applyTheme('system');
+      });
     </script>
   </head>
   <body class="bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans antialiased min-h-screen flex flex-col selection:bg-synth-pink selection:text-white transition-colors duration-300 overflow-hidden">
@@ -75,17 +102,17 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
                 <a href="/gallery" class="flex items-center gap-1 text-[var(--text-secondary)] hover:text-synth-cyan transition-colors text-sm font-semibold uppercase tracking-widest"><Camera class="w-4 h-4"/> Gallery</a>
                 <a href="/interests" class="flex items-center gap-1 text-[var(--text-secondary)] hover:text-synth-purple transition-colors text-sm font-semibold uppercase tracking-widest"><MonitorSmartphone class="w-4 h-4"/> Interests</a>
                 
-                <button 
-                  id="themeToggle" 
-                  class="group relative flex items-center w-14 h-7 rounded-full bg-[var(--border-color)] p-1 transition-all duration-300 hover:synth-glow-cyan dark:hover:synth-glow-pink focus:outline-none focus:ring-2 focus:ring-synth-cyan/50" 
-                  aria-label="Toggle theme"
-                >
-                  <div class="absolute inset-0 rounded-full bg-gradient-to-r from-synth-cyan/20 to-synth-pink/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  <div id="toggleThumb" class="z-10 flex items-center justify-center w-5 h-5 rounded-full bg-white shadow-md transform transition-transform duration-300 ease-in-out dark:translate-x-7">
-                    <Sun class="w-3.5 h-3.5 block dark:hidden text-yellow-500" />
-                    <Moon class="w-3.5 h-3.5 hidden dark:block text-synth-purple" />
+                <div class="relative flex items-center p-1 rounded-full bg-[var(--card-bg)] border border-[var(--border-color)] w-[70px] h-8 shadow-inner group">
+                  <button id="modeLight" class="z-10 w-5 h-5 flex items-center justify-center opacity-40 hover:opacity-100 transition-opacity" aria-label="Light mode"><Sun class="w-3 h-3 text-yellow-500" /></button>
+                  <button id="modeSystem" class="z-10 w-5 h-5 flex items-center justify-center opacity-40 hover:opacity-100 transition-opacity" aria-label="System mode"><MonitorSmartphone class="w-3 h-3 text-synth-cyan" /></button>
+                  <button id="modeDark" class="z-10 w-5 h-5 flex items-center justify-center opacity-40 hover:opacity-100 transition-opacity" aria-label="Dark mode"><Moon class="w-3 h-3 text-synth-purple" /></button>
+                  
+                  <div id="themeThumb" class="absolute top-[3px] left-[2px] w-6 h-6 rounded-full bg-white dark:bg-slate-800 shadow-md transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-center justify-center pointer-events-none">
+                    <Sun id="thumbIconSun" class="w-3.5 h-3.5 text-yellow-500 hidden" />
+                    <MonitorSmartphone id="thumbIconSystem" class="w-3.5 h-3.5 text-synth-cyan hidden" />
+                    <Moon id="thumbIconMoon" class="w-3.5 h-3.5 text-synth-purple hidden" />
                   </div>
-                </button>
+                </div>
                 
                 <a href="https://buymeacoffee.com/brentmzey4795" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-black font-bold text-sm transition-transform hover:scale-105 shadow-lg shadow-[#FFDD00]/20">
                   <Coffee class="w-4 h-4" />
@@ -95,16 +122,17 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
 
               {/* Mobile menu button */}
               <div class="md:hidden flex items-center gap-4">
-                <button 
-                  id="themeToggleMobile" 
-                  class="relative flex items-center w-12 h-6 rounded-full bg-[var(--border-color)] p-1 transition-all duration-300" 
-                  aria-label="Toggle theme"
-                >
-                  <div class="flex items-center justify-center w-4 h-4 rounded-full bg-white shadow-md transform transition-transform duration-300 ease-in-out dark:translate-x-6">
-                    <Sun class="w-3 h-3 block dark:hidden text-yellow-500" />
-                    <Moon class="w-3 h-3 hidden dark:block text-synth-purple" />
+                <div class="relative flex items-center p-1 rounded-full bg-[var(--card-bg)] border border-[var(--border-color)] w-[60px] h-7 shadow-inner">
+                  <button id="modeLightMobile" class="z-10 w-4 h-4 flex items-center justify-center opacity-40" aria-label="Light mode"><Sun class="w-2.5 h-2.5 text-yellow-500" /></button>
+                  <button id="modeSystemMobile" class="z-10 w-4 h-4 flex items-center justify-center opacity-40" aria-label="System mode"><MonitorSmartphone class="w-2.5 h-2.5 text-synth-cyan" /></button>
+                  <button id="modeDarkMobile" class="z-10 w-4 h-4 flex items-center justify-center opacity-40" aria-label="Dark mode"><Moon class="w-2.5 h-2.5 text-synth-purple" /></button>
+                  
+                  <div id="themeThumbMobile" class="absolute top-[2px] left-[2px] w-5 h-5 rounded-full bg-white dark:bg-slate-800 shadow-md transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-center justify-center pointer-events-none">
+                    <Sun id="thumbIconSunMobile" class="w-3 h-3 text-yellow-500 hidden" />
+                    <MonitorSmartphone id="thumbIconSystemMobile" class="w-3 h-3 text-synth-cyan hidden" />
+                    <Moon id="thumbIconMoonMobile" class="w-3 h-3 text-synth-purple hidden" />
                   </div>
-                </button>
+                </div>
               </div>
             </div>
           </div>
@@ -125,15 +153,29 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
     </div>
 
     <script is:inline>
-      const handleToggleClick = () => {
-        const element = document.documentElement;
-        element.classList.toggle("dark");
-        const isDark = element.classList.contains("dark");
-        localStorage.setItem("theme", isDark ? "dark" : "light");
-      }
+      const setupToggle = (id, theme) => {
+        document.getElementById(id)?.addEventListener('click', () => {
+          localStorage.setItem('theme', theme);
+          applyTheme(theme);
+        });
+      };
 
-      document.getElementById("themeToggle")?.addEventListener("click", handleToggleClick);
-      document.getElementById("themeToggleMobile")?.addEventListener("click", handleToggleClick);
+      // Desktop
+      setupToggle('modeLight', 'light');
+      setupToggle('modeSystem', 'system');
+      setupToggle('modeDark', 'dark');
+
+      // Mobile
+      setupToggle('modeLightMobile', 'light');
+      setupToggle('modeSystemMobile', 'system');
+      setupToggle('modeDarkMobile', 'dark');
+
+      // Initial UI Sync
+      window.addEventListener('DOMContentLoaded', () => {
+        applyTheme(getTheme());
+      });
     </script>
+  </body>
+</html>
   </body>
 </html>
