@@ -130,9 +130,19 @@
   /* Parallax Layer Styles */
   .parallax-container {
     perspective: 1px;
-    height: 100vh;
+    height: 100dvh;
     overflow-x: hidden;
     overflow-y: auto;
+    overscroll-behavior-y: contain; /* Enable mobile pull-to-refresh on most browsers */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Reduce animation complexity on slow devices or reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .dotted-column, .animate-float, .animate-pulse {
+      animation: none !important;
+      transition: none !important;
+    }
   }
 
   .parallax-layer {
