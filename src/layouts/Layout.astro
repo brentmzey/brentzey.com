@@ -81,12 +81,13 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
         
         {/* Digital Rain / Dripping Lines */}
         <div class="digital-rain">
-          {Array.from({ length: 20 }).map((_, i) => {
-            const colors = ['#00f3ff', '#9d00ff', '#ff00ea'];
+          {Array.from({ length: 45 }).map((_, i) => {
+            const colors = ['#00f3ff', '#9d00ff', '#ff00ea', '#a49aff'];
             const color = colors[i % colors.length];
-            const left = Math.floor(Math.random() * 100);
-            const delay = (Math.random() * 5).toFixed(2);
-            const duration = (3 + Math.random() * 4).toFixed(2);
+            // Structured distribution: divide screen into 45 segments with random jitter
+            const left = (i * (100 / 45)) + (Math.random() * 2 - 1);
+            const delay = (Math.random() * 8).toFixed(2);
+            const duration = (4 + Math.random() * 6).toFixed(2);
             return (
               <div 
                 class="rain-column" 
