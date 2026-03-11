@@ -57,31 +57,30 @@
     text-shadow: 0 0 8px rgba(255, 0, 234, 0.6);
   }
 
-  /* Digital Dripping Lines */
+  /* Retro Digital Dots */
   .digital-rain {
     position: absolute;
     inset: 0;
     overflow: hidden;
     pointer-events: none;
-    opacity: 0.3;
+    opacity: 0.25;
   }
 
-  .rain-column {
+  .dotted-column {
     position: absolute;
-    top: -150px;
-    width: 3px;
-    height: 150px;
-    background: linear-gradient(to bottom, transparent, var(--rain-color, #00f3ff));
-    box-shadow: 0 0 8px var(--rain-color, #00f3ff);
-    border-radius: 0 0 4px 4px;
-    animation: rain linear infinite;
+    width: 4px;
+    height: 180px;
+    background-image: radial-gradient(circle, var(--rain-color, #00f3ff) 20%, transparent 25%);
+    background-size: 4px 12px;
+    filter: drop-shadow(0 0 5px var(--rain-color, #00f3ff));
+    animation: digital-drop linear infinite;
   }
 
-  @keyframes rain {
-    0% { transform: translateY(-150px); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { transform: translateY(120vh); opacity: 0; }
+  @keyframes digital-drop {
+    0% { transform: translateY(-200px); opacity: 0; }
+    5% { opacity: 1; }
+    95% { opacity: 1; }
+    100% { transform: translateY(115vh); opacity: 0; }
   }
 
   /* Pixel Dot Grid */

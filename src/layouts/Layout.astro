@@ -79,19 +79,20 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
         <div class="absolute inset-0 pixel-grid"></div>
         <div class="absolute inset-0 techno-lines opacity-20"></div>
         
-        {/* Digital Rain / Dripping Lines */}
+        {/* Digital Rain / Dripping Dots */}
         <div class="digital-rain">
-          {Array.from({ length: 45 }).map((_, i) => {
+          {Array.from({ length: 40 }).map((_, i) => {
             const colors = ['#00f3ff', '#9d00ff', '#ff00ea', '#a49aff'];
             const color = colors[i % colors.length];
-            // Structured distribution: divide screen into 45 segments with random jitter
-            const left = (i * (100 / 45)) + (Math.random() * 2 - 1);
-            const delay = (Math.random() * 8).toFixed(2);
-            const duration = (4 + Math.random() * 6).toFixed(2);
+            // Divide screen into segments with more jitter for retro feel
+            const left = (i * (100 / 40)) + (Math.random() * 5 - 2.5);
+            const delay = (Math.random() * 12).toFixed(2);
+            const duration = (6 + Math.random() * 8).toFixed(2);
+            const startPos = -(150 + Math.random() * 300); // Random starting heights
             return (
               <div 
-                class="rain-column" 
-                style={`left: ${left}%; animation-delay: ${delay}s; animation-duration: ${duration}s; --rain-color: ${color};`}
+                class="dotted-column" 
+                style={`left: ${left}%; top: ${startPos}px; animation-delay: ${delay}s; animation-duration: ${duration}s; --rain-color: ${color};`}
               ></div>
             );
           })}
@@ -105,8 +106,8 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
 
       {/* Main Content Layer */}
       <div class="parallax-layer z-10 flex flex-col min-h-full">
-        {/* Navigation */}
-        <nav class="sticky top-0 z-50 backdrop-blur-md bg-[var(--nav-bg)] border-b border-[var(--border-color)] transition-colors duration-300">
+        {/* Navigation - Desktop Sticky Top, Hidden on Mobile */}
+        <nav class="hidden md:block sticky top-0 z-50 backdrop-blur-md bg-[var(--nav-bg)] border-b border-[var(--border-color)] transition-colors duration-300">
           <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
               <a href="/" class="flex items-center gap-2 group">
@@ -115,7 +116,7 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
                 </span>
               </a>
               
-              <div class="hidden md:flex items-center space-x-8">
+              <div class="flex items-center space-x-6">
                 <a href="/about" class="flex items-center gap-1 text-[var(--text-secondary)] hover:text-synth-cyan transition-colors text-sm font-semibold uppercase tracking-widest"><User class="w-4 h-4"/> About</a>
                 <a href="/work" class="flex items-center gap-1 text-[var(--text-secondary)] hover:text-synth-pink transition-colors text-sm font-semibold uppercase tracking-widest"><Code2 class="w-4 h-4"/> Work</a>
                 <a href="/gallery" class="flex items-center gap-1 text-[var(--text-secondary)] hover:text-synth-cyan transition-colors text-sm font-semibold uppercase tracking-widest"><Camera class="w-4 h-4"/> Gallery</a>
@@ -138,35 +139,72 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
                     <Moon class="w-4 h-4 text-synth-purple" />
                   </button>
                 </div>
-                
-                <a href="https://buymeacoffee.com/brentmzey4795" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-black font-bold text-sm transition-transform hover:scale-105 shadow-lg shadow-[#FFDD00]/20">
-                  <Coffee class="w-4 h-4" />
-                  Support Me
-                </a>
-              </div>
-
-              {/* Mobile menu button */}
-              <div class="md:hidden flex items-center gap-4">
-                <div class="relative flex items-center p-1 rounded-full bg-[var(--card-bg)] border border-[var(--border-color)] w-[90px] h-9 shadow-inner">
-                  <div id="themeThumbMobile" class="absolute top-[4px] left-[4px] w-6 h-6 rounded-full bg-white dark:bg-slate-800 shadow-md transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-center justify-center pointer-events-none z-20">
-                    <Sun id="thumbIconSunMobile" class="w-3.5 h-3.5 text-yellow-500 hidden" />
-                    <MonitorSmartphone id="thumbIconSystemMobile" class="w-3.5 h-3.5 text-synth-cyan hidden" />
-                    <Moon id="thumbIconMoonMobile" class="w-3.5 h-3.5 text-synth-purple hidden" />
-                  </div>
-                  <button id="modeLightMobile" class="relative z-10 flex-1 h-full flex items-center justify-center opacity-40" aria-label="Light Mode"><Sun class="w-3.5 h-3.5 text-yellow-500" /></button>
-                  <button id="modeSystemMobile" class="relative z-10 flex-1 h-full flex items-center justify-center opacity-40" aria-label="System Mode"><MonitorSmartphone class="w-3.5 h-3.5 text-synth-cyan" /></button>
-                  <button id="modeDarkMobile" class="relative z-10 flex-1 h-full flex items-center justify-center opacity-40" aria-label="Dark Mode"><Moon class="w-3.5 h-3.5 text-synth-purple" /></button>
-                </div>
               </div>
             </div>
           </div>
         </nav>
 
-        <main class="flex-grow">
+        {/* Mobile Header (Brand + Theme Only) */}
+        <header class="md:hidden sticky top-0 z-50 backdrop-blur-md bg-[var(--nav-bg)] border-b border-[var(--border-color)] px-6 h-16 flex items-center justify-between">
+          <a href="/" class="text-lg font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-synth-cyan to-synth-pink uppercase">BRENT.ZEY</a>
+          <div class="relative flex items-center p-1 rounded-full bg-[var(--card-bg)] border border-[var(--border-color)] w-[80px] h-8 shadow-inner">
+            <div id="themeThumbMobile" class="absolute top-[3px] left-[3px] w-6 h-6 rounded-full bg-white dark:bg-slate-800 shadow-md transition-all duration-300 flex items-center justify-center pointer-events-none z-20">
+              <Sun id="thumbIconSunMobile" class="w-3.5 h-3.5 text-yellow-500 hidden" />
+              <MonitorSmartphone id="thumbIconSystemMobile" class="w-3.5 h-3.5 text-synth-cyan hidden" />
+              <Moon id="thumbIconMoonMobile" class="w-3.5 h-3.5 text-synth-purple hidden" />
+            </div>
+            <button id="modeLightMobile" class="flex-1 h-full opacity-30" aria-label="Light"><Sun class="w-3 h-3 mx-auto"/></button>
+            <button id="modeSystemMobile" class="flex-1 h-full opacity-30" aria-label="System"><MonitorSmartphone class="w-3 h-3 mx-auto"/></button>
+            <button id="modeDarkMobile" class="flex-1 h-full opacity-30" aria-label="Dark"><Moon class="w-3 h-3 mx-auto"/></button>
+          </div>
+        </header>
+
+        <main class="flex-grow pb-32 md:pb-20">
           <slot />
         </main>
 
-        <footer class="border-t border-[var(--border-color)] py-12 mt-20 text-center space-y-4 bg-[var(--nav-bg)] backdrop-blur-md">
+        {/* Music Player Bar & Navigation */}
+        <div class="fixed bottom-0 left-0 right-0 z-50 px-4 pb-4 pointer-events-none">
+          <div class="max-w-4xl mx-auto flex flex-col gap-4">
+            
+            {/* Music Profile Links (The Hub) */}
+            <div class="flex justify-center gap-3 pointer-events-auto">
+              <a href="https://music.apple.com/profile/brentzey" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 rounded-2xl bg-black/80 backdrop-blur-md border border-[#fa243c]/30 text-white hover:border-[#fa243c] transition-all shadow-xl group">
+                <svg class="w-5 h-5 text-[#fa243c]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.188 13.064c-.214.341-.652.443-.984.237-2.383-1.432-5.385-1.758-8.914-.963-.385.088-.767-.152-.855-.536-.088-.384.152-.767.536-.855 3.84-.863 7.152-.488 9.832 1.12.336.202.44.636.237.973-.001.002-.001.003-.002.004zm1.11-2.45c-.27.42-.821.547-1.241.277-2.727-1.657-6.879-2.134-10.106-1.155-.47.143-.967-.123-1.11-.593-.143-.47.123-.967.593-1.11 3.684-1.117 8.267-.582 11.397 1.319.421.258.552.805.281 1.229-.001.001-.002.002-.002.003zm.106-2.583C14.156 8.04 8.791 7.864 5.7 8.803a1.03 1.03 0 01-1.3-.647 1.03 1.03 0 01.647-1.3C8.61 5.787 14.53 5.987 18.2 8.165a1.03 1.03 0 01.353 1.408 1.03 1.03 0 01-1.407.353l-.001.001z"/></svg>
+                <span class="text-xs font-bold uppercase tracking-widest hidden sm:inline">Apple Music</span>
+              </a>
+              <a href="https://open.spotify.com/user/1261049078?si=i86wEaEGQnGJOycnCn0pJg" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 rounded-2xl bg-black/80 backdrop-blur-md border border-[#1DB954]/30 text-white hover:border-[#1DB954] transition-all shadow-xl group">
+                <svg class="w-5 h-5 text-[#1DB954]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-.1.24-2.82-1.74-6.36-2.1-10.561-1.141-.418.122-.779-.179-.839-.539-.121-.418.179-.779.539-.839 4.5-.961 8.461-.539 11.641 1.5.359.24.48.66.24 1.021zM18.961 14.1c-.3.479-.9.6-1.379.3-3.239-1.979-8.159-2.519-11.939-1.38-.54.18-.1.019-.3.42-.18.54-.779.84-1.319.66-.54-.18-.84-.779-.66-1.319 4.38-1.32 9.78-.719 13.5 1.559.48.3.6.9.3 1.38zM19.08 10.68c-3.9-2.341-10.32-2.521-14.1-1.441a1.2 1.2 0 11-.661-2.34c4.321-1.321 11.401-1.021 15.9 1.681a1.2 1.2 0 01-1.14 2.1z"/></svg>
+                <span class="text-xs font-bold uppercase tracking-widest hidden sm:inline">Spotify</span>
+              </a>
+            </div>
+
+            {/* Mobile Bottom Navigation Bar */}
+            <nav class="md:hidden flex items-center justify-around p-3 rounded-3xl bg-[var(--nav-bg)] border border-[var(--border-color)] backdrop-blur-lg shadow-2xl pointer-events-auto">
+              <a href="/" class="flex flex-col items-center gap-1 text-[var(--text-secondary)] hover:text-synth-cyan transition-colors">
+                <span class="text-[10px] font-black uppercase tracking-tighter">Home</span>
+              </a>
+              <a href="/about" class="flex flex-col items-center gap-1 text-[var(--text-secondary)] hover:text-synth-cyan transition-colors">
+                <User class="w-5 h-5"/>
+                <span class="text-[10px] font-bold uppercase">About</span>
+              </a>
+              <a href="/work" class="flex flex-col items-center gap-1 text-[var(--text-secondary)] hover:text-synth-pink transition-colors">
+                <Code2 class="w-5 h-5"/>
+                <span class="text-[10px] font-bold uppercase">Work</span>
+              </a>
+              <a href="/gallery" class="flex flex-col items-center gap-1 text-[var(--text-secondary)] hover:text-synth-cyan transition-colors">
+                <Camera class="w-5 h-5"/>
+                <span class="text-[10px] font-bold uppercase">Gallery</span>
+              </a>
+              <a href="/interests" class="flex flex-col items-center gap-1 text-[var(--text-secondary)] hover:text-synth-purple transition-colors">
+                <MonitorSmartphone class="w-5 h-5"/>
+                <span class="text-[10px] font-bold uppercase">Interests</span>
+              </a>
+            </nav>
+          </div>
+        </div>
+
+        <footer class="hidden md:block border-t border-[var(--border-color)] py-12 mt-20 text-center space-y-4 bg-[var(--nav-bg)] backdrop-blur-md">
           <div class="flex justify-center gap-6">
             <a href="https://github.com/brentmzey" class="text-[var(--text-secondary)] hover:text-synth-cyan transition-colors">GitHub</a>
             <a href="mailto:brentmzey4795@gmail.com" class="text-[var(--text-secondary)] hover:text-synth-pink transition-colors">Email</a>
