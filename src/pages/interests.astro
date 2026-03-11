@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Coffee, Plane, Code2, Headphones, Activity } from 'lucide-react';
+
+const interests = [
+  {
+    icon: Coffee,
+    title: "Craft Coffee",
+    color: "text-[#FFDD00]",
+    bgColor: "bg-[#FFDD00]/10",
+    borderColor: "hover:border-[#FFDD00]/50",
+    description: "Exploring the nuances of specialty coffee, from bean origin to the perfect pour-over extraction. A daily ritual of precision and taste."
+  },
+  {
+    icon: Plane,
+    title: "Travel",
+    color: "text-synth-cyan",
+    bgColor: "bg-synth-cyan/10",
+    borderColor: "hover:border-synth-cyan/50",
+    description: "Experiencing new cultures, architecture, and landscapes. Travel fuels my creativity and provides fresh perspectives on life and design."
+  },
+  {
+    icon: Activity,
+    title: "Fitness & Health",
+    color: "text-synth-pink",
+    bgColor: "bg-synth-pink/10",
+    borderColor: "hover:border-synth-pink/50",
+    description: "Maintaining a balance between the digital world and physical well-being through weightlifting, running, and active living."
+  },
+  {
+    icon: Headphones,
+    title: "Music & Synthwave",
+    color: "text-synth-purple",
+    bgColor: "bg-synth-purple/10",
+    borderColor: "hover:border-synth-purple/50",
+    description: "Deep diving into electronic, synthwave, and '80s/'90s nostalgia. The soundtracks that power late-night coding sessions."
+  }
+];
+---
+
+<Layout title="Interests - Brent Zey">
+  <div class="max-w-4xl mx-auto px-6 py-16 md:py-24 space-y-24 animate-fade-in">
+    
+    <section class="space-y-6">
+      <h1 class="text-5xl md:text-6xl font-black uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-synth-periwinkle to-synth-cyan synth-text-glow">Interests & Hobbies</h1>
+      <p class="text-xl md:text-2xl text-[var(--text-secondary)] leading-relaxed font-light">
+        Life beyond the terminal. The pursuits and passions that keep me grounded, inspired, and constantly learning.
+      </p>
+    </section>
+
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {interests.map((item, index) => {
+        const Icon = item.icon;
+        return (
+          <div class={`group p-8 rounded-3xl bg-[var(--card-bg)] border border-[var(--border-color)] transition-all ${item.borderColor} hover:shadow-lg flex flex-col h-full`}>
+            <div class="flex items-center gap-4 mb-6">
+              <div class={`p-4 rounded-2xl ${item.bgColor} ${item.color} group-hover:scale-110 transition-transform`}>
+                <Icon class="w-8 h-8" />
+              </div>
+              <h2 class="text-2xl font-bold uppercase tracking-wider">{item.title}</h2>
+            </div>
+            <p class="text-[var(--text-secondary)] leading-relaxed text-lg flex-grow">
+              {item.description}
+            </p>
+          </div>
+        )
+      })}
+    </section>
+
+  </div>
+</Layout>

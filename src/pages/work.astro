@@ -1,0 +1,121 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { ExternalLink, Code2, MonitorSmartphone } from 'lucide-react';
+
+const projects = [
+  {
+    title: "Sanctuary Stream",
+    description: "An open-source, free application designed for parishes to implement high-quality liturgical ministry streaming while following best practices.",
+    link: "https://github.com/brentmzey/sanctuary-stream",
+    tags: ["Open Source", "Kotlin", "Streaming"]
+  },
+  {
+    title: "Functional Utils",
+    description: "Bringing functional programming features (similar to Scala or Arrow) to raw Java and Kotlin Multiplatform (KMP).",
+    link: "https://github.com/brentmzey/functional-utils",
+    tags: ["KMP", "Java", "Functional Programming"]
+  },
+  {
+    title: "Local DB Stack",
+    description: "A collection of shell utilities for managing local database stacks efficiently during development.",
+    link: "https://github.com/brentmzey/local-db-stack",
+    tags: ["DevOps", "Shell", "Databases"]
+  }
+];
+
+const customSites = [
+  {
+    title: "Jenny Lungo",
+    description: "Professional site for a master fade expert and hairstyle specialist in Chicago's Loop.",
+    link: "https://jennylungo.hair/",
+    type: "Business / Portfolio"
+  },
+  {
+    title: "Dr. Craig A. Ford, Jr.",
+    description: "Academic and professional site for a scholar and professor at Emory University.",
+    link: "https://craigford.net/",
+    type: "Academic / Personal"
+  },
+  {
+    title: "Andrew Ouma",
+    description: "Custom portfolio site for professional showcasing.",
+    link: "https://andrew-ouma.netlify.app/",
+    type: "Portfolio"
+  },
+  {
+    title: "Hops-n-Scotch",
+    description: "A specialized project focused on craft beer and spirits curation.",
+    link: "https://hops-n-scotch.netlify.app/",
+    type: "Web App"
+  }
+];
+---
+
+<Layout title="Work - Brent Zey">
+  <div class="max-w-4xl mx-auto px-6 py-16 md:py-24 space-y-24 animate-fade-in">
+    
+    <section class="space-y-6">
+      <h1 class="text-5xl md:text-6xl font-black uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-synth-pink to-synth-purple synth-text-glow-pink">Work & Projects</h1>
+      <p class="text-xl md:text-2xl text-[var(--text-secondary)] leading-relaxed font-light">
+        A look into my open source contributions, personal technical explorations, and custom-built client solutions.
+      </p>
+    </section>
+
+    {/* Open Source */}
+    <section class="space-y-8">
+      <div class="space-y-2">
+        <h2 class="text-3xl font-bold uppercase tracking-widest text-[var(--text-primary)]">Open Source & Projects</h2>
+        <div class="w-24 h-1 bg-gradient-to-r from-synth-pink to-synth-purple rounded-full"></div>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-6">
+        {projects.map(project => (
+          <a href={project.link} target="_blank" rel="noopener noreferrer" class="group p-6 rounded-3xl bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-synth-pink/50 transition-all flex flex-col h-full hover:synth-glow-pink">
+            <div class="flex justify-between items-start mb-4">
+              <div class="p-3 rounded-2xl bg-synth-pink/10 text-synth-pink">
+                <Code2 class="w-6 h-6" />
+              </div>
+              <ExternalLink class="w-5 h-5 text-[var(--text-secondary)] group-hover:text-synth-pink transition-colors" />
+            </div>
+            <h3 class="text-xl font-bold mb-2 group-hover:text-synth-pink transition-colors">{project.title}</h3>
+            <p class="text-[var(--text-secondary)] leading-relaxed mb-6 flex-grow">{project.description}</p>
+            <div class="flex flex-wrap gap-2">
+              {project.tags.map(tag => (
+                <span class="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] bg-[var(--nav-bg)] border border-[var(--border-color)] px-3 py-1 rounded-full group-hover:border-synth-pink/30 transition-colors">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    {/* Custom Built Sites */}
+    <section class="space-y-8">
+      <div class="space-y-2">
+        <h2 class="text-3xl font-bold uppercase tracking-widest text-[var(--text-primary)]">Custom Built Solutions</h2>
+        <div class="w-24 h-1 bg-gradient-to-r from-synth-cyan to-synth-blue rounded-full"></div>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-6">
+        {customSites.map(site => (
+          <a href={site.link} target="_blank" rel="noopener noreferrer" class="group flex items-start p-6 rounded-3xl bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-synth-cyan/50 transition-all hover:synth-glow-cyan">
+            <div class="p-3 rounded-2xl bg-synth-cyan/10 text-synth-cyan mr-4 mt-1 group-hover:scale-110 transition-transform">
+              <MonitorSmartphone class="w-6 h-6" />
+            </div>
+            <div class="flex-grow">
+              <div class="flex items-center gap-2 mb-2 flex-wrap">
+                <h3 class="text-lg font-bold group-hover:text-synth-cyan transition-colors leading-tight">{site.title}</h3>
+                <span class="text-[10px] text-synth-cyan font-bold uppercase bg-synth-cyan/10 px-2 py-0.5 rounded-full">{site.type}</span>
+              </div>
+              <p class="text-[var(--text-secondary)] text-sm leading-relaxed">{site.description}</p>
+            </div>
+            <ExternalLink class="w-4 h-4 text-[var(--text-secondary)] group-hover:text-synth-cyan ml-2 flex-shrink-0 mt-1" />
+          </a>
+        ))}
+      </div>
+    </section>
+
+  </div>
+</Layout>

@@ -1,1 +1,115 @@
 @import "tailwindcss";
+
+@theme {
+  --color-synth-cyan: #00f3ff;
+  --color-synth-blue: #091833;
+  --color-synth-dark: #020617;
+  --color-synth-pink: #ff00ea;
+  --color-synth-purple: #9d00ff;
+  --color-synth-periwinkle: #a49aff;
+  --color-synth-light: #e2e8f0;
+  
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+@layer base {
+  :root {
+    --bg-primary: #f8fafc;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --accent-glow: rgba(0, 243, 255, 0.2);
+    --border-color: #cbd5e1;
+    --nav-bg: rgba(255, 255, 255, 0.8);
+    --card-bg: rgba(255, 255, 255, 0.9);
+  }
+
+  .dark {
+    --bg-primary: #020617; /* Synth dark */
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --accent-glow: rgba(255, 0, 234, 0.3);
+    --border-color: rgba(0, 243, 255, 0.2);
+    --nav-bg: rgba(2, 6, 23, 0.8);
+    --card-bg: rgba(9, 24, 51, 0.6);
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+@layer utilities {
+  .synth-glow-cyan {
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.5), 0 0 20px rgba(0, 243, 255, 0.3);
+  }
+  
+  .synth-glow-pink {
+    box-shadow: 0 0 10px rgba(255, 0, 234, 0.5), 0 0 20px rgba(255, 0, 234, 0.3);
+  }
+
+  .synth-text-glow {
+    text-shadow: 0 0 8px rgba(0, 243, 255, 0.6);
+  }
+
+  .synth-text-glow-pink {
+    text-shadow: 0 0 8px rgba(255, 0, 234, 0.6);
+  }
+
+  /* Techno dripping lines background */
+  .techno-lines {
+    background-image: linear-gradient(0deg, transparent 24%, rgba(0, 243, 255, 0.1) 25%, rgba(0, 243, 255, 0.1) 26%, transparent 27%, transparent 74%, rgba(0, 243, 255, 0.1) 75%, rgba(0, 243, 255, 0.1) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(0, 243, 255, 0.1) 25%, rgba(0, 243, 255, 0.1) 26%, transparent 27%, transparent 74%, rgba(0, 243, 255, 0.1) 75%, rgba(0, 243, 255, 0.1) 76%, transparent 77%, transparent);
+    background-size: 50px 50px;
+  }
+
+  .dark .techno-lines {
+    background-image: linear-gradient(0deg, transparent 24%, rgba(255, 0, 234, 0.05) 25%, rgba(255, 0, 234, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 0, 234, 0.05) 75%, rgba(255, 0, 234, 0.05) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(0, 243, 255, 0.05) 25%, rgba(0, 243, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 243, 255, 0.05) 75%, rgba(0, 243, 255, 0.05) 76%, transparent 77%, transparent);
+    background-size: 50px 50px;
+  }
+
+  /* Parallax Layer Styles */
+  .parallax-container {
+    perspective: 1px;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .parallax-layer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .parallax-bg-slow {
+    transform: translateZ(-2px) scale(3);
+    z-index: -2;
+  }
+
+  .parallax-bg-med {
+    transform: translateZ(-1px) scale(2);
+    z-index: -1;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 1s ease-out forwards;
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
