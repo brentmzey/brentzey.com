@@ -1,66 +1,72 @@
-# Brent Zey - Synthwave Personal Site
+# Brent Zey | brentzey.com
 
-Welcome to the source code for my personal portfolio and hub, designed with a retro-futuristic, "Synthwave / 84 Blues / Miami Blade Runner" aesthetic.
+Welcome to the source code for my personal portfolio and digital hub. This site is designed with a retro-futuristic, **"Synthwave / '84 Blues / Miami Blade Runner"** aesthetic, reflecting my passion for engineering, design, and creative exploration.
 
-## 🚀 Overview
+## 🚀 Featured Open Source
 
-This site is built to be fast, highly responsive, and visually striking. It utilizes modern web standards while embracing an '80s/'90s cyberpunk design philosophy, featuring:
-- **Neon Color Palette**: Deep darks, striking cyans, hot pinks, and vibrant purples.
-- **Light & Dark Mode**: Persistent theme toggling, defaulting to a dark, neon-lit environment.
-- **Focus Pages**: Dedicated views for `About`, `Work`, `Interests`, and a placeholder-ready `Gallery`.
-- **Techno-Dripping Aesthetics**: Animated scanlines, glowing text, and particle-like background gradients.
+### [Sanctuary Stream](https://github.com/brentmzey/sanctuary-stream)
+A **Secure-by-Design** church streaming control system. It empowers parishes to manage professional OBS (Open Broadcaster Software) streams from any device, reducing costs while maintaining high-quality liturgical ministry standards.
+- **Key Features:** One-click start/stop, real-time health monitoring, and multi-platform support (Desktop, Mobile, Web).
 
 ## 🛠 Tech Stack
 
-- **[Astro](https://astro.build/)**: The core framework. Used for its zero-JS-by-default architecture and excellent routing.
-- **[Tailwind CSS v4](https://tailwindcss.com/)**: For rapid styling, custom `@theme` variables, and responsive design.
-- **[Lucide React](https://lucide.dev/)**: For sleek, consistent vector iconography.
-- **[Bun](https://bun.sh/)**: The incredibly fast JavaScript runtime and package manager used for this project.
+- **[Astro 6.0](https://astro.build/)**: The core framework for high-performance, content-focused websites.
+- **[Bun](https://bun.sh/)**: The incredibly fast JavaScript runtime, package manager, and bundler powering the entire development and build pipeline.
+- **[Tailwind CSS v4](https://tailwindcss.com/)**: For rapid, modern styling with a custom neon theme.
+- **[Lucide React](https://lucide.dev/)**: Sleek, consistent vector iconography.
+- **[Framer Motion](https://www.framer.com/motion/)**: Fluid, high-performance animations for that authentic synthwave feel.
+
+## ⚡ Why Bun? (Performance Benchmarks)
+
+This project is optimized to run on **Bun**. By switching from Node.js to Bun, the development experience and build performance are significantly improved.
+
+| Metric | Node.js (22+) | Bun (1.1+) | Winner |
+| :--- | :--- | :--- | :--- |
+| **Cold Start** | ~150ms - 200ms | **~10ms - 50ms** | **Bun** 🚀 |
+| **Build Speed (I/O)** | Baseline | **15–30% Faster** | **Bun** 🚀 |
+| **SSR Throughput** | ~35k RPS | **~90k+ RPS** | **Bun** 🚀 |
+| **Memory Usage** | Higher (V8) | **50% Lower (JSC)** | **Bun** 🚀 |
+| **Install Speed** | Baseline | **10–30x Faster** | **Bun** 🚀 |
+
+Using Bun reduces CI/CD pipeline times by **30–70%** and ensures the fastest possible iteration cycles during development.
+
+## 🧞 Commands
+
+All commands are run from the root of the project using **Bun**:
+
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `bun install`             | Installs dependencies (blazing fast)             |
+| `bun dev`                 | Starts local dev server at `localhost:4321`      |
+| `bun build`               | Builds the production site to `./dist/`          |
+| `bun preview`             | Previews the production build locally            |
 
 ## 📂 Project Structure
 
 ```text
 /
-├── public/               # Static assets (favicons, etc.)
+├── public/               # Static assets (favicons, profile pics, resume)
 ├── src/
-│   ├── layouts/
-│   │   └── Layout.astro  # The main wrapper containing the navbar, footer, and theme logic
-│   ├── pages/
-│   │   ├── index.astro   # The main landing hub
-│   │   ├── about.astro   # Academic & professional background
-│   │   ├── work.astro    # Projects, open source, and client sites
-│   │   ├── interests.astro # Hobbies and off-screen pursuits
-│   │   └── gallery.astro # Photo gallery
-│   └── styles/
-│       └── global.css    # Tailwind v4 configuration, synthwave theme variables, and custom animations
+│   ├── components/       # Interactive React components (Gallery, Music, etc.)
+│   ├── layouts/          # The main wrapper with navbar, footer, and theme logic
+│   ├── pages/            # Site routes (Home, About, Work, Interests, Gallery)
+│   ├── styles/           # Global CSS and Tailwind v4 neon theme configuration
+│   └── api/              # Serverless API endpoints (e.g., Now Playing)
 └── package.json
 ```
 
 ## 📸 Updating the Gallery
 
-Due to Google Photos' restrictions on direct hotlinking and scraping, the `gallery.astro` page currently utilizes beautifully styled synthwave placeholders.
-
-**To add your real photos:**
-1. Open `src/pages/gallery.astro`.
-2. Locate the `placeholders.map` loop.
-3. Replace the placeholder data array with real objects containing your direct image URLs (e.g., hosted on a CDN, Cloudinary, Imgur, or placed locally in the `public/images/` folder).
-4. Swap the inner `<div>` gradient with standard `<img src={item.url} />` tags.
-
-## 🧞 Commands
-
-All commands are run from the root of the project:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`                 | Starts local dev server at `localhost:4321`      |
-| `bun build`               | Builds the production site to `./dist/`          |
-| `bun preview`             | Previews the production build locally            |
+The `gallery.astro` page uses a masonry layout to showcase photography. To update:
+1. Add your images to `src/assets/gallery/`.
+2. Update the gallery component in `src/pages/gallery.astro` to include the new assets.
+3. The site will automatically handle responsive image optimization via Astro's Image service.
 
 ## ☕ Support
 
-If you like what you see or found some of my open-source work helpful, consider buying me a coffee:
-**[Support Me / Buy Me A Coffee](https://buymeacoffee.com/brentmzey)**
+If you find my work or open-source projects like **Sanctuary Stream** helpful, consider supporting my journey:
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/brentmzey)
 
 ---
 
