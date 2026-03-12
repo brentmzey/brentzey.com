@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { Coffee, Plane, Code2, Headphones, Activity, Music } from 'lucide-react';
+import MusicStatus from '../components/MusicStatus.tsx';
 
 const interests = [
   {
@@ -68,48 +69,35 @@ const interests = [
               </span>
               Now Spinning
             </div>
-            <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tighter">Sonic Landscapes</h2>
+            <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none">Sonic Landscapes</h2>
             <p class="text-[var(--text-secondary)] text-lg leading-relaxed">
               Music isn't just background noise; it's the architecture of my focus. My rotations range from <strong>Classical</strong> and <strong>Jazz</strong> for deep work to <strong>Hip-Hop</strong>, <strong>Rap</strong>, and <strong>Alternative</strong> for everything else.
             </p>
+            
+            {/* Live Status Component - Fetches from /api/now-playing */}
+            <MusicStatus client:load />
+
             <div class="flex flex-wrap justify-center md:justify-start gap-4">
               <a href="https://music.apple.com/profile/brentzey" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#fa243c]/10 text-[#fa243c] hover:bg-[#fa243c] hover:text-white transition-all font-bold uppercase tracking-widest text-sm border border-[#fa243c]/20" aria-label="Visit Brent Zey's Apple Music Profile">
-                <Music class="w-5 h-5" aria-hidden="true" />
+                <svg class="w-5 h-5 fill-current" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Apple Music</title><path d="M12.115 5.564c-.015-.008-.024-.02-.024-.035V4.321c0-.18-.158-.337-.34-.337l-.023.003c-.23.029-.444.153-.585.34L7.541 9.074c-.114.15-.178.334-.178.523v10.082c0 .181.157.321.334.321h4.093c.184 0 .334-.144.334-.321V9.954l3.188-4.248c.154-.204.148-.48-.02-.676l-.014-.017c-.168-.198-.445-.253-.674-.13L12.115 5.564zm-2.091 14.113c0 .14-.117.255-.256.255H8.3c-.141 0-.256-.115-.256-.255v-9.352c0-.14.115-.255.256-.255h1.468c.139 0 .256.115.256.255v9.352zm3.178-5.32c-.14 0-.255-.115-.255-.255V9.914c0-.14.115-.256.255-.256h1.468c.141 0 .256.116.256.256v4.188c0 .14-.115.255-.256.255h-1.468zm3.253-3.64c-.14 0-.256-.115-.256-.255v-2.02c0-.14.116-.256.256-.256h1.469c.14 0 .255.116.255.256v2.02c0 .14-.115.255-.255.255h-1.469z"/></svg>
                 Apple Music
               </a>
               <a href="https://open.spotify.com/user/1261049078?si=i86wEaEGQnGJOycnCn0pJg" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#1DB954]/10 text-[#1DB954] hover:bg-[#1DB954] hover:text-white transition-all font-bold uppercase tracking-widest text-sm border border-[#1DB954]/20" aria-label="Visit Brent Zey's Spotify Profile">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-.1.24-2.82-1.74-6.36-2.1-10.561-1.141-.418.122-.779-.179-.839-.539-.121-.418.179-.779.539-.839 4.5-.961 8.461-.539 11.641 1.5.359.24.48.66.24 1.021zM18.961 14.1c-.3.479-.9.6-1.379.3-3.239-1.979-8.159-2.519-11.939-1.38-.54.18-.1.019-.3.42-.18.54-.779.84-1.319.66-.54-.18-.84-.779-.66-1.319 4.38-1.32 9.78-.719 13.5 1.559.48.3.6.9.3 1.38zM19.08 10.68c-3.9-2.341-10.32-2.521-14.1-1.441a1.2 1.2 0 11-.661-2.34c4.321-1.321 11.401-1.021 15.9 1.681a1.2 1.2 0 01-1.14 2.1z"/></svg>
+                <svg class="w-5 h-5 fill-current" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Spotify</title><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-.1.24-2.82-1.74-6.36-2.1-10.561-1.141-.418.122-.779-.179-.839-.539-.121-.418.179-.779.539-.839 4.5-.961 8.461-.539 11.641 1.5.359.24.48.66.24 1.021zM18.961 14.1c-.3.479-.9.6-1.379.3-3.239-1.979-8.159-2.519-11.939-1.38-.54.18-.1.019-.3.42-.18.54-.779.84-1.319.66-.54-.18-.84-.779-.66-1.319 4.38-1.32 9.78-.719 13.5 1.559.48.3.6.9.3 1.38zM19.08 10.68c-3.9-2.341-10.32-2.521-14.1-1.441a1.2 1.2 0 11-.661-2.34c4.321-1.321 11.401-1.021 15.9 1.681a1.2 1.2 0 01-1.14 2.1z"/></svg>
                 Spotify
               </a>
             </div>
           </div>
-          <div class="w-full md:w-[320px] aspect-square relative group/player" aria-hidden="true">
-            <div class="absolute inset-0 bg-gradient-to-br from-synth-purple to-synth-pink rounded-[2rem] rotate-6 opacity-20 group-hover/player:rotate-12 transition-transform"></div>
-            <div class="relative w-full h-full rounded-[2rem] bg-black/40 overflow-hidden border border-white/10 flex flex-col items-center justify-center p-6 space-y-6">
-              {/* Fake Player UI */}
-              <div class="w-48 h-48 rounded-2xl bg-gradient-to-tr from-gray-800 to-gray-700 shadow-2xl flex items-center justify-center relative overflow-hidden group/disk">
-                <div class="absolute inset-4 rounded-full border-4 border-white/5 animate-[spin_8s_linear_infinite] group-hover/disk:animate-none">
-                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/20"></div>
-                </div>
-                <Music class="w-16 h-16 text-synth-purple/40" />
-              </div>
-              <div class="w-full space-y-2 text-center">
-                <div class="h-2 w-full bg-white/10 rounded-full overflow-hidden">
-                  <div class="h-full w-1/3 bg-gradient-to-r from-synth-purple to-synth-pink animate-pulse"></div>
-                </div>
-                <div class="flex justify-between text-[10px] text-white/40 font-mono uppercase tracking-tighter">
-                  <span>01:24</span>
-                  <span>04:12</span>
-                </div>
-              </div>
-              <div class="flex items-center gap-6 text-white/60">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 18V6h2v12H6zm3.5-6L18 6v12l-8.5-6z"/></svg>
-                <div class="p-3 rounded-full bg-white text-black hover:scale-110 transition-transform cursor-pointer">
-                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                </div>
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M16 18V6h-2v12h2zM6 12l8.5 6V6L6 12z"/></svg>
-              </div>
-            </div>
+          <div class="w-full md:w-[400px] rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/10 group/player transform transition-all hover:scale-[1.02] bg-black/20" aria-hidden="true">
+            {/* Real Apple Music Embed - This shows a functional player */}
+            <iframe 
+              allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" 
+              frameborder="0" 
+              height="450" 
+              style="width:100%;max-width:100%;overflow:hidden;background:transparent;" 
+              sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" 
+              src="https://embed.music.apple.com/us/playlist/heavy-rotation/pl.u-38oWWXvFY56E1k">
+            </iframe>
           </div>
         </div>
       </div>
