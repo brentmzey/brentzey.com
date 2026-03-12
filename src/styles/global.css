@@ -203,12 +203,12 @@
 
   /* Parallax Layer Styles */
   .parallax-container {
+    overflow-x: hidden;
     /* Desktop Scroll behavior */
     @media (min-width: 768px) {
       perspective: 1px;
       height: 100vh;
       height: 100dvh;
-      overflow-x: hidden;
       overflow-y: auto;
       overscroll-behavior: contain;
       scroll-behavior: smooth;
