@@ -80,6 +80,14 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
         <div class="absolute inset-0 techno-lines opacity-25"></div>
         <div class="absolute inset-0 bg-gradient-to-b from-synth-cyan/5 via-transparent to-synth-pink/5 opacity-30"></div>
         
+        {/* Flowing Water Background Glow */}
+        <div class="water-flow-container">
+          <div class="water-blob top-[10%] left-[10%]"></div>
+          <div class="water-blob bottom-[20%] right-[10%]"></div>
+          <div class="water-blob top-[40%] right-[30%]"></div>
+          <div class="water-blob bottom-[10%] left-[20%]"></div>
+        </div>
+
         {/* Digital Rain / Dripping Dots */}
         <div class="digital-rain">
           {Array.from({ length: 60 }).map((_, i) => {

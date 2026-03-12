@@ -50,19 +50,75 @@
   }
 
   .synth-text-glow {
-    text-shadow: 0 0 10px rgba(0, 243, 255, 0.5), 0 0 20px rgba(0, 243, 255, 0.2);
+    text-shadow: 0 0 8px rgba(0, 243, 255, 0.3), 0 0 12px rgba(0, 243, 255, 0.1);
   }
 
   .synth-text-glow-pink {
-    text-shadow: 0 0 10px rgba(255, 0, 234, 0.5), 0 0 20px rgba(255, 0, 234, 0.2);
+    text-shadow: 0 0 8px rgba(255, 0, 234, 0.3), 0 0 12px rgba(255, 0, 234, 0.1);
   }
 
   .synth-text-glow-strong {
-    text-shadow: 0 0 15px rgba(0, 243, 255, 0.8), 0 0 30px rgba(0, 243, 255, 0.4), 0 0 45px rgba(0, 243, 255, 0.2);
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.4), 0 0 20px rgba(0, 243, 255, 0.2);
   }
 
   .synth-text-glow-strong-pink {
-    text-shadow: 0 0 15px rgba(255, 0, 234, 0.8), 0 0 30px rgba(255, 0, 234, 0.4), 0 0 45px rgba(255, 0, 234, 0.2);
+    text-shadow: 0 0 10px rgba(255, 0, 234, 0.4), 0 0 20px rgba(255, 0, 234, 0.2);
+  }
+
+  /* Per-letter glow enhancement */
+  .letter-glow {
+    text-shadow: 
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 15px currentColor;
+    filter: brightness(1.2);
+  }
+
+  /* Water-like flowing background blobs */
+  .water-flow-container {
+    position: absolute;
+    inset: -100px;
+    z-index: -5;
+    pointer-events: none;
+    overflow: hidden;
+    filter: blur(80px);
+    opacity: 0.4;
+  }
+
+  .water-blob {
+    position: absolute;
+    width: 60vw;
+    height: 60vh;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--synth-cyan), var(--synth-purple), var(--synth-pink), var(--synth-cyan));
+    animation: flow-amorphous 20s linear infinite;
+    mix-blend-mode: screen;
+  }
+
+  .water-blob:nth-child(2) {
+    animation-duration: 25s;
+    animation-direction: reverse;
+    background: conic-gradient(from 180deg, var(--synth-pink), var(--synth-purple), var(--synth-cyan), var(--synth-pink));
+    opacity: 0.6;
+  }
+
+  @keyframes flow-amorphous {
+    0% {
+      transform: translate(0, 0) rotate(0deg) scale(1);
+      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    }
+    33% {
+      transform: translate(10vw, 5vh) rotate(120deg) scale(1.1);
+      border-radius: 60% 40% 30% 70% / 50% 60% 40% 60%;
+    }
+    66% {
+      transform: translate(-5vw, 15vh) rotate(240deg) scale(0.9);
+      border-radius: 30% 70% 60% 40% / 60% 40% 50% 30%;
+    }
+    100% {
+      transform: translate(0, 0) rotate(360deg) scale(1);
+      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    }
   }
 
   .synth-bg-glow-cyan {
