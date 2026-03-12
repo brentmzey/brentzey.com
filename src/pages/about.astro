@@ -14,10 +14,10 @@ import { GraduationCap, Award, Server, FileText, Download } from 'lucide-react';
         </p>
       </div>
       <div class="relative group">
-        <div class="absolute -inset-1 bg-gradient-to-r from-synth-cyan to-synth-blue rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+        <div class="absolute -inset-1 bg-gradient-to-r from-synth-cyan to-synth-blue rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000" aria-hidden="true"></div>
         <img 
           src="/profile.png" 
-          alt="Brent Zey" 
+          alt="Portrait of Brent Zey" 
           class="relative w-48 h-48 md:w-64 md:h-64 rounded-3xl border border-[var(--border-color)] object-cover shadow-2xl grayscale hover:grayscale-0 transition-all duration-500"
         />
       </div>
@@ -28,20 +28,21 @@ import { GraduationCap, Award, Server, FileText, Download } from 'lucide-react';
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div class="space-y-2">
           <h2 class="text-3xl font-bold uppercase tracking-widest text-[var(--text-primary)]">Resume Highlights</h2>
-          <div class="w-24 h-1 bg-gradient-to-r from-synth-cyan via-synth-periwinkle to-synth-pink rounded-full"></div>
+          <div class="w-24 h-1 bg-gradient-to-r from-synth-cyan via-synth-periwinkle to-synth-pink rounded-full" aria-hidden="true"></div>
         </div>
         <a 
           href="/resume.pdf" 
           target="_blank" 
           class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-synth-cyan/10 text-synth-cyan hover:bg-synth-cyan hover:text-black transition-all font-bold uppercase tracking-widest text-sm border border-synth-cyan/20 group"
+          aria-label="Download Brent Zey's Resume PDF (2025)"
         >
-          <Download class="w-4 h-4 group-hover:animate-bounce" />
+          <Download class="w-4 h-4 group-hover:animate-bounce" aria-hidden="true" />
           Download PDF (2025)
         </a>
       </div>
       
       <div class="relative group p-8 md:p-12 rounded-[2.5rem] bg-[var(--card-bg)] border border-[var(--border-color)] shadow-xl overflow-hidden">
-        <div class="absolute top-0 right-0 p-8 opacity-5">
+        <div class="absolute top-0 right-0 p-8 opacity-5" aria-hidden="true">
           <FileText class="w-32 h-32" />
         </div>
         
@@ -50,10 +51,10 @@ import { GraduationCap, Award, Server, FileText, Download } from 'lucide-react';
             <div>
               <h3 class="text-xs font-black uppercase tracking-[0.3em] text-synth-cyan mb-4">Core Expertise</h3>
               <ul class="space-y-3 text-[var(--text-secondary)]">
-                <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-synth-cyan mt-2"></span> Enterprise Healthcare Architectures</li>
-                <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-synth-cyan mt-2"></span> High-Availability SAAS & Web Services</li>
-                <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-synth-cyan mt-2"></span> Full Stack, Native & Mobile Development</li>
-                <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-synth-cyan mt-2"></span> Quantitative Economic Analysis</li>
+                <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-synth-cyan mt-2" aria-hidden="true"></span> Enterprise Healthcare Architectures</li>
+                <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-synth-cyan mt-2" aria-hidden="true"></span> High-Availability SAAS & Web Services</li>
+                <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-synth-cyan mt-2" aria-hidden="true"></span> Full Stack, Native & Mobile Development</li>
+                <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-synth-cyan mt-2" aria-hidden="true"></span> Quantitative Economic Analysis</li>
               </ul>
             </div>
             
@@ -96,11 +97,11 @@ import { GraduationCap, Award, Server, FileText, Download } from 'lucide-react';
     <section class="space-y-8">
       <div class="space-y-2">
         <h2 class="text-3xl font-bold uppercase tracking-widest text-[var(--text-primary)]">Professional Role</h2>
-        <div class="w-24 h-1 bg-gradient-to-r from-synth-cyan to-synth-blue rounded-full"></div>
+        <div class="w-24 h-1 bg-gradient-to-r from-synth-cyan to-synth-blue rounded-full" aria-hidden="true"></div>
       </div>
       
       <div class="p-8 rounded-3xl bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-synth-cyan/50 transition-colors shadow-lg">
-        <Server class="w-12 h-12 text-synth-cyan mb-6" />
+        <Server class="w-12 h-12 text-synth-cyan mb-6" aria-hidden="true" />
         <h3 class="text-2xl font-bold mb-4">Enterprise Healthcare Engineer</h3>
         <p class="text-[var(--text-secondary)] leading-relaxed text-lg">
           By day, I specialize in building robust, compliant SAAS and web service architectures for both Government and private sectors in the healthcare industry. My focus is on scalability, security, and high-availability systems.
@@ -112,7 +113,7 @@ import { GraduationCap, Award, Server, FileText, Download } from 'lucide-react';
     <section class="space-y-8">
       <div class="space-y-2">
         <h2 class="text-3xl font-bold uppercase tracking-widest text-[var(--text-primary)]">Academic Foundation</h2>
-        <div class="w-24 h-1 bg-gradient-to-r from-synth-pink to-synth-purple rounded-full"></div>
+        <div class="w-24 h-1 bg-gradient-to-r from-synth-pink to-synth-purple rounded-full" aria-hidden="true"></div>
       </div>
       
       <div class="space-y-8">
@@ -122,7 +123,7 @@ import { GraduationCap, Award, Server, FileText, Download } from 'lucide-react';
         
         <div class="grid md:grid-cols-2 gap-8 pt-4">
           <div class="p-8 rounded-3xl bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-synth-pink/50 transition-colors">
-            <div class="inline-flex p-3 rounded-2xl bg-synth-pink/10 text-synth-pink mb-4">
+            <div class="inline-flex p-3 rounded-2xl bg-synth-pink/10 text-synth-pink mb-4" aria-hidden="true">
               <GraduationCap class="w-8 h-8" />
             </div>
             <h4 class="text-xl font-bold mb-2">University of Kansas</h4>
@@ -131,7 +132,7 @@ import { GraduationCap, Award, Server, FileText, Download } from 'lucide-react';
           </div>
           
           <div class="p-8 rounded-3xl bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-synth-purple/50 transition-colors">
-            <div class="inline-flex p-3 rounded-2xl bg-synth-purple/10 text-synth-purple mb-4">
+            <div class="inline-flex p-3 rounded-2xl bg-synth-purple/10 text-synth-purple mb-4" aria-hidden="true">
               <Award class="w-8 h-8" />
             </div>
             <h4 class="text-xl font-bold mb-2">Bachelor of Science</h4>

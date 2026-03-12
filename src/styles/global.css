@@ -61,7 +61,7 @@
   /* Rotating/Oscillating Neon Glow behind names */
   .neon-glow-container {
     position: absolute;
-    inset: -10%;
+    inset: -30%;
     z-index: -1;
     display: flex;
     align-items: center;
@@ -71,24 +71,63 @@
 
   .neon-glow-rotating {
     position: absolute;
-    width: 120%;
-    height: 120%;
+    width: 140%;
+    height: 140%;
     background: conic-gradient(from 0deg, var(--synth-cyan), var(--synth-purple), var(--synth-pink), var(--synth-purple), var(--synth-cyan));
-    filter: blur(30px);
+    filter: blur(55px);
+    opacity: 0.6;
+    animation: rotate-glow 12s linear infinite, oscillate-opacity 6s ease-in-out infinite alternate, liquid-morph 8s ease-in-out infinite alternate;
+    mix-blend-mode: screen;
+  }
+
+  .neon-glow-rotating-alt {
+    position: absolute;
+    width: 130%;
+    height: 130%;
+    background: conic-gradient(from 180deg, var(--synth-pink), var(--synth-cyan), var(--synth-purple), var(--synth-cyan), var(--synth-pink));
+    filter: blur(65px);
+    opacity: 0.45;
+    animation: rotate-glow-rev 15s linear infinite, oscillate-opacity 8s ease-in-out infinite alternate-reverse, liquid-morph-alt 10s ease-in-out infinite alternate;
+    mix-blend-mode: screen;
+  }
+
+  /* Adjust blend mode for light mode to maintain contrast */
+  :root:not(.dark) .neon-glow-rotating,
+  :root:not(.dark) .neon-glow-rotating-alt {
+    mix-blend-mode: multiply;
     opacity: 0.25;
-    animation: rotate-glow 8s linear infinite, oscillate-opacity 4s ease-in-out infinite alternate;
-    border-radius: 50%;
+    filter: blur(45px);
+  }
+
+  @keyframes liquid-morph {
+    0% { border-radius: 40% 60% 30% 70% / 60% 30% 70% 40%; }
+    50% { border-radius: 60% 40% 70% 30% / 30% 70% 40% 60%; }
+    100% { border-radius: 40% 60% 30% 70% / 60% 30% 70% 40%; }
+  }
+
+  @keyframes liquid-morph-alt {
+    0% { border-radius: 70% 30% 60% 40% / 40% 60% 30% 70%; }
+    50% { border-radius: 30% 70% 40% 60% / 60% 40% 70% 30%; }
+    100% { border-radius: 70% 30% 60% 40% / 40% 60% 30% 70%; }
   }
 
   @keyframes rotate-glow {
-    from { transform: rotate(0deg) scale(1); }
-    50% { transform: rotate(180deg) scale(1.1); }
-    to { transform: rotate(360deg) scale(1); }
+    0% { transform: rotate(0deg) scale(1) translate(0, 0); }
+    33% { transform: rotate(120deg) scale(1.15) translate(8%, -5%); }
+    66% { transform: rotate(240deg) scale(0.85) translate(-8%, 5%); }
+    100% { transform: rotate(360deg) scale(1) translate(0, 0); }
+  }
+
+  @keyframes rotate-glow-rev {
+    0% { transform: rotate(360deg) scale(1) translate(0, 0); }
+    33% { transform: rotate(240deg) scale(1.15) translate(-8%, -5%); }
+    66% { transform: rotate(120deg) scale(0.85) translate(8%, 5%); }
+    100% { transform: rotate(0deg) scale(1) translate(0, 0); }
   }
 
   @keyframes oscillate-opacity {
-    from { opacity: 0.15; }
-    to { opacity: 0.35; }
+    from { opacity: 0.3; }
+    to { opacity: 0.8; }
   }
 
   .synth-text-glow {
@@ -107,13 +146,10 @@
     text-shadow: 0 0 10px rgba(255, 0, 234, 0.4), 0 0 20px rgba(255, 0, 234, 0.2);
   }
 
-  /* Per-letter glow enhancement */
+  /* Per-letter glow enhancement - Significantly reduced as requested */
   .letter-glow {
-    text-shadow: 
-      0 0 5px currentColor,
-      0 0 10px currentColor,
-      0 0 15px currentColor;
-    filter: brightness(1.2);
+    text-shadow: 0 0 4px currentColor;
+    filter: brightness(1.1);
   }
 
   /* Water-like flowing background blobs */

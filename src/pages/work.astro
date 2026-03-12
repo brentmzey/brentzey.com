@@ -65,17 +65,17 @@ const customSites = [
     <section class="space-y-8">
       <div class="space-y-2">
         <h2 class="text-3xl font-bold uppercase tracking-widest text-[var(--text-primary)]">Open Source & Projects</h2>
-        <div class="w-24 h-1 bg-gradient-to-r from-synth-pink to-synth-purple rounded-full"></div>
+        <div class="w-24 h-1 bg-gradient-to-r from-synth-pink to-synth-purple rounded-full" aria-hidden="true"></div>
       </div>
       
       <div class="grid md:grid-cols-2 gap-6">
         {projects.map(project => (
-          <a href={project.link} target="_blank" rel="noopener noreferrer" class="group p-6 rounded-3xl bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-synth-pink/50 transition-all flex flex-col h-full hover:synth-glow-pink">
+          <a href={project.link} target="_blank" rel="noopener noreferrer" class="group p-6 rounded-3xl bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-synth-pink/50 transition-all flex flex-col h-full hover:synth-glow-pink" aria-label={`View ${project.title} on GitHub`}>
             <div class="flex justify-between items-start mb-4">
-              <div class="p-3 rounded-2xl bg-synth-pink/10 text-synth-pink">
+              <div class="p-3 rounded-2xl bg-synth-pink/10 text-synth-pink" aria-hidden="true">
                 <Code2 class="w-6 h-6" />
               </div>
-              <ExternalLink class="w-5 h-5 text-[var(--text-secondary)] group-hover:text-synth-pink transition-colors" />
+              <ExternalLink class="w-5 h-5 text-[var(--text-secondary)] group-hover:text-synth-pink transition-colors" aria-hidden="true" />
             </div>
             <h3 class="text-xl font-bold mb-2 group-hover:text-synth-pink transition-colors">{project.title}</h3>
             <p class="text-[var(--text-secondary)] leading-relaxed mb-6 flex-grow">{project.description}</p>
@@ -95,13 +95,13 @@ const customSites = [
     <section class="space-y-8">
       <div class="space-y-2">
         <h2 class="text-3xl font-bold uppercase tracking-widest text-[var(--text-primary)]">Custom Built Solutions</h2>
-        <div class="w-24 h-1 bg-gradient-to-r from-synth-cyan to-synth-blue rounded-full"></div>
+        <div class="w-24 h-1 bg-gradient-to-r from-synth-cyan to-synth-blue rounded-full" aria-hidden="true"></div>
       </div>
       
       <div class="grid md:grid-cols-2 gap-6">
         {customSites.map(site => (
-          <a href={site.link} target="_blank" rel="noopener noreferrer" class="group flex items-start p-6 rounded-3xl bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-synth-cyan/50 transition-all hover:synth-glow-cyan">
-            <div class="p-3 rounded-2xl bg-synth-cyan/10 text-synth-cyan mr-4 mt-1 group-hover:scale-110 transition-transform">
+          <a href={site.link} target="_blank" rel="noopener noreferrer" class="group flex items-start p-6 rounded-3xl bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-synth-cyan/50 transition-all hover:synth-glow-cyan" aria-label={`Visit ${site.title} website`}>
+            <div class="p-3 rounded-2xl bg-synth-cyan/10 text-synth-cyan mr-4 mt-1 group-hover:scale-110 transition-transform" aria-hidden="true">
               <MonitorSmartphone class="w-6 h-6" />
             </div>
             <div class="flex-grow">
@@ -111,7 +111,7 @@ const customSites = [
               </div>
               <p class="text-[var(--text-secondary)] text-sm leading-relaxed">{site.description}</p>
             </div>
-            <ExternalLink class="w-4 h-4 text-[var(--text-secondary)] group-hover:text-synth-cyan ml-2 flex-shrink-0 mt-1" />
+            <ExternalLink class="w-4 h-4 text-[var(--text-secondary)] group-hover:text-synth-cyan ml-2 flex-shrink-0 mt-1" aria-hidden="true" />
           </a>
         ))}
       </div>

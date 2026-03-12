@@ -54,12 +54,12 @@ const interests = [
 
     {/* Featured Music Section */}
     <section class="space-y-8">
-      <div class="p-1 rounded-[2.5rem] bg-gradient-to-r from-synth-purple via-synth-pink to-synth-cyan animate-pulse opacity-70 blur-sm absolute -z-10 w-full h-full max-w-4xl"></div>
+      <div class="p-1 rounded-[2.5rem] bg-gradient-to-r from-synth-purple via-synth-pink to-synth-cyan animate-pulse opacity-70 blur-sm absolute -z-10 w-full h-full max-w-4xl" aria-hidden="true"></div>
       <div class="relative overflow-hidden rounded-[2.5rem] bg-[var(--card-bg)] border border-[var(--border-color)] p-8 md:p-12 shadow-2xl backdrop-blur-xl">
         <div class="flex flex-col md:flex-row gap-12 items-center">
           <div class="flex-1 space-y-6 text-center md:text-left">
             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-synth-purple/10 text-synth-purple text-xs font-bold uppercase tracking-widest">
-              <span class="relative flex h-2 w-2">
+              <span class="relative flex h-2 w-2" aria-hidden="true">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-synth-purple opacity-75"></span>
                 <span class="relative inline-flex rounded-full h-2 w-2 bg-synth-purple"></span>
               </span>
@@ -70,17 +70,17 @@ const interests = [
               Music isn't just background noise; it's the architecture of my focus. My rotations range from <strong>Classical</strong> and <strong>Jazz</strong> for deep work to <strong>Hip-Hop</strong>, <strong>Rap</strong>, and <strong>Alternative</strong> for everything else.
             </p>
             <div class="flex flex-wrap justify-center md:justify-start gap-4">
-              <a href="https://music.apple.com/profile/brentzey" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#fa243c]/10 text-[#fa243c] hover:bg-[#fa243c] hover:text-white transition-all font-bold uppercase tracking-widest text-sm border border-[#fa243c]/20">
-                <Music class="w-5 h-5" />
+              <a href="https://music.apple.com/profile/brentzey" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#fa243c]/10 text-[#fa243c] hover:bg-[#fa243c] hover:text-white transition-all font-bold uppercase tracking-widest text-sm border border-[#fa243c]/20" aria-label="Visit Brent Zey's Apple Music Profile">
+                <Music class="w-5 h-5" aria-hidden="true" />
                 Apple Music
               </a>
-              <a href="https://open.spotify.com/user/1261049078?si=i86wEaEGQnGJOycnCn0pJg" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#1DB954]/10 text-[#1DB954] hover:bg-[#1DB954] hover:text-white transition-all font-bold uppercase tracking-widest text-sm border border-[#1DB954]/20">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-.1.24-2.82-1.74-6.36-2.1-10.561-1.141-.418.122-.779-.179-.839-.539-.121-.418.179-.779.539-.839 4.5-.961 8.461-.539 11.641 1.5.359.24.48.66.24 1.021zM18.961 14.1c-.3.479-.9.6-1.379.3-3.239-1.979-8.159-2.519-11.939-1.38-.54.18-.1.019-.3.42-.18.54-.779.84-1.319.66-.54-.18-.84-.779-.66-1.319 4.38-1.32 9.78-.719 13.5 1.559.48.3.6.9.3 1.38zM19.08 10.68c-3.9-2.341-10.32-2.521-14.1-1.441a1.2 1.2 0 11-.661-2.34c4.321-1.321 11.401-1.021 15.9 1.681a1.2 1.2 0 01-1.14 2.1z"/></svg>
+              <a href="https://open.spotify.com/user/1261049078?si=i86wEaEGQnGJOycnCn0pJg" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#1DB954]/10 text-[#1DB954] hover:bg-[#1DB954] hover:text-white transition-all font-bold uppercase tracking-widest text-sm border border-[#1DB954]/20" aria-label="Visit Brent Zey's Spotify Profile">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-.1.24-2.82-1.74-6.36-2.1-10.561-1.141-.418.122-.779-.179-.839-.539-.121-.418.179-.779.539-.839 4.5-.961 8.461-.539 11.641 1.5.359.24.48.66.24 1.021zM18.961 14.1c-.3.479-.9.6-1.379.3-3.239-1.979-8.159-2.519-11.939-1.38-.54.18-.1.019-.3.42-.18.54-.779.84-1.319.66-.54-.18-.84-.779-.66-1.319 4.38-1.32 9.78-.719 13.5 1.559.48.3.6.9.3 1.38zM19.08 10.68c-3.9-2.341-10.32-2.521-14.1-1.441a1.2 1.2 0 11-.661-2.34c4.321-1.321 11.401-1.021 15.9 1.681a1.2 1.2 0 01-1.14 2.1z"/></svg>
                 Spotify
               </a>
             </div>
           </div>
-          <div class="w-full md:w-[320px] aspect-square relative group">
+          <div class="w-full md:w-[320px] aspect-square relative group" aria-hidden="true">
             <div class="absolute inset-0 bg-gradient-to-br from-synth-purple to-synth-pink rounded-[2rem] rotate-6 opacity-20 group-hover:rotate-12 transition-transform"></div>
             <div class="relative w-full h-full rounded-[2rem] bg-black/40 overflow-hidden border border-white/10 flex flex-col items-center justify-center p-6 space-y-6">
               {/* Fake Player UI */}
@@ -118,7 +118,7 @@ const interests = [
         return (
           <div class={`group p-8 rounded-3xl bg-[var(--card-bg)] border border-[var(--border-color)] transition-all ${item.borderColor} hover:shadow-lg flex flex-col h-full`}>
             <div class="flex items-center gap-4 mb-6">
-              <div class={`p-4 rounded-2xl ${item.bgColor} ${item.color} group-hover:scale-110 transition-transform`}>
+              <div class={`p-4 rounded-2xl ${item.bgColor} ${item.color} group-hover:scale-110 transition-transform`} aria-hidden="true">
                 <Icon class="w-8 h-8" />
               </div>
               <h2 class="text-2xl font-bold uppercase tracking-wider">{item.title}</h2>
@@ -129,11 +129,11 @@ const interests = [
             {item.links && (
               <div class="flex gap-6 mt-6 pt-6 border-t border-[var(--border-color)]">
                 {item.links.map(link => (
-                  <a href={link.url} target="_blank" rel="noopener noreferrer" class={`flex items-center gap-2 text-sm font-bold uppercase tracking-widest ${link.color} transition-colors group/link`}>
+                  <a href={link.url} target="_blank" rel="noopener noreferrer" class={`flex items-center gap-2 text-sm font-bold uppercase tracking-widest ${link.color} transition-colors group/link`} aria-label={`Brent Zey's ${link.label} Profile`}>
                     {link.label === "Apple Music" ? (
-                      <Music class="w-4 h-4 transition-transform group-hover/link:scale-110" />
+                      <Music class="w-4 h-4 transition-transform group-hover/link:scale-110" aria-hidden="true" />
                     ) : (
-                      <svg class="w-4 h-4 transition-transform group-hover/link:scale-110" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-.1.24-2.82-1.74-6.36-2.1-10.561-1.141-.418.122-.779-.179-.839-.539-.121-.418.179-.779.539-.839 4.5-.961 8.461-.539 11.641 1.5.359.24.48.66.24 1.021zM18.961 14.1c-.3.479-.9.6-1.379.3-3.239-1.979-8.159-2.519-11.939-1.38-.54.18-.1.019-.3.42-.18.54-.779.84-1.319.66-.54-.18-.84-.779-.66-1.319 4.38-1.32 9.78-.719 13.5 1.559.48.3.6.9.3 1.38zM19.08 10.68c-3.9-2.341-10.32-2.521-14.1-1.441a1.2 1.2 0 11-.661-2.34c4.321-1.321 11.401-1.021 15.9 1.681a1.2 1.2 0 01-1.14 2.1z"/></svg>
+                      <svg class="w-4 h-4 transition-transform group-hover/link:scale-110" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-.1.24-2.82-1.74-6.36-2.1-10.561-1.141-.418.122-.779-.179-.839-.539-.121-.418.179-.779.539-.839 4.5-.961 8.461-.539 11.641 1.5.359.24.48.66.24 1.021zM18.961 14.1c-.3.479-.9.6-1.379.3-3.239-1.979-8.159-2.519-11.939-1.38-.54.18-.1.019-.3.42-.18.54-.779.84-1.319.66-.54-.18-.84-.779-.66-1.319 4.38-1.32 9.78-.719 13.5 1.559.48.3.6.9.3 1.38zM19.08 10.68c-3.9-2.341-10.32-2.521-14.1-1.441a1.2 1.2 0 11-.661-2.34c4.321-1.321 11.401-1.021 15.9 1.681a1.2 1.2 0 01-1.14 2.1z"/></svg>
                     )}
                     {link.label}
                   </a>
