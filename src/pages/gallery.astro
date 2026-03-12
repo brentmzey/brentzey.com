@@ -50,6 +50,15 @@ const galleryImages = await Promise.all(
     };
   })
 );
+
+// Mobile-optimized: Only show a subset of images on mobile to prevent crashes
+const isMobile = false; // This is a server-side component, so we can't detect client-side here easily, 
+// but we can pass the logic to the React component which ALREADY has isLite detection.
+// However, to save build time and initial payload, we can just slice it here if we want a hard limit.
+// Let's pass ALL but let the MasonryGallery handle the "View More" or Lite mode.
+
+// Actually, the best way for performance is to NOT load all 33 in the DOM on mobile.
+// We will pass all images but MasonryGallery will be updated to only render a few on mobile.
 ---
 
 <Layout title="Gallery - Brent Zey">
@@ -76,12 +85,15 @@ const galleryImages = await Promise.all(
         <p class="text-xl md:text-2xl text-[var(--text-secondary)] leading-relaxed font-light max-w-2xl mx-auto subtle-letter-glow">
           A kinetic collection of select frames exploring landscapes, street scenes, and the geometry of daily life.
         </p>
+
+        <div class="md:hidden p-4 rounded-2xl bg-synth-cyan/5 border border-synth-cyan/20 text-xs font-bold uppercase tracking-widest text-synth-cyan/80">
+          Mobile Optimization Active // Performance Mode
+        </div>
         
         <div class="pt-8 flex flex-col sm:flex-row items-center justify-center gap-6">
-          <a href="https://photos.app.goo.gl/u2aaK1DFGrDbkwxx8" target="_blank" rel="noopener noreferrer" class="group relative inline-flex items-center gap-3 px-10 py-5 rounded-2xl liquid-glass-purple text-white font-bold uppercase tracking-[0.2em] transition-all hover:border-synth-cyan hover:synth-glow-cyan overflow-hidden" aria-label="View Brent Zey's full album on Google Photos">
-            <span class="relative z-10 drop-shadow-md">Google Photos Album</span>
+          <a href="https://photos.app.goo.gl/u2aaK1DFGrDbkwxx8" target="_blank" rel="noopener noreferrer" class="group relative inline-flex items-center gap-3 px-10 py-5 rounded-2xl bg-synth-purple text-white font-bold uppercase tracking-[0.2em] transition-all hover:bg-synth-cyan hover:synth-glow-cyan overflow-hidden shadow-xl" aria-label="View Brent Zey's full album on Google Photos">
+            <span class="relative z-10 drop-shadow-md">View Full Album</span>
             <ExternalLink class="relative z-10 w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform drop-shadow-md" aria-hidden="true" />
-            <div class="absolute inset-0 bg-gradient-to-r from-synth-purple/20 to-synth-cyan/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
           </a>
         </div>
       </section>
@@ -96,6 +108,13 @@ const galleryImages = await Promise.all(
           </div>
         )}
       </section>
+
+      <div class="flex justify-center pt-12">
+        <a href="https://photos.app.goo.gl/u2aaK1DFGrDbkwxx8" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-2 text-[var(--text-secondary)] hover:text-synth-cyan transition-colors font-bold uppercase tracking-widest text-sm">
+          More on Google Photos
+          <ExternalLink class="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+        </a>
+      </div>
     </div>
   </div>
 </Layout>

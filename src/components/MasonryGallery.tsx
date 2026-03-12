@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 
 interface Props {
   images: {
@@ -112,6 +112,7 @@ const GalleryItem = React.memo(({ src, srcSet, placeholder, index, isLite, isEag
 export default function MasonryGallery({ images }: Props) {
   const [isLite, setIsLite] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [displayCount, setDisplayCount] = useState(33); // Default to all
 
   useEffect(() => {
     // Detect "Lite" Mode (Slow Internet or Weak Device)
@@ -119,6 +120,14 @@ export default function MasonryGallery({ images }: Props) {
       let lite = false;
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
+      
+      // On mobile, start with fewer images for stability
+      if (mobile) {
+        setDisplayCount(8);
+        lite = true;
+      } else {
+        setDisplayCount(images.length);
+      }
       
       // 1. Connection check (Slow 2G/3G or Save Data)
       const conn = (navigator as any).connection;
@@ -146,16 +155,16 @@ export default function MasonryGallery({ images }: Props) {
         lite = true;
       }
 
-      // 5. Always use lite on mobile for gallery to ensure smoothness
-      if (mobile) lite = true;
-
       setIsLite(lite);
     };
 
     checkPerformance();
     window.addEventListener('resize', checkPerformance);
     return () => window.removeEventListener('resize', checkPerformance);
-  }, []);
+  }, [images.length]);
+
+  const visibleImages = images.slice(0, displayCount);
+  const hasMore = displayCount < images.length;
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -166,8 +175,9 @@ export default function MasonryGallery({ images }: Props) {
           </p>
         </div>
       )}
+      
       <div className="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8">
-        {images.map((img, idx) => (
+        {visibleImages.map((img, idx) => (
           <GalleryItem 
             key={img.src} 
             src={img.src} 
@@ -179,6 +189,20 @@ export default function MasonryGallery({ images }: Props) {
           />
         ))}
       </div>
+
+      {hasMore && (
+        <div className="mt-16 flex flex-col items-center gap-4">
+          <button 
+            onClick={() => setDisplayCount(prev => prev + 12)}
+            className="px-10 py-4 rounded-2xl liquid-glass border border-synth-cyan/30 text-synth-cyan font-bold uppercase tracking-widest hover:bg-synth-cyan/10 transition-all"
+          >
+            Load More Photos
+          </button>
+          <p className="text-[var(--text-secondary)] text-xs font-bold uppercase tracking-tighter">
+            Showing {displayCount} of {images.length}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
