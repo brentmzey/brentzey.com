@@ -239,48 +239,50 @@
   .neon-card-glow {
     box-shadow: 0 0 20px rgba(0, 243, 255, 0.15), inset 0 0 10px rgba(0, 243, 255, 0.05);
   }
+}
 
-  /* Apple-style Liquid Glass Effect */
-  .liquid-glass {
-    backdrop-filter: blur(20px) saturate(200%);
-    -webkit-backdrop-filter: blur(20px) saturate(200%);
-    background: rgba(255, 255, 255, 0.02); /* More transparent */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 
-      0 4px 24px -1px rgba(0, 0, 0, 0.2),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.02);
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
+/* Apple-style Liquid Glass Effect */
+@utility liquid-glass {
+  backdrop-filter: blur(20px) saturate(200%);
+  -webkit-backdrop-filter: blur(20px) saturate(200%);
+  background: rgba(255, 255, 255, 0.02); /* More transparent */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 4px 24px -1px rgba(0, 0, 0, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 
-  .dark .liquid-glass {
+  @variant dark {
     background: rgba(9, 24, 51, 0.2); /* More transparent */
     border: 1px solid rgba(0, 243, 255, 0.1);
     box-shadow: 
       0 4px 24px -1px rgba(0, 0, 0, 0.6),
       inset 0 0 0 1px rgba(0, 243, 255, 0.03);
   }
+}
 
-  /* Tinted Glass Variants */
-  .liquid-glass-cyan {
-    @apply liquid-glass;
-    background: rgba(0, 243, 255, 0.03);
-    border-color: rgba(0, 243, 255, 0.2);
-  }
+/* Tinted Glass Variants */
+@utility liquid-glass-cyan {
+  @apply liquid-glass;
+  background: rgba(0, 243, 255, 0.03);
+  border-color: rgba(0, 243, 255, 0.2);
 
-  .dark .liquid-glass-cyan {
+  @variant dark {
     background: rgba(0, 243, 255, 0.05);
   }
+}
 
-  .liquid-glass-purple {
-    @apply liquid-glass;
-    background: rgba(157, 0, 255, 0.03);
-    border-color: rgba(157, 0, 255, 0.2);
-  }
+@utility liquid-glass-purple {
+  @apply liquid-glass;
+  background: rgba(157, 0, 255, 0.03);
+  border-color: rgba(157, 0, 255, 0.2);
 
-  .dark .liquid-glass-purple {
+  @variant dark {
     background: rgba(157, 0, 255, 0.05);
   }
+}
 
+@layer utilities {
   /* Retro Digital Dots */
   .digital-rain {
     position: absolute;
