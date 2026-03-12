@@ -61,7 +61,7 @@
   /* Rotating/Oscillating Neon Glow behind names */
   .neon-glow-container {
     position: absolute;
-    inset: -60%;
+    inset: -100%;
     z-index: -1;
     display: flex;
     align-items: center;
@@ -72,40 +72,40 @@
 
   .neon-glow-rotating {
     position: absolute;
-    width: 160%;
-    height: 160%;
+    width: 180%;
+    height: 180%;
     background: conic-gradient(from 0deg, var(--synth-cyan), var(--synth-purple), var(--synth-pink), var(--synth-purple), var(--synth-cyan));
-    --glow-blur: 85px;
+    --glow-blur: 100px;
     filter: blur(var(--glow-blur));
-    opacity: 0.85;
+    opacity: 0.95;
     animation: 
-      rotate-glow 10s linear infinite, 
-      oscillate-opacity 5s ease-in-out infinite alternate, 
-      liquid-morph 7s ease-in-out infinite alternate,
-      glow-hue-shift 12s linear infinite;
+      rotate-glow 8s linear infinite, 
+      oscillate-opacity 4s ease-in-out infinite alternate, 
+      liquid-morph 6s ease-in-out infinite alternate,
+      glow-hue-shift 10s linear infinite;
   }
 
   .neon-glow-rotating-alt {
     position: absolute;
-    width: 150%;
-    height: 150%;
+    width: 170%;
+    height: 170%;
     background: conic-gradient(from 180deg, var(--synth-pink), var(--synth-cyan), var(--synth-purple), var(--synth-cyan), var(--synth-pink));
-    --glow-blur: 95px;
+    --glow-blur: 110px;
     filter: blur(var(--glow-blur));
-    opacity: 0.75;
+    opacity: 0.85;
     animation: 
-      rotate-glow-rev 12s linear infinite, 
-      oscillate-opacity 7s ease-in-out infinite alternate-reverse, 
-      liquid-morph-alt 9s ease-in-out infinite alternate,
-      glow-hue-shift-alt 15s linear infinite reverse;
+      rotate-glow-rev 10s linear infinite, 
+      oscillate-opacity 6s ease-in-out infinite alternate-reverse, 
+      liquid-morph-alt 8s ease-in-out infinite alternate,
+      glow-hue-shift-alt 13s linear infinite reverse;
   }
 
   /* Adjust blend mode for light mode to maintain contrast */
   :root:not(.dark) .neon-glow-rotating,
   :root:not(.dark) .neon-glow-rotating-alt {
     mix-blend-mode: multiply;
-    opacity: 0.45;
-    --glow-blur: 65px;
+    opacity: 0.6;
+    --glow-blur: 80px;
     filter: blur(var(--glow-blur));
   }
 
@@ -180,12 +180,12 @@
   /* Water-like flowing background blobs */
   .water-flow-container {
     position: absolute;
-    inset: -150px;
+    inset: -200px;
     z-index: -5;
     pointer-events: none;
     overflow: hidden;
-    filter: blur(100px);
-    opacity: 0.5;
+    filter: blur(120px);
+    opacity: 0.75;
   }
 
   .water-blob {
@@ -313,11 +313,21 @@
   /* Parallax Layer Styles */
   .parallax-container {
     perspective: 1px;
+    height: 100vh;
     height: 100dvh;
     overflow-x: hidden;
     overflow-y: auto;
-    overscroll-behavior-y: contain; /* Enable mobile pull-to-refresh on most browsers */
+    overscroll-behavior-y: contain;
     -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  .parallax-layer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    will-change: transform;
   }
 
   /* Reduce animation complexity on slow devices or reduced motion preference */
@@ -326,13 +336,15 @@
       animation: none !important;
       transition: none !important;
     }
-  }
-
-  .parallax-layer {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
+    .parallax-container {
+      perspective: none !important;
+      scroll-behavior: auto !important;
+    }
+    .parallax-layer {
+      position: relative !important;
+      transform: none !important;
+      will-change: auto !important;
+    }
   }
 
   .parallax-layer-pinned {

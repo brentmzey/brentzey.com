@@ -71,14 +71,14 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
   <body class="bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans antialiased min-h-screen flex flex-col selection:bg-synth-pink selection:text-white transition-colors duration-300 overflow-hidden">
     
     {/* Parallax Wrapper */}
-    <div class="parallax-container h-[100dvh] w-full overscroll-bounce">
+    <div class="parallax-container h-screen w-full overscroll-none overflow-y-auto overflow-x-hidden">
       
       {/* Background Layers */}
       <div class="parallax-layer parallax-bg-slow pointer-events-none">
-        <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,var(--accent-glow),transparent)] opacity-50"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,var(--accent-glow),transparent)] opacity-60"></div>
         <div class="absolute inset-0 pixel-grid"></div>
-        <div class="absolute inset-0 techno-lines opacity-25"></div>
-        <div class="absolute inset-0 bg-gradient-to-b from-synth-cyan/5 via-transparent to-synth-pink/5 opacity-30"></div>
+        <div class="absolute inset-0 techno-lines opacity-30"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-synth-cyan/10 via-transparent to-synth-pink/10 opacity-40"></div>
         
         {/* Flowing Water Background Glow */}
         <div class="water-flow-container">
@@ -128,8 +128,8 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
       </div>
 
       <div class="parallax-layer parallax-bg-med pointer-events-none">
-        <div class="absolute top-[20%] left-[10%] w-64 h-64 bg-synth-cyan/10 blur-[120px] rounded-full animate-float md:block hidden"></div>
-        <div class="absolute bottom-[20%] right-[10%] w-96 h-96 bg-synth-pink/10 blur-[150px] rounded-full animate-float md:block hidden" style="animation-delay: -2s"></div>
+        <div class="absolute top-[20%] left-[10%] w-64 h-64 bg-synth-cyan/20 blur-[100px] rounded-full animate-float md:block hidden"></div>
+        <div class="absolute bottom-[20%] right-[10%] w-96 h-96 bg-synth-pink/20 blur-[120px] rounded-full animate-float md:block hidden" style="animation-delay: -2s"></div>
       </div>
 
       {/* Main Content Layer */}
@@ -178,14 +178,14 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
         </nav>
 
         {/* Mobile Header (Brand + Theme Only) */}
-        <header class="md:hidden sticky top-0 z-50 backdrop-blur-md bg-[var(--nav-bg)] border-b border-[var(--border-color)] px-6 h-16 flex items-center justify-between">
+        <header class="md:hidden sticky top-0 z-50 backdrop-blur-md bg-[var(--nav-bg)] border-b border-[var(--border-color)] px-6 pt-[env(safe-area-inset-top)] h-[calc(4rem+env(safe-area-inset-top))] flex items-center justify-between transition-all">
           <a href="/" class="relative flex items-center group">
             <span class="text-lg font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-synth-cyan via-synth-purple to-synth-pink uppercase synth-text-glow relative z-10">BRENT ZEY</span>
-            <div class="neon-glow-container opacity-40">
+            <div class="neon-glow-container opacity-60">
               <div class="neon-glow-rotating scale-75"></div>
-              <div class="neon-glow-rotating-alt scale-75 opacity-30"></div>
+              <div class="neon-glow-rotating-alt scale-75 opacity-40"></div>
             </div>
-            <div class="absolute -inset-2 bg-synth-cyan/5 blur-lg -z-10 rounded-full"></div>
+            <div class="absolute -inset-4 bg-synth-cyan/10 blur-xl -z-10 rounded-full"></div>
           </a>
           <div class="relative flex items-center p-1 rounded-full bg-[var(--card-bg)] border border-[var(--border-color)] w-[80px] h-8 shadow-inner" role="group" aria-label="Theme selection">
             <div id="themeThumbMobile" class="absolute top-[3px] left-[3px] w-6 h-6 rounded-full bg-white dark:bg-slate-800 shadow-md transition-all duration-300 flex items-center justify-center pointer-events-none z-20">
@@ -199,7 +199,7 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
           </div>
         </header>
 
-        <main class="flex-grow" role="main">
+        <main class="flex-grow pb-32 md:pb-0" role="main">
           <slot />
         </main>
 
