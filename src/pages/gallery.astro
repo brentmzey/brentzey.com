@@ -1,64 +1,101 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Camera, ExternalLink, Image as ImageIcon } from 'lucide-react';
+import { Camera, ExternalLink } from 'lucide-react';
+import MasonryGallery from '../components/MasonryGallery.tsx';
+import { getImage } from "astro:assets";
 
-const placeholders = [
-  { id: 1, aspect: 'aspect-[4/3]', color: 'from-synth-cyan/20 to-synth-blue/20', delay: '0ms' },
-  { id: 2, aspect: 'aspect-[3/4]', color: 'from-synth-pink/20 to-synth-purple/20', delay: '100ms' },
-  { id: 3, aspect: 'aspect-square', color: 'from-synth-periwinkle/20 to-synth-cyan/20', delay: '200ms' },
-  { id: 4, aspect: 'aspect-[16/9]', color: 'from-synth-purple/20 to-synth-blue/20', delay: '300ms' },
-  { id: 5, aspect: 'aspect-[3/4]', color: 'from-synth-cyan/20 to-synth-pink/20', delay: '400ms' },
-  { id: 6, aspect: 'aspect-[4/3]', color: 'from-synth-blue/20 to-synth-periwinkle/20', delay: '500ms' },
-];
+// Dynamically import all gallery images from assets
+const images = import.meta.glob('../assets/gallery/*.{jpeg,jpg,png,webp}');
+const imageMetadata = await Promise.all(
+  Object.values(images).map((img) => img())
+);
+
+// Optimize each image for high-definition rendering (2x/3x support)
+const galleryImages = await Promise.all(
+  imageMetadata.map(async (img: any) => {
+    const optimized = await getImage({
+      src: img.default,
+      width: 1200, // High base width for HD
+      quality: 90, // Higher quality for photography
+      format: 'webp' // Modern efficient format
+    });
+    
+    // Generate a 2x version for retina displays
+    const retina = await getImage({
+      src: img.default,
+      width: 2400,
+      quality: 85,
+      format: 'webp'
+    });
+
+    return {
+      src: optimized.src,
+      srcSet: `${optimized.src} 1x, ${retina.src} 2x`,
+      width: img.default.width,
+      height: img.default.height,
+    };
+  })
+);
 ---
 
 <Layout title="Gallery - Brent Zey">
-  <div class="max-w-6xl mx-auto px-6 py-16 md:py-24 space-y-16 animate-fade-in">
-    
-    <section class="space-y-6 text-center max-w-3xl mx-auto">
-      <div class="inline-flex p-4 rounded-full bg-synth-purple/10 text-synth-purple mb-4" aria-hidden="true">
-        <Camera class="w-10 h-10" />
-      </div>
-      <h1 class="text-5xl md:text-6xl font-black uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-synth-purple to-synth-cyan synth-text-glow">Photography</h1>
-      <p class="text-xl text-[var(--text-secondary)] leading-relaxed font-light">
-        A curated portfolio of select shots exploring landscapes, street photography, and daily life.
-      </p>
+  <div class="relative min-h-screen overflow-hidden">
+    {/* Background Decorative Elements */}
+    <div class="absolute inset-0 pixel-grid pointer-events-none" aria-hidden="true"></div>
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-synth-purple/5 blur-[120px] rounded-full pointer-events-none" aria-hidden="true"></div>
+    <div class="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-synth-cyan/5 blur-[150px] rounded-full pointer-events-none" aria-hidden="true"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 py-16 md:py-24 space-y-12">
       
-      <div class="pt-8">
-        <a href="https://photos.app.goo.gl/u2aaK1DFGrDbkwxx8" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-synth-purple/10 border border-synth-purple hover:bg-synth-purple/20 text-[var(--text-primary)] font-bold uppercase tracking-widest transition-all hover:synth-glow-pink" aria-label="View Brent Zey's full album on Google Photos">
-          View Full Google Photos Album
-          <ExternalLink class="w-5 h-5" aria-hidden="true" />
-        </a>
-      </div>
-    </section>
-
-    {/* Gallery Grid */}
-    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-12" aria-label="Photography gallery">
-      {/* 
-        DEVELOPER INSTRUCTION:
-        To add real images, replace the inner <div> containing the gradients with standard <img> tags.
-        Ensure you use absolute or hosted URLs (e.g. from a CDN or a local public/ folder).
-      */}
-      {placeholders.map((item) => (
-        <div class={`relative group rounded-3xl overflow-hidden bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-synth-cyan/50 transition-all duration-500 hover:synth-glow-cyan animate-fade-in`} style={`animation-delay: ${item.delay}`}>
-          
-          {/* Placeholder Gradient Background */}
-          <div class={`w-full ${item.aspect} bg-gradient-to-br ${item.color} flex flex-col items-center justify-center relative overflow-hidden`} role="img" aria-label={`Placeholder for image ${item.id}`}>
-            
-            {/* Animated Scanline Effect */}
-            <div class="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.1)_50%)] bg-[length:100%_4px] opacity-20 pointer-events-none" aria-hidden="true"></div>
-            
-            <ImageIcon class="w-12 h-12 text-[var(--text-secondary)] opacity-50 mb-4 group-hover:scale-110 transition-transform duration-500" aria-hidden="true" />
-            <span class="text-xs font-bold uppercase tracking-widest text-[var(--text-secondary)] opacity-50">Image {item.id} Placeholder</span>
-          </div>
-
-          {/* Hover Overlay */}
-          <div class="absolute inset-0 bg-[var(--bg-primary)]/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center border-2 border-transparent group-hover:border-synth-cyan rounded-3xl" aria-hidden="true">
-            <span class="font-bold text-synth-cyan uppercase tracking-widest">View Image</span>
-          </div>
+      <section class="space-y-6 text-center max-w-4xl mx-auto animate-fade-in">
+        <div class="inline-flex p-5 rounded-3xl bg-synth-purple/10 text-synth-purple mb-6 border border-synth-purple/20 relative group" aria-hidden="true">
+          <Camera class="w-10 h-10 group-hover:scale-110 transition-transform duration-500" />
+          <div class="absolute inset-0 rounded-3xl bg-synth-purple/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
         </div>
-      ))}
-    </section>
+        
+        <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none">
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-synth-purple via-synth-periwinkle to-synth-cyan synth-text-glow">
+            Photography
+          </span>
+        </h1>
+        
+        <p class="text-xl md:text-2xl text-[var(--text-secondary)] leading-relaxed font-light max-w-2xl mx-auto subtle-letter-glow">
+          A kinetic collection of select frames exploring landscapes, street scenes, and the geometry of daily life.
+        </p>
+        
+        <div class="pt-8 flex flex-col sm:flex-row items-center justify-center gap-6">
+          <a href="https://photos.app.goo.gl/u2aaK1DFGrDbkwxx8" target="_blank" rel="noopener noreferrer" class="group relative inline-flex items-center gap-3 px-10 py-5 rounded-2xl bg-synth-dark border border-synth-purple/50 text-white font-bold uppercase tracking-[0.2em] transition-all hover:border-synth-cyan hover:synth-glow-cyan overflow-hidden" aria-label="View Brent Zey's full album on Google Photos">
+            <span class="relative z-10">Google Photos Album</span>
+            <ExternalLink class="relative z-10 w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" aria-hidden="true" />
+            <div class="absolute inset-0 bg-gradient-to-r from-synth-purple/20 to-synth-cyan/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          </a>
+        </div>
+      </section>
 
+      {/* Dynamic Masonry Gallery */}
+      <section class="pt-12" aria-label="Photography gallery">
+        {galleryImages.length > 0 ? (
+          <MasonryGallery images={galleryImages} client:load />
+        ) : (
+          <div class="text-center py-24 rounded-3xl border-2 border-dashed border-[var(--border-color)] bg-[var(--card-bg)]">
+            <p class="text-[var(--text-secondary)] font-bold uppercase tracking-widest">No photos found in gallery assets.</p>
+          </div>
+        )}
+      </section>
+
+      {/* Footer Note */}
+      <footer class="text-center pt-24 pb-12 opacity-50">
+        <p class="text-xs font-bold uppercase tracking-[0.3em] text-[var(--text-secondary)]">
+          &copy; {new Date().getFullYear()} Brent Zey // All Rights Reserved
+        </p>
+      </footer>
+    </div>
   </div>
 </Layout>
+
+<style>
+  /* Custom scroll behavior for this page */
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+</style>
