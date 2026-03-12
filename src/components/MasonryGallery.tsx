@@ -11,7 +11,7 @@ interface Props {
   }[];
 }
 
-const GalleryItem = React.memo(({ src, srcSet, placeholder, index, isLite }: { src: string; srcSet: string; placeholder: string; index: number; isLite: boolean }) => {
+const GalleryItem = React.memo(({ src, srcSet, placeholder, index, isLite, isEager }: { src: string; srcSet: string; placeholder: string; index: number; isLite: boolean; isEager: boolean }) => {
   const ref = useRef(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const [container, setContainer] = useState<HTMLElement | null>(null);
@@ -81,7 +81,8 @@ const GalleryItem = React.memo(({ src, srcSet, placeholder, index, isLite }: { s
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         alt={`Photography piece ${index + 1}`}
         className={`w-full h-auto object-cover transform transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${!isLite && 'group-hover:scale-110'}`}
-        loading="lazy"
+        loading={isEager ? "eager" : "lazy"}
+        fetchPriority={isEager ? "high" : "auto"}
         onLoad={() => setIsLoaded(true)}
         decoding="async"
       />
@@ -167,7 +168,15 @@ export default function MasonryGallery({ images }: Props) {
       )}
       <div className="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8">
         {images.map((img, idx) => (
-          <GalleryItem key={img.src} src={img.src} srcSet={img.srcSet} placeholder={img.placeholder} index={idx} isLite={isLite} />
+          <GalleryItem 
+            key={img.src} 
+            src={img.src} 
+            srcSet={img.srcSet} 
+            placeholder={img.placeholder} 
+            index={idx} 
+            isLite={isLite} 
+            isEager={idx < 3} // Eager load first row
+          />
         ))}
       </div>
     </div>

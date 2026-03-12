@@ -13,36 +13,33 @@ const imageMetadata = await Promise.all(
 // Optimize each image for balanced performance and quality
 const galleryImages = await Promise.all(
   imageMetadata.map(async (img: any) => {
-    // Generate a tiny blurred version for LQIP (Low Quality Image Placeholder)
-    const lqip = await getImage({
-      src: img.default,
-      width: 30,
-      quality: 10,
-      format: 'webp'
-    });
-
-    // Mobile-optimized version
-    const mobile = await getImage({
-      src: img.default,
-      width: 500,
-      quality: 60,
-      format: 'avif'
-    });
-
-    const optimized = await getImage({
-      src: img.default,
-      width: 1000, 
-      quality: 70,
-      format: 'avif'
-    });
-    
-    // Generate a 1.6x version for retina displays
-    const retina = await getImage({
-      src: img.default,
-      width: 1600,
-      quality: 60,
-      format: 'avif'
-    });
+    // Parallelize all image transformations for this specific image
+    const [lqip, mobile, optimized, retina] = await Promise.all([
+      getImage({
+        src: img.default,
+        width: 50, // Slightly larger for better initial look
+        quality: 30,
+        format: 'webp'
+      }),
+      getImage({
+        src: img.default,
+        width: 500,
+        quality: 60,
+        format: 'avif'
+      }),
+      getImage({
+        src: img.default,
+        width: 1000, 
+        quality: 70,
+        format: 'avif'
+      }),
+      getImage({
+        src: img.default,
+        width: 1600,
+        quality: 60,
+        format: 'avif'
+      })
+    ]);
 
     return {
       src: optimized.src,
