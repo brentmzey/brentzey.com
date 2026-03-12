@@ -68,7 +68,7 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
       });
     </script>
   </head>
-  <body class="bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans antialiased min-h-screen flex flex-col selection:bg-synth-pink selection:text-white transition-colors duration-300 overflow-hidden">
+  <body class="bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans antialiased min-h-screen flex flex-col selection:bg-synth-pink selection:text-white transition-colors duration-300">
     
     {/* Fixed Background Layers - Seamless & Always On Screen */}
     <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
@@ -87,7 +87,7 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
 
       {/* Digital Rain / Dripping Dots - Optimized for performance */}
       <div class="digital-rain">
-        {Array.from({ length: 40 }).map((_, i) => {
+        {Array.from({ length: 20 }).map((_, i) => {
           const colors = ['#00f3ff', '#9d00ff', '#ff00ea', '#a49aff'];
           const color = colors[i % colors.length];
           
@@ -103,12 +103,9 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
           const speedMultiplier = 0.5 + depth * 1.5;
           const finalDuration = (duration / speedMultiplier).toFixed(2);
 
-          // Significantly fewer rain drops on mobile
-          if (i > 8) return <div class="hidden md:block dotted-column" style={`left: ${left}%; top: ${startPos}px; animation-delay: ${delay}s; animation-duration: ${finalDuration}s; --rain-color: ${color}; --rain-size: ${size}px; --rain-opacity: ${opacity}; --rain-blur: ${blur}px;`}></div>;
-
           return (
             <div 
-              class="dotted-column"
+              class={`dotted-column ${i > 5 ? 'hidden md:block' : ''}`}
               style={`
                 left: ${left}%; 
                 top: ${startPos}px; 

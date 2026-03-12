@@ -11,16 +11,19 @@ interface Props {
   }[];
 }
 
-const GalleryItem = ({ src, srcSet, placeholder, index, isLite }: { src: string; srcSet: string; placeholder: string; index: number; isLite: boolean }) => {
+const GalleryItem = React.memo(({ src, srcSet, placeholder, index, isLite }: { src: string; srcSet: string; placeholder: string; index: number; isLite: boolean }) => {
   const ref = useRef(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const [container, setContainer] = useState<HTMLElement | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const scrollContainer = document.querySelector('.parallax-container') as HTMLElement;
-    if (scrollContainer) setContainer(scrollContainer);
-  }, []);
+    // Only use custom scroll container on desktop where parallax is active
+    if (!isLite && window.innerWidth >= 768) {
+      const scrollContainer = document.querySelector('.parallax-container') as HTMLElement;
+      if (scrollContainer) setContainer(scrollContainer);
+    }
+  }, [isLite]);
 
   // Handle cached images where onLoad might not fire
   useEffect(() => {
@@ -36,7 +39,6 @@ const GalleryItem = ({ src, srcSet, placeholder, index, isLite }: { src: string;
     offset: ["start end", "end start"]
   });
 
-  // Soft parallax effect - move slightly slower/faster than scroll
   // Disable parallax on lite devices
   const yRange = useTransform(scrollYProgress, [0, 1], isLite ? [0, 0] : [30, -30]);
   const y = useSpring(yRange, { stiffness: 100, damping: 30, restDelta: 0.001 });
@@ -44,19 +46,19 @@ const GalleryItem = ({ src, srcSet, placeholder, index, isLite }: { src: string;
   return (
     <motion.div
       ref={ref}
-      style={{ y }}
-      initial={{ opacity: 0, y: isLite ? 20 : 60, scale: isLite ? 1 : 0.9 }}
+      style={isLite ? {} : { y }}
+      initial={isLite ? { opacity: 0 } : { opacity: 0, y: 60, scale: 0.9 }}
       whileInView={{ 
         opacity: 1, 
         y: 0, 
         scale: 1,
         transition: {
-          duration: isLite ? 0.4 : 0.8,
-          delay: isLite ? 0 : (index % 3) * 0.1, // Stagger based on column-ish position
-          ease: isLite ? "easeOut" : [0.21, 1.02, 0.47, 0.98] // Custom cubic-bezier for "soft" feel
+          duration: isLite ? 0.3 : 0.8,
+          delay: isLite ? 0 : (index % 3) * 0.1,
+          ease: isLite ? "easeOut" : [0.21, 1.02, 0.47, 0.98]
         }
       }}
-      viewport={{ once: true, margin: isLite ? "50px" : "-100px" }}
+      viewport={{ once: true, margin: isLite ? "100px" : "-100px" }}
       whileHover={isLite ? {} : { 
         scale: 1.02,
         transition: { type: "spring", stiffness: 400, damping: 10 }
@@ -85,9 +87,9 @@ const GalleryItem = ({ src, srcSet, placeholder, index, isLite }: { src: string;
       />
       
       {/* Dynamic Overlay */}
-      <div className={`absolute inset-0 liquid-glass-cyan opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 md:p-8 ${isLite ? 'hidden sm:flex' : 'flex'}`}>
+      <div className={`absolute inset-0 liquid-glass-cyan opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 md:p-8 ${isLite ? 'hidden' : 'flex'}`}>
         <motion.div 
-          initial={isLite ? { opacity: 0 } : { y: 20, opacity: 0 }}
+          initial={{ y: 20, opacity: 0 }}
           whileHover={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.3 }}
           className="space-y-2"
@@ -98,13 +100,13 @@ const GalleryItem = ({ src, srcSet, placeholder, index, isLite }: { src: string;
         </motion.div>
       </div>
 
-      {/* Animated Scanline Overlay (matching site theme) - Disable on Lite for better performance */}
+      {/* Animated Scanline Overlay - Disable on Lite */}
       {!isLite && (
         <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.05)_50%)] bg-[length:100%_4px] pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity"></div>
       )}
     </motion.div>
   );
-};
+});
 
 export default function MasonryGallery({ images }: Props) {
   const [isLite, setIsLite] = useState(false);

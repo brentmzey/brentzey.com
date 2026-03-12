@@ -16,37 +16,37 @@ const galleryImages = await Promise.all(
     // Generate a tiny blurred version for LQIP (Low Quality Image Placeholder)
     const lqip = await getImage({
       src: img.default,
-      width: 20,
-      quality: 20,
+      width: 30,
+      quality: 10,
       format: 'webp'
     });
 
     // Mobile-optimized version
     const mobile = await getImage({
       src: img.default,
-      width: 600,
-      quality: 70,
+      width: 500,
+      quality: 60,
       format: 'avif'
     });
 
     const optimized = await getImage({
       src: img.default,
-      width: 1200, 
-      quality: 80,
+      width: 1000, 
+      quality: 70,
       format: 'avif'
     });
     
-    // Generate a 2x version for retina displays (high-end desktop/tablets)
+    // Generate a 1.6x version for retina displays
     const retina = await getImage({
       src: img.default,
-      width: 2000,
-      quality: 75,
+      width: 1600,
+      quality: 60,
       format: 'avif'
     });
 
     return {
       src: optimized.src,
-      srcSet: `${mobile.src} 600w, ${optimized.src} 1200w, ${retina.src} 2000w`,
+      srcSet: `${mobile.src} 500w, ${optimized.src} 1000w, ${retina.src} 1600w`,
       placeholder: lqip.src,
       width: img.default.width,
       height: img.default.height,
