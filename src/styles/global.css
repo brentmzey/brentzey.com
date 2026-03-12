@@ -27,10 +27,10 @@
     --bg-primary: #020617; /* Synth dark */
     --text-primary: #f8fafc;
     --text-secondary: #94a3b8;
-    --accent-glow: rgba(255, 0, 234, 0.3);
-    --border-color: rgba(0, 243, 255, 0.2);
-    --nav-bg: rgba(2, 6, 23, 0.8);
-    --card-bg: rgba(9, 24, 51, 0.6);
+    --accent-glow: rgba(255, 0, 234, 0.45);
+    --border-color: rgba(0, 243, 255, 0.25);
+    --nav-bg: rgba(2, 6, 23, 0.85);
+    --card-bg: rgba(9, 24, 51, 0.7);
   }
 
   body {
@@ -42,20 +42,20 @@
 
 @layer utilities {
   .synth-glow-cyan {
-    box-shadow: 0 0 10px rgba(0, 243, 255, 0.5), 0 0 20px rgba(0, 243, 255, 0.3);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.6), 0 0 30px rgba(0, 243, 255, 0.4);
   }
   
   .synth-glow-pink {
-    box-shadow: 0 0 10px rgba(255, 0, 234, 0.5), 0 0 20px rgba(255, 0, 234, 0.3);
+    box-shadow: 0 0 15px rgba(255, 0, 234, 0.6), 0 0 30px rgba(255, 0, 234, 0.4);
   }
 
   /* Subtle per-letter glow for whole paragraphs */
   .subtle-letter-glow {
-    text-shadow: 0 0 4px rgba(255, 255, 255, 0.15);
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
   }
 
   .dark .subtle-letter-glow {
-    text-shadow: 0 0 4px rgba(255, 255, 255, 0.1);
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.15);
   }
 
   /* Rotating/Oscillating Neon Glow behind names */
@@ -75,9 +75,9 @@
     width: 160%;
     height: 160%;
     background: conic-gradient(from 0deg, var(--synth-cyan), var(--synth-purple), var(--synth-pink), var(--synth-purple), var(--synth-cyan));
-    --glow-blur: 65px;
+    --glow-blur: 85px;
     filter: blur(var(--glow-blur));
-    opacity: 0.7;
+    opacity: 0.85;
     animation: 
       rotate-glow 10s linear infinite, 
       oscillate-opacity 5s ease-in-out infinite alternate, 
@@ -90,9 +90,9 @@
     width: 150%;
     height: 150%;
     background: conic-gradient(from 180deg, var(--synth-pink), var(--synth-cyan), var(--synth-purple), var(--synth-cyan), var(--synth-pink));
-    --glow-blur: 75px;
+    --glow-blur: 95px;
     filter: blur(var(--glow-blur));
-    opacity: 0.55;
+    opacity: 0.75;
     animation: 
       rotate-glow-rev 12s linear infinite, 
       oscillate-opacity 7s ease-in-out infinite alternate-reverse, 
@@ -104,8 +104,8 @@
   :root:not(.dark) .neon-glow-rotating,
   :root:not(.dark) .neon-glow-rotating-alt {
     mix-blend-mode: multiply;
-    opacity: 0.35;
-    --glow-blur: 55px;
+    opacity: 0.45;
+    --glow-blur: 65px;
     filter: blur(var(--glow-blur));
   }
 
@@ -155,20 +155,21 @@
   }
 
   .synth-text-glow {
-    text-shadow: 0 0 8px rgba(0, 243, 255, 0.3), 0 0 12px rgba(0, 243, 255, 0.1);
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.45), 0 0 20px rgba(0, 243, 255, 0.2), 0 0 30px rgba(0, 243, 255, 0.1);
   }
 
   .synth-text-glow-pink {
-    text-shadow: 0 0 8px rgba(255, 0, 234, 0.3), 0 0 12px rgba(255, 0, 234, 0.1);
+    text-shadow: 0 0 10px rgba(255, 0, 234, 0.45), 0 0 20px rgba(255, 0, 234, 0.2), 0 0 30px rgba(255, 0, 234, 0.1);
   }
 
   .synth-text-glow-strong {
-    text-shadow: 0 0 12px rgba(0, 243, 255, 0.5), 0 0 25px rgba(0, 243, 255, 0.25);
+    text-shadow: 0 0 15px rgba(0, 243, 255, 0.65), 0 0 30px rgba(0, 243, 255, 0.35), 0 0 45px rgba(0, 243, 255, 0.15);
   }
 
   .synth-text-glow-strong-pink {
-    text-shadow: 0 0 12px rgba(255, 0, 234, 0.5), 0 0 25px rgba(255, 0, 234, 0.25);
+    text-shadow: 0 0 15px rgba(255, 0, 234, 0.65), 0 0 30px rgba(255, 0, 234, 0.35), 0 0 45px rgba(255, 0, 234, 0.15);
   }
+
 
   /* Per-letter glow enhancement - Significantly reduced as requested */
   .letter-glow {
@@ -331,18 +332,23 @@
     position: absolute;
     top: 0;
     right: 0;
-    bottom: 0;
     left: 0;
+  }
+
+  .parallax-layer-pinned {
+    bottom: 0;
   }
 
   .parallax-bg-slow {
     transform: translateZ(-2px) scale(3);
     z-index: -2;
+    bottom: 0; /* Keep background pinned */
   }
 
   .parallax-bg-med {
     transform: translateZ(-1px) scale(2);
     z-index: -1;
+    bottom: 0; /* Keep background pinned */
   }
 
   .animate-fade-in {
@@ -351,6 +357,18 @@
   
   .animate-float {
     animation: float 6s ease-in-out infinite;
+  }
+
+  /* Scroll Reveal Utilities */
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-on-scroll.revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
