@@ -63,7 +63,7 @@ const GalleryItem = ({ src, srcSet, index }: { src: string; srcSet: string; inde
       />
       
       {/* Dynamic Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-synth-blue/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 md:p-8">
+      <div className="absolute inset-0 liquid-glass-cyan opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 md:p-8">
         <motion.div 
           initial={{ y: 20, opacity: 0 }}
           whileHover={{ y: 0, opacity: 1 }}
@@ -71,8 +71,8 @@ const GalleryItem = ({ src, srcSet, index }: { src: string; srcSet: string; inde
           className="space-y-2"
         >
           <div className="h-1 w-12 bg-synth-cyan rounded-full"></div>
-          <p className="text-white font-black uppercase tracking-widest text-sm md:text-base">View Full Detail</p>
-          <p className="text-synth-cyan/80 text-xs font-bold uppercase tracking-tighter">Photography // Select {index + 1}</p>
+          <p className="text-white font-black uppercase tracking-widest text-sm md:text-base drop-shadow-md">View Full Detail</p>
+          <p className="text-synth-cyan text-xs font-bold uppercase tracking-tighter drop-shadow-sm">Photography // Select {index + 1}</p>
         </motion.div>
       </div>
 

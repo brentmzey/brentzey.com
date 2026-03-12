@@ -135,7 +135,7 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
       {/* Main Content Layer */}
       <div class="parallax-layer z-10 flex flex-col min-h-full overflow-x-hidden">
         {/* Navigation - Desktop Sticky Top, Hidden on Mobile */}
-        <nav class="hidden md:block sticky top-0 z-50 backdrop-blur-md bg-[var(--nav-bg)] border-b border-[var(--border-color)] transition-colors duration-300">
+        <nav class="hidden md:block sticky top-0 z-50 liquid-glass border-x-0 border-t-0 border-b transition-all duration-300">
           <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
               <a href="/" class="flex items-center gap-2 group relative">
@@ -155,8 +155,8 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
                 <a href="/gallery" class="flex items-center gap-1 text-[var(--text-secondary)] hover:text-synth-cyan transition-colors text-sm font-semibold uppercase tracking-widest"><Camera class="w-4 h-4" aria-hidden="true"/> Gallery</a>
                 <a href="/interests" class="flex items-center gap-1 text-[var(--text-secondary)] hover:text-synth-purple transition-colors text-sm font-semibold uppercase tracking-widest"><MonitorSmartphone class="w-4 h-4" aria-hidden="true"/> Interests</a>
                 
-                <div class="relative flex items-center p-1 rounded-full bg-[var(--card-bg)] border border-[var(--border-color)] w-[100px] h-10 shadow-inner group/toggle" role="group" aria-label="Theme selection">
-                  <div id="themeThumb" class="absolute top-[4px] left-[4px] w-7 h-7 rounded-full bg-white dark:bg-slate-800 shadow-lg transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-center justify-center pointer-events-none z-20">
+                <div class="relative flex items-center p-1 rounded-full liquid-glass w-[100px] h-10 shadow-inner group/toggle" role="group" aria-label="Theme selection">
+                  <div id="themeThumb" class="absolute top-[4px] left-[4px] w-7 h-7 rounded-full bg-white/20 backdrop-blur-md shadow-lg transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-center justify-center pointer-events-none z-20 border border-white/30">
                     <Sun id="thumbIconSun" class="w-4 h-4 text-yellow-500 hidden" aria-hidden="true" />
                     <MonitorSmartphone id="thumbIconSystem" class="w-4 h-4 text-synth-cyan hidden" aria-hidden="true" />
                     <Moon id="thumbIconMoon" class="w-4 h-4 text-synth-purple hidden" aria-hidden="true" />
@@ -178,7 +178,7 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
         </nav>
 
         {/* Mobile Header (Brand + Theme Only) */}
-        <header class="md:hidden sticky top-0 z-50 backdrop-blur-md bg-[var(--nav-bg)] border-b border-[var(--border-color)] px-6 pt-[env(safe-area-inset-top)] h-[calc(4rem+env(safe-area-inset-top))] flex items-center justify-between transition-all">
+        <header class="md:hidden sticky top-0 z-50 liquid-glass border-x-0 border-t-0 border-b px-6 pt-[env(safe-area-inset-top)] h-[calc(4rem+env(safe-area-inset-top))] flex items-center justify-between transition-all">
           <a href="/" class="relative flex items-center group">
             <span class="text-lg font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-synth-cyan via-synth-purple to-synth-pink uppercase synth-text-glow relative z-10">BRENT ZEY</span>
             <div class="neon-glow-container opacity-60">
@@ -187,8 +187,8 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
             </div>
             <div class="absolute -inset-4 bg-synth-cyan/10 blur-xl -z-10 rounded-full"></div>
           </a>
-          <div class="relative flex items-center p-1 rounded-full bg-[var(--card-bg)] border border-[var(--border-color)] w-[80px] h-8 shadow-inner" role="group" aria-label="Theme selection">
-            <div id="themeThumbMobile" class="absolute top-[3px] left-[3px] w-6 h-6 rounded-full bg-white dark:bg-slate-800 shadow-md transition-all duration-300 flex items-center justify-center pointer-events-none z-20">
+          <div class="relative flex items-center p-1 rounded-full liquid-glass w-[80px] h-8 shadow-inner" role="group" aria-label="Theme selection">
+            <div id="themeThumbMobile" class="absolute top-[3px] left-[3px] w-6 h-6 rounded-full bg-white/20 backdrop-blur-md shadow-md transition-all duration-300 flex items-center justify-center pointer-events-none z-20 border border-white/20">
               <Sun id="thumbIconSunMobile" class="w-3.5 h-3.5 text-yellow-500 hidden" aria-hidden="true" />
               <MonitorSmartphone id="thumbIconSystemMobile" class="w-3.5 h-3.5 text-synth-cyan hidden" aria-hidden="true" />
               <Moon id="thumbIconMoonMobile" class="w-3.5 h-3.5 text-synth-purple hidden" aria-hidden="true" />
@@ -235,7 +235,7 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
 
         {/* Fixed Mobile Bottom Navigation Bar - Smart Flowing Behavior */}
         <div id="mobile-nav" class="fixed bottom-0 left-0 right-0 z-50 px-4 pb-4 md:hidden transition-transform duration-500 ease-in-out translate-y-0">
-          <nav class="max-w-4xl mx-auto flex items-center justify-around p-3 rounded-3xl bg-[var(--nav-bg)] border border-[var(--border-color)] backdrop-blur-lg shadow-2xl" aria-label="Mobile navigation">
+          <nav class="max-w-4xl mx-auto flex items-center justify-around p-3 rounded-3xl liquid-glass shadow-2xl" aria-label="Mobile navigation">
             <a href="/" class="flex flex-col items-center gap-1 text-[var(--text-secondary)] hover:text-synth-cyan transition-colors" aria-label="Home">
               <span class="text-[10px] font-black uppercase tracking-tighter" aria-hidden="true">Home</span>
             </a>
@@ -316,19 +316,18 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
         if (!mobileNav || !container) return;
 
         let lastScrollTop = 0;
-        const threshold = 10;
 
         container.addEventListener('scroll', () => {
           const scrollTop = container.scrollTop;
           
-          if (Math.abs(lastScrollTop - scrollTop) <= threshold) return;
-
-          if (scrollTop > lastScrollTop && scrollTop > 100) {
-            // Scrolling down - hide it but keep it "following" (just out of sight)
-            mobileNav.style.transform = 'translateY(120%)';
+          // Instead of hiding, we'll just make it slightly more translucent when scrolling down
+          // to 'give way' to content visually, but it ALWAYS stays visible.
+          if (scrollTop > lastScrollTop && scrollTop > 50) {
+            mobileNav.style.opacity = '0.6';
+            mobileNav.style.transform = 'translateY(5px) scale(0.98)';
           } else {
-            // Scrolling up - bring it back
-            mobileNav.style.transform = 'translateY(0)';
+            mobileNav.style.opacity = '1';
+            mobileNav.style.transform = 'translateY(0) scale(1)';
           }
           lastScrollTop = scrollTop;
         });
