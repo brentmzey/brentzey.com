@@ -13,6 +13,14 @@ const imageMetadata = await Promise.all(
 // Optimize each image for high-definition rendering (2x/3x support)
 const galleryImages = await Promise.all(
   imageMetadata.map(async (img: any) => {
+    // Generate a tiny blurred version for LQIP (Low Quality Image Placeholder)
+    const lqip = await getImage({
+      src: img.default,
+      width: 20,
+      quality: 10,
+      format: 'webp'
+    });
+
     const optimized = await getImage({
       src: img.default,
       width: 1200, // High base width for HD
@@ -31,6 +39,7 @@ const galleryImages = await Promise.all(
     return {
       src: optimized.src,
       srcSet: `${optimized.src} 1x, ${retina.src} 2x`,
+      placeholder: lqip.src,
       width: img.default.width,
       height: img.default.height,
     };

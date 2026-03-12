@@ -234,7 +234,7 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
         </div>
 
         {/* Fixed Mobile Bottom Navigation Bar - Smart Flowing Behavior */}
-        <div id="mobile-nav" class="fixed bottom-0 left-0 right-0 z-50 px-4 pb-4 md:hidden transition-transform duration-500 ease-in-out translate-y-0">
+        <div id="mobile-nav" class="fixed bottom-0 left-0 right-0 z-50 px-4 pb-4 md:hidden transition-all duration-500 ease-in-out opacity-100 transform translate-y-[-12px]">
           <nav class="max-w-4xl mx-auto flex items-center justify-around p-3 rounded-3xl liquid-glass shadow-2xl" aria-label="Mobile navigation">
             <a href="/" class="flex flex-col items-center gap-1 text-[var(--text-secondary)] hover:text-synth-cyan transition-colors" aria-label="Home">
               <span class="text-[10px] font-black uppercase tracking-tighter" aria-hidden="true">Home</span>
@@ -320,17 +320,20 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
         container.addEventListener('scroll', () => {
           const scrollTop = container.scrollTop;
           
-          // Instead of hiding, we'll just make it slightly more translucent when scrolling down
-          // to 'give way' to content visually, but it ALWAYS stays visible.
-          if (scrollTop > lastScrollTop && scrollTop > 50) {
-            mobileNav.style.opacity = '0.6';
-            mobileNav.style.transform = 'translateY(5px) scale(0.98)';
+          // Subtle feedback on scroll: slightly translucent and smaller when scrolling down
+          // It ALWAYS stays in view as requested.
+          if (scrollTop > lastScrollTop && scrollTop > 20) {
+            mobileNav.style.opacity = '0.7';
+            mobileNav.style.transform = 'translateY(-12px) scale(0.96)';
           } else {
             mobileNav.style.opacity = '1';
-            mobileNav.style.transform = 'translateY(0) scale(1)';
+            mobileNav.style.transform = 'translateY(-12px) scale(1)';
           }
           lastScrollTop = scrollTop;
         });
+        
+        // Initial state: Floating above the bottom
+        mobileNav.style.transform = 'translateY(-12px)';
       };
 
       // Initial UI Sync
