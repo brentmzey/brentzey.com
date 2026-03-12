@@ -218,8 +218,8 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
     {/* Main Scrollable Content */}
     <div class="parallax-container h-screen w-full overscroll-none overflow-y-auto overflow-x-hidden relative z-10">
       
-      {/* Main Content Layer */}
-      <div class="flex flex-col min-h-full overflow-x-hidden pt-20 md:pt-24">
+      {/* Main Content Layer - Ensuring it fills the container robustly */}
+      <div class="flex flex-col min-h-screen overflow-x-hidden pt-20 md:pt-24">
         <main class="flex-grow pb-32 md:pb-0" role="main">
           <slot />
         </main>
@@ -254,7 +254,7 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
           </div>
         </div>
 
-        <footer class="md:block border-t border-[var(--border-color)] py-12 text-center space-y-6 bg-[var(--nav-bg)] backdrop-blur-md">
+        <footer class="flex-shrink-0 border-t border-[var(--border-color)] py-12 text-center space-y-6 bg-[var(--nav-bg)] backdrop-blur-md relative z-30">
           <div class="flex justify-center gap-8">
             <a href="https://github.com/brentmzey" target="_blank" rel="noopener noreferrer" class="text-[var(--text-secondary)] hover:text-synth-cyan transition-all hover:scale-110" title="GitHub" aria-label="Brent Zey's GitHub Profile">
               <Github class="w-6 h-6" aria-hidden="true" />
