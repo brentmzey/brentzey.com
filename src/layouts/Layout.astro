@@ -77,17 +77,17 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
       <div class="absolute inset-0 techno-lines opacity-30"></div>
       <div class="absolute inset-0 bg-gradient-to-b from-synth-cyan/10 via-transparent to-synth-pink/10 opacity-40"></div>
       
-      {/* Flowing Water Background Glow */}
-      <div class="water-flow-container">
+      {/* Flowing Water Background Glow - Disabled on mobile for performance */}
+      <div class="water-flow-container hidden md:block">
         <div class="water-blob top-[10%] left-[10%]"></div>
         <div class="water-blob bottom-[20%] right-[10%]"></div>
         <div class="water-blob top-[40%] right-[30%]"></div>
         <div class="water-blob bottom-[10%] left-[20%]"></div>
       </div>
 
-      {/* Digital Rain / Dripping Dots - Now Truly Infinite */}
+      {/* Digital Rain / Dripping Dots - Optimized for performance */}
       <div class="digital-rain">
-        {Array.from({ length: 60 }).map((_, i) => {
+        {Array.from({ length: 40 }).map((_, i) => {
           const colors = ['#00f3ff', '#9d00ff', '#ff00ea', '#a49aff'];
           const color = colors[i % colors.length];
           
@@ -103,9 +103,12 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
           const speedMultiplier = 0.5 + depth * 1.5;
           const finalDuration = (duration / speedMultiplier).toFixed(2);
 
+          // Significantly fewer rain drops on mobile
+          if (i > 8) return <div class="hidden md:block dotted-column" style={`left: ${left}%; top: ${startPos}px; animation-delay: ${delay}s; animation-duration: ${finalDuration}s; --rain-color: ${color}; --rain-size: ${size}px; --rain-opacity: ${opacity}; --rain-blur: ${blur}px;`}></div>;
+
           return (
             <div 
-              class={`dotted-column ${i > 20 ? 'hidden md:block' : ''}`}
+              class="dotted-column"
               style={`
                 left: ${left}%; 
                 top: ${startPos}px; 
@@ -133,7 +136,7 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
             <span class="text-xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-synth-cyan via-synth-purple to-synth-pink uppercase group-hover:synth-text-glow-strong transition-all synth-text-glow relative z-10">
               BRENT ZEY
             </span>
-            <div class="neon-glow-container opacity-0 group-hover:opacity-100 transition-opacity">
+            <div class="neon-glow-container opacity-0 group-hover:opacity-100 transition-opacity hidden md:flex">
               <div class="neon-glow-rotating"></div>
               <div class="neon-glow-rotating-alt"></div>
             </div>
@@ -172,10 +175,6 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
     <header class="md:hidden fixed top-0 left-0 right-0 z-50 liquid-glass border-x-0 border-t-0 border-b px-6 pt-[env(safe-area-inset-top)] h-[calc(4rem+env(safe-area-inset-top))] flex items-center justify-between transition-all">
       <a href="/" class="relative flex items-center group">
         <span class="text-lg font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-synth-cyan via-synth-purple to-synth-pink uppercase synth-text-glow relative z-10">BRENT ZEY</span>
-        <div class="neon-glow-container opacity-60">
-          <div class="neon-glow-rotating scale-75"></div>
-          <div class="neon-glow-rotating-alt scale-75 opacity-40"></div>
-        </div>
         <div class="absolute -inset-4 bg-synth-cyan/10 blur-xl -z-10 rounded-full"></div>
       </a>
       <div class="relative flex items-center p-1 rounded-full liquid-glass w-[80px] h-8 shadow-inner" role="group" aria-label="Theme selection">
@@ -254,8 +253,8 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
           </div>
         </div>
 
-        <footer class="flex-shrink-0 border-t border-[var(--border-color)] py-12 text-center space-y-6 bg-[var(--nav-bg)] backdrop-blur-md relative z-30">
-          <div class="flex justify-center gap-8">
+        <footer class="flex-shrink-0 border-t border-[var(--border-color)] py-12 text-center space-y-6 bg-[var(--nav-bg)] backdrop-blur-md relative z-30 reveal-on-scroll">
+          <div class="flex justify-center gap-8 reveal-on-scroll" style="transition-delay: 150ms">
             <a href="https://github.com/brentmzey" target="_blank" rel="noopener noreferrer" class="text-[var(--text-secondary)] hover:text-synth-cyan transition-all hover:scale-110" title="GitHub" aria-label="Brent Zey's GitHub Profile">
               <Github class="w-6 h-6" aria-hidden="true" />
             </a>
@@ -263,7 +262,7 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
               <Mail class="w-6 h-6" aria-hidden="true" />
             </a>
           </div>
-          <p class="text-[var(--text-secondary)] text-sm font-medium tracking-wide pb-20 md:pb-0">&copy; {new Date().getFullYear()} Brent Zey. All rights reserved.</p>
+          <p class="text-[var(--text-secondary)] text-sm font-medium tracking-wide pb-20 md:pb-0 reveal-on-scroll" style="transition-delay: 250ms">&copy; {new Date().getFullYear()} Brent Zey. All rights reserved.</p>
         </footer>
       </div>
     </div>
@@ -289,8 +288,10 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
 
       // Scroll Reveal Observer
       const initScrollReveal = () => {
+        const isMobile = window.innerWidth < 768;
         const observerOptions = {
-          root: document.querySelector('.parallax-container'),
+          // Use null on mobile to observe the viewport directly, otherwise use parallax-container
+          root: isMobile ? null : document.querySelector('.parallax-container'),
           threshold: 0.15,
           rootMargin: '0px 0px -50px 0px'
         };

@@ -259,6 +259,11 @@
       0 4px 24px -1px rgba(0, 0, 0, 0.6),
       inset 0 0 0 1px rgba(0, 243, 255, 0.03);
   }
+
+  @media (max-width: 768px) {
+    backdrop-filter: blur(8px) saturate(150%);
+    -webkit-backdrop-filter: blur(8px) saturate(150%);
+  }
 }
 
 /* Tinted Glass Variants */
@@ -306,6 +311,11 @@
     filter: blur(var(--rain-blur, 0px)) drop-shadow(0 0 8px var(--rain-color, #00f3ff));
     animation: digital-drop linear infinite;
     animation-fill-mode: backwards;
+
+    @media (max-width: 768px) {
+      filter: none; /* Blurs and drop-shadows are expensive on mobile */
+      height: 150px;
+    }
   }
 
   .dotted-column::after {
@@ -319,6 +329,10 @@
     background: #fff;
     border-radius: 50%;
     box-shadow: 0 0 12px 2px #fff, 0 0 20px 4px var(--rain-color);
+
+    @media (max-width: 768px) {
+      box-shadow: 0 0 8px #fff;
+    }
   }
 
   @keyframes digital-drop {
@@ -333,6 +347,10 @@
     background-image: radial-gradient(circle, var(--text-secondary) 1px, transparent 1px);
     background-size: 30px 30px;
     opacity: 0.05;
+
+    @media (max-width: 768px) {
+      background-size: 40px 40px; /* Fewer dots on mobile */
+    }
   }
 
   .dark .pixel-grid {
@@ -346,6 +364,10 @@
       linear-gradient(0deg, transparent 24%, rgba(0, 243, 255, 0.05) 25%, rgba(0, 243, 255, 0.05) 26%, transparent 27%),
       linear-gradient(90deg, transparent 24%, rgba(255, 0, 234, 0.05) 25%, rgba(255, 0, 234, 0.05) 26%, transparent 27%);
     background-size: 60px 60px;
+
+    @media (max-width: 768px) {
+      display: none; /* Hide complex background patterns on mobile */
+    }
   }
 
   .dark .techno-lines {
@@ -364,6 +386,12 @@
     overscroll-behavior-y: contain;
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
+
+    @media (max-width: 768px) {
+      perspective: none; /* Disable 3D perspective parallax on mobile to improve scroll performance */
+      height: auto;
+      overflow: visible;
+    }
   }
 
   .parallax-layer {
@@ -372,6 +400,11 @@
     right: 0;
     left: 0;
     will-change: transform;
+
+    @media (max-width: 768px) {
+      position: relative;
+      will-change: auto;
+    }
   }
 
   /* Reduce animation complexity on slow devices or reduced motion preference */
@@ -415,11 +448,14 @@
     animation: float 6s ease-in-out infinite;
   }
 
-  /* Scroll Reveal Utilities */
+  /* Scroll Reveal Utilities - "Smooth but FIRM" behavior */
   .reveal-on-scroll {
     opacity: 0;
-    transform: translateY(30px) scale(0.95);
-    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(20px) scale(0.98);
+    transition: 
+      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
   }
 
   .reveal-on-scroll.revealed {

@@ -108,16 +108,19 @@ const GalleryItem = ({ src, srcSet, placeholder, index, isLite }: { src: string;
 
 export default function MasonryGallery({ images }: Props) {
   const [isLite, setIsLite] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     // Detect "Lite" Mode (Slow Internet or Weak Device)
     const checkPerformance = () => {
       let lite = false;
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
       
-      // 1. Connection check (Slow 2G/3G)
+      // 1. Connection check (Slow 2G/3G or Save Data)
       const conn = (navigator as any).connection;
       if (conn) {
-        if (conn.saveData || /(2g|3g)/.test(conn.effectiveType || '')) {
+        if (conn.saveData || /(2g|3g|slow-2g)/.test(conn.effectiveType || '')) {
           lite = true;
         }
       }
@@ -140,15 +143,20 @@ export default function MasonryGallery({ images }: Props) {
         lite = true;
       }
 
+      // 5. Always use lite on mobile for gallery to ensure smoothness
+      if (mobile) lite = true;
+
       setIsLite(lite);
     };
 
     checkPerformance();
+    window.addEventListener('resize', checkPerformance);
+    return () => window.removeEventListener('resize', checkPerformance);
   }, []);
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {isLite && (
+      {isLite && !isMobile && (
         <div className="mb-8 p-4 rounded-xl bg-synth-cyan/5 border border-synth-cyan/20 text-center">
           <p className="text-xs font-bold uppercase tracking-widest text-synth-cyan/80">
             Lite Mode Enabled // Performance Optimized

@@ -10,35 +10,43 @@ const imageMetadata = await Promise.all(
   Object.values(images).map((img) => img())
 );
 
-// Optimize each image for high-definition rendering (2x/3x support)
+// Optimize each image for balanced performance and quality
 const galleryImages = await Promise.all(
   imageMetadata.map(async (img: any) => {
     // Generate a tiny blurred version for LQIP (Low Quality Image Placeholder)
     const lqip = await getImage({
       src: img.default,
       width: 20,
-      quality: 10,
+      quality: 20,
       format: 'webp'
+    });
+
+    // Mobile-optimized version
+    const mobile = await getImage({
+      src: img.default,
+      width: 600,
+      quality: 70,
+      format: 'avif'
     });
 
     const optimized = await getImage({
       src: img.default,
-      width: 1200, // High base width for HD
-      quality: 90, // Higher quality for photography
-      format: 'webp' // Modern efficient format
+      width: 1200, 
+      quality: 80,
+      format: 'avif'
     });
     
-    // Generate a 2x version for retina displays
+    // Generate a 2x version for retina displays (high-end desktop/tablets)
     const retina = await getImage({
       src: img.default,
-      width: 2400,
-      quality: 85,
-      format: 'webp'
+      width: 2000,
+      quality: 75,
+      format: 'avif'
     });
 
     return {
       src: optimized.src,
-      srcSet: `${optimized.src} 1x, ${retina.src} 2x`,
+      srcSet: `${mobile.src} 600w, ${optimized.src} 1200w, ${retina.src} 2000w`,
       placeholder: lqip.src,
       width: img.default.width,
       height: img.default.height,
