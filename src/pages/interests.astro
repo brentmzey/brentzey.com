@@ -44,10 +44,10 @@ const interests = [
 ---
 
 <Layout title="Interests - Brent Zey">
-  <div class="max-w-4xl mx-auto px-6 py-16 md:py-24 space-y-24 animate-fade-in">
+  <div class="max-w-4xl mx-auto px-6 py-12 md:py-24 space-y-16 md:space-y-24 animate-fade-in">
     
     <section class="space-y-6">
-      <h1 class="text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-synth-periwinkle to-synth-cyan synth-text-glow">Interests & Hobbies</h1>
+      <h1 class="text-5xl sm:text-5xl md:text-6xl font-black uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-synth-periwinkle to-synth-cyan synth-text-glow">Interests & Hobbies</h1>
       <p class="text-xl md:text-2xl text-[var(--text-secondary)] leading-relaxed font-light">
         Life beyond the terminal. The pursuits and passions that keep me grounded, inspired, and constantly learning.
       </p>
@@ -59,8 +59,8 @@ const interests = [
       <div class="absolute -inset-4 bg-gradient-to-r from-synth-purple/20 via-synth-pink/20 to-synth-cyan/20 blur-3xl rounded-[3rem] opacity-50 group-hover:opacity-80 transition-opacity duration-700 -z-10" aria-hidden="true"></div>
       <div class="absolute inset-0 p-1 rounded-[2.5rem] bg-gradient-to-r from-synth-purple via-synth-pink to-synth-cyan opacity-20 blur-sm -z-10" aria-hidden="true"></div>
       
-      <div class="relative overflow-hidden rounded-[2.5rem] bg-[var(--card-bg)] border border-[var(--border-color)] p-8 md:p-12 shadow-2xl backdrop-blur-xl">
-        <div class="flex flex-col md:flex-row gap-12 items-center">
+      <div class="relative overflow-hidden rounded-[2.5rem] bg-[var(--card-bg)] border border-[var(--border-color)] p-6 md:p-12 shadow-2xl backdrop-blur-xl">
+        <div class="flex flex-col md:flex-row gap-8 md:gap-12 items-center">
           <div class="flex-1 space-y-6 text-center md:text-left">
             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-synth-purple/10 text-synth-purple text-xs font-bold uppercase tracking-widest">
               <span class="relative flex h-2 w-2" aria-hidden="true">
@@ -103,7 +103,7 @@ const interests = [
       </div>
     </section>
 
-    <section class="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 relative">
       {interests.map((item) => {
         const Icon = item.icon;
         return (
@@ -111,14 +111,14 @@ const interests = [
             {/* Individual Card Glow */}
             <div class={`absolute -inset-2 ${item.bgColor} blur-2xl rounded-3xl opacity-20 group-hover:opacity-60 transition-all duration-500 -z-10`} aria-hidden="true"></div>
             
-            <div class={`group p-8 rounded-3xl bg-[var(--card-bg)] border border-[var(--border-color)] transition-all ${item.borderColor} hover:shadow-lg flex flex-col h-full relative z-10 backdrop-blur-sm`}>
+            <div class={`group p-6 md:p-8 rounded-3xl bg-[var(--card-bg)] border border-[var(--border-color)] transition-all ${item.borderColor} hover:shadow-lg flex flex-col h-full relative z-10 backdrop-blur-sm`}>
               <div class="flex items-center gap-4 mb-6">
                 <div class={`p-4 rounded-2xl ${item.bgColor} ${item.color} group-hover:scale-110 transition-transform`} aria-hidden="true">
                   <Icon class="w-8 h-8" />
                 </div>
-                <h2 class="text-2xl font-bold uppercase tracking-wider">{item.title}</h2>
+                <h2 class="text-xl md:text-2xl font-bold uppercase tracking-wider">{item.title}</h2>
               </div>
-              <p class="text-[var(--text-secondary)] leading-relaxed text-lg flex-grow">
+              <p class="text-[var(--text-secondary)] leading-relaxed text-base md:text-lg flex-grow">
                 {item.description}
               </p>
               {item.links && (

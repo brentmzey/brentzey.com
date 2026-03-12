@@ -15,7 +15,7 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#020617" />
     <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
@@ -68,7 +68,7 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
       });
     </script>
   </head>
-  <body class="bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans antialiased min-h-screen flex flex-col selection:bg-synth-pink selection:text-white transition-colors duration-300">
+  <body class="bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans antialiased min-h-screen min-h-[100dvh] flex flex-col selection:bg-synth-pink selection:text-white transition-colors duration-300">
     
     {/* Fixed Background Layers - Seamless & Always On Screen */}
     <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
@@ -213,7 +213,7 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
     <div class="parallax-container relative z-10 flex-grow flex flex-col">
       
       {/* Main Content Layer - Ensuring it fills the container robustly */}
-      <div class="flex flex-col min-h-screen pt-20 md:pt-24 flex-grow">
+      <div class="flex flex-col pt-[calc(4.5rem+env(safe-area-inset-top))] md:pt-24 flex-grow">
         <main class="flex-grow pb-32 md:pb-0" role="main">
           <slot />
         </main>
