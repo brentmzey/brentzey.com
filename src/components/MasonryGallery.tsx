@@ -13,12 +13,20 @@ interface Props {
 
 const GalleryItem = ({ src, srcSet, placeholder, index, isLite }: { src: string; srcSet: string; placeholder: string; index: number; isLite: boolean }) => {
   const ref = useRef(null);
+  const imgRef = useRef<HTMLImageElement>(null);
   const [container, setContainer] = useState<HTMLElement | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const scrollContainer = document.querySelector('.parallax-container') as HTMLElement;
     if (scrollContainer) setContainer(scrollContainer);
+  }, []);
+
+  // Handle cached images where onLoad might not fire
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete) {
+      setIsLoaded(true);
+    }
   }, []);
   
   // Intersection scroll tracking for parallax
@@ -65,6 +73,7 @@ const GalleryItem = ({ src, srcSet, placeholder, index, isLite }: { src: string;
       )}
 
       <img 
+        ref={imgRef}
         src={src} 
         srcSet={srcSet}
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

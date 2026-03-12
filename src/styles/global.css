@@ -302,9 +302,10 @@
       var(--rain-color, #00f3ff) 80%, 
       rgba(255, 255, 255, 0.8) 100%
     );
-    opacity: var(--rain-opacity, 0.25);
+    opacity: 0;
     filter: blur(var(--rain-blur, 0px)) drop-shadow(0 0 8px var(--rain-color, #00f3ff));
     animation: digital-drop linear infinite;
+    animation-fill-mode: backwards;
   }
 
   .dotted-column::after {
