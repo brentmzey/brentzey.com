@@ -32,36 +32,36 @@ const GalleryItem = React.memo(({ src, srcSet, placeholder, index, isLite }: { s
     }
   }, []);
   
-  // Intersection scroll tracking for parallax
+  // Intersection scroll tracking for parallax - Only on desktop
   const { scrollYProgress } = useScroll({
-    target: ref,
-    container: container ? { current: container } : undefined,
+    target: !isLite ? ref : undefined,
+    container: !isLite && container ? { current: container } : undefined,
     offset: ["start end", "end start"]
   });
 
   // Disable parallax on lite devices
-  const yRange = useTransform(scrollYProgress, [0, 1], isLite ? [0, 0] : [30, -30]);
-  const y = useSpring(yRange, { stiffness: 100, damping: 30, restDelta: 0.001 });
+  const yRange = useTransform(scrollYProgress, [0, 1], isLite ? [0, 0] : [20, -20]);
+  const y = useSpring(yRange, { stiffness: 100, damping: 30, restDelta: 0.01 });
 
   return (
     <motion.div
       ref={ref}
       style={isLite ? {} : { y }}
-      initial={isLite ? { opacity: 0 } : { opacity: 0, y: 60, scale: 0.9 }}
+      initial={isLite ? { opacity: 0 } : { opacity: 0, y: 30, scale: 0.98 }}
       whileInView={{ 
         opacity: 1, 
         y: 0, 
         scale: 1,
         transition: {
-          duration: isLite ? 0.3 : 0.8,
-          delay: isLite ? 0 : (index % 3) * 0.1,
-          ease: isLite ? "easeOut" : [0.21, 1.02, 0.47, 0.98]
+          duration: isLite ? 0.3 : 0.6,
+          delay: isLite ? 0 : (index % 3) * 0.05,
+          ease: "easeOut"
         }
       }}
-      viewport={{ once: true, margin: isLite ? "100px" : "-100px" }}
+      viewport={{ once: true, margin: isLite ? "200px" : "-50px" }}
       whileHover={isLite ? {} : { 
-        scale: 1.02,
-        transition: { type: "spring", stiffness: 400, damping: 10 }
+        scale: 1.01,
+        transition: { duration: 0.2 }
       }}
       className="break-inside-avoid mb-8 relative group rounded-2xl md:rounded-3xl overflow-hidden bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-synth-cyan/50 transition-colors duration-500 hover:synth-glow-cyan cursor-zoom-in"
     >
