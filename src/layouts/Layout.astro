@@ -142,6 +142,9 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
                 <span class="text-xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-synth-cyan via-synth-purple to-synth-pink uppercase group-hover:synth-text-glow-strong transition-all synth-text-glow relative z-10">
                   BRENT ZEY
                 </span>
+                <div class="neon-glow-container opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div class="neon-glow-rotating"></div>
+                </div>
                 <div class="absolute -inset-2 bg-synth-cyan/5 blur-xl -z-10 rounded-full group-hover:bg-synth-cyan/10 transition-colors"></div>
               </a>
               
@@ -175,8 +178,11 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
 
         {/* Mobile Header (Brand + Theme Only) */}
         <header class="md:hidden sticky top-0 z-50 backdrop-blur-md bg-[var(--nav-bg)] border-b border-[var(--border-color)] px-6 h-16 flex items-center justify-between">
-          <a href="/" class="relative">
+          <a href="/" class="relative flex items-center group">
             <span class="text-lg font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-synth-cyan via-synth-purple to-synth-pink uppercase synth-text-glow relative z-10">BRENT ZEY</span>
+            <div class="neon-glow-container opacity-40">
+              <div class="neon-glow-rotating scale-75"></div>
+            </div>
             <div class="absolute -inset-2 bg-synth-cyan/5 blur-lg -z-10 rounded-full"></div>
           </a>
           <div class="relative flex items-center p-1 rounded-full bg-[var(--card-bg)] border border-[var(--border-color)] w-[80px] h-8 shadow-inner">

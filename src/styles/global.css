@@ -49,6 +49,48 @@
     box-shadow: 0 0 10px rgba(255, 0, 234, 0.5), 0 0 20px rgba(255, 0, 234, 0.3);
   }
 
+  /* Subtle per-letter glow for whole paragraphs */
+  .subtle-letter-glow {
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.15);
+  }
+
+  .dark .subtle-letter-glow {
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.1);
+  }
+
+  /* Rotating/Oscillating Neon Glow behind names */
+  .neon-glow-container {
+    position: absolute;
+    inset: -10%;
+    z-index: -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .neon-glow-rotating {
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    background: conic-gradient(from 0deg, var(--synth-cyan), var(--synth-purple), var(--synth-pink), var(--synth-purple), var(--synth-cyan));
+    filter: blur(30px);
+    opacity: 0.25;
+    animation: rotate-glow 8s linear infinite, oscillate-opacity 4s ease-in-out infinite alternate;
+    border-radius: 50%;
+  }
+
+  @keyframes rotate-glow {
+    from { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.1); }
+    to { transform: rotate(360deg) scale(1); }
+  }
+
+  @keyframes oscillate-opacity {
+    from { opacity: 0.15; }
+    to { opacity: 0.35; }
+  }
+
   .synth-text-glow {
     text-shadow: 0 0 8px rgba(0, 243, 255, 0.3), 0 0 12px rgba(0, 243, 255, 0.1);
   }
