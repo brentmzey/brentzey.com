@@ -4,6 +4,10 @@ Welcome to the source code for my personal portfolio and digital hub. This site 
 
 ## 🚀 Featured Open Source
 
+### [BSide](https://github.com/brentmzey/lovebside)
+An upcoming project focused on love and community. Built with **Kotlin Multiplatform (KMP/KMM)** and **Compose Multiplatform** for a truly native experience across all platforms.
+- **Key Technologies:** Kotlin, KMP, KMM, Compose Multiplatform (Multiplatform UI).
+
 ### [Sanctuary Stream](https://github.com/brentmzey/sanctuary-stream)
 A **Secure-by-Design** church streaming control system. It empowers parishes to manage professional OBS (Open Broadcaster Software) streams from any device, reducing costs while maintaining high-quality liturgical ministry standards.
 - **Key Features:** One-click start/stop, real-time health monitoring, and multi-platform support (Desktop, Mobile, Web).
