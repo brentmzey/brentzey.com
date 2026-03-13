@@ -141,6 +141,7 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
           <div class="flex items-center space-x-6">
             <a href="/about" class="flex items-center gap-1 text-[var(--text-secondary)] hover:text-synth-cyan transition-colors text-sm font-semibold uppercase tracking-widest"><User class="w-4 h-4" aria-hidden="true"/> About</a>
             <a href="/work" class="flex items-center gap-1 text-[var(--text-secondary)] hover:text-synth-pink transition-colors text-sm font-semibold uppercase tracking-widest"><Code2 class="w-4 h-4" aria-hidden="true"/> Work</a>
+            <a href="/showcase" class="flex items-center gap-1 text-[var(--text-secondary)] hover:text-synth-cyan transition-colors text-sm font-semibold uppercase tracking-widest"><Globe class="w-4 h-4" aria-hidden="true"/> Showcase</a>
             <a href="/gallery" class="flex items-center gap-1 text-[var(--text-secondary)] hover:text-synth-cyan transition-colors text-sm font-semibold uppercase tracking-widest"><Camera class="w-4 h-4" aria-hidden="true"/> Gallery</a>
             <a href="/interests" class="flex items-center gap-1 text-[var(--text-secondary)] hover:text-synth-purple transition-colors text-sm font-semibold uppercase tracking-widest"><MonitorSmartphone class="w-4 h-4" aria-hidden="true"/> Interests</a>
             
@@ -197,6 +198,10 @@ const { title, description = "Brent Zey - Software Engineer" } = Astro.props;
         <a href="/work" class="flex flex-col items-center gap-1 text-[var(--text-secondary)] hover:text-synth-pink transition-colors" aria-label="Work">
           <Code2 class="w-5 h-5" aria-hidden="true"/>
           <span class="text-[10px] font-bold uppercase">Work</span>
+        </a>
+        <a href="/showcase" class="flex flex-col items-center gap-1 text-[var(--text-secondary)] hover:text-synth-cyan transition-colors" aria-label="Showcase">
+          <Globe class="w-5 h-5" aria-hidden="true"/>
+          <span class="text-[10px] font-bold uppercase">Showcase</span>
         </a>
         <a href="/gallery" class="flex flex-col items-center gap-1 text-[var(--text-secondary)] hover:text-synth-cyan transition-colors" aria-label="Gallery">
           <Camera class="w-5 h-5" aria-hidden="true"/>

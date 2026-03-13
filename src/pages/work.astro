@@ -97,15 +97,20 @@ const customSites = [
       </div>
     </section>
 
-    {/* Custom Built Sites */}
+    {/* Custom Built Sites Teaser */}
     <section class="space-y-8">
-      <div class="space-y-2">
-        <h2 class="text-3xl font-bold uppercase tracking-widest text-[var(--text-primary)]">Custom Built Solutions</h2>
-        <div class="w-24 h-1 bg-gradient-to-r from-synth-cyan to-synth-blue rounded-full" aria-hidden="true"></div>
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div class="space-y-2">
+          <h2 class="text-3xl font-bold uppercase tracking-widest text-[var(--text-primary)]">Custom Built Solutions</h2>
+          <div class="w-24 h-1 bg-gradient-to-r from-synth-cyan to-synth-blue rounded-full" aria-hidden="true"></div>
+        </div>
+        <a href="/showcase" class="inline-flex items-center gap-2 text-sm font-black uppercase tracking-[0.2em] text-synth-cyan hover:text-white transition-colors group">
+          View Visual Showcase <ExternalLink class="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+        </a>
       </div>
       
       <div class="grid md:grid-cols-2 gap-6">
-        {customSites.map(site => (
+        {customSites.slice(0, 4).map(site => (
           <a href={site.link} target="_blank" rel="noopener noreferrer" class="group flex items-start p-6 rounded-3xl bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-synth-cyan/50 transition-all hover:synth-glow-cyan" aria-label={`Visit ${site.title} website`}>
             <div class="p-3 rounded-2xl bg-synth-cyan/10 text-synth-cyan mr-4 mt-1 group-hover:scale-110 transition-transform" aria-hidden="true">
               <MonitorSmartphone class="w-6 h-6" />
