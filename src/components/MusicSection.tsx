@@ -168,8 +168,21 @@ export default function MusicSection() {
         <div className="lg:col-span-7 order-1 lg:order-2">
           <motion.div 
             layout
-            className="relative rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] border border-white/10 bg-black/60 backdrop-blur-2xl group"
+            className="relative rounded-2xl overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] border border-white/10 bg-[#020617] group"
           >
+            {/* Window Header */}
+            <div className="h-10 bg-slate-900 border-b border-white/5 flex items-center px-4 justify-between relative z-10">
+              <div className="flex items-center gap-2 w-20">
+                <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+              </div>
+              <div className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 flex-grow text-center">
+                What I'm Listening To
+              </div>
+              <div className="w-20"></div> {/* Spacer to keep title centered */}
+            </div>
+
             {/* Player Glow Effect */}
             <div className={`absolute -inset-4 blur-[80px] opacity-20 transition-colors duration-1000 -z-10 ${view === 'library' ? 'bg-synth-purple' : 'bg-synth-cyan'}`}></div>
 
@@ -181,6 +194,7 @@ export default function MusicSection() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 1.05 }}
                   transition={{ duration: 0.5, ease: "circOut" }}
+                  className="bg-black/20"
                 >
                   <iframe 
                     allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" 
