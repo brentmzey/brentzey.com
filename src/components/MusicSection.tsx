@@ -1,95 +1,178 @@
-import React, { useState } from 'react';
-import { Music, Radio, ListMusic, ChevronRight, ChevronLeft } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Music, Radio, ListMusic, Play, ExternalLink, Headphones } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MusicStatus from './MusicStatus';
+
+interface Track {
+  title: string;
+  artist: string;
+  album: string;
+  image: string;
+  url: string;
+  nowPlaying?: boolean;
+}
 
 export default function MusicSection() {
   const [view, setView] = useState<'live' | 'library'>('library');
   const [service, setService] = useState<'apple' | 'spotify'>('apple');
+  const [library, setLibrary] = useState<Track[]>([]);
+  const [loadingLibrary, setLoadingLibrary] = useState(false);
 
   const applePlaylist = "https://embed.music.apple.com/us/playlist/heavy-rotation/pl.u-38oWWXvFY56E1k";
-  // Placeholder Spotify Playlist - User can swap this with their actual profile/playlist ID
   const spotifyPlaylist = "https://open.spotify.com/embed/playlist/37i9dQZF1E366m0nE6QeO6?utm_source=generator&theme=0";
 
+  useEffect(() => {
+    if (view === 'library') {
+      setLoadingLibrary(true);
+      fetch('/api/library')
+        .then(res => res.json())
+        .then(data => {
+          setLibrary(data.tracks || []);
+        })
+        .catch(err => console.error('Failed to fetch library', err))
+        .finally(() => setLoadingLibrary(false));
+    }
+  }, [view]);
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       {/* View Toggle (Live vs Library) */}
       <div className="flex justify-center md:justify-start">
-        <div className="inline-flex p-1 rounded-2xl bg-black/40 border border-white/5 backdrop-blur-md">
+        <div className="inline-flex p-1.5 rounded-2xl bg-black/40 border border-white/5 backdrop-blur-xl shadow-2xl">
           <button 
             onClick={() => setView('library')}
-            className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${view === 'library' ? 'bg-synth-purple text-white shadow-lg shadow-synth-purple/20' : 'text-white/40 hover:text-white/70'}`}
+            className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300 ${view === 'library' ? 'bg-gradient-to-r from-synth-purple to-synth-pink text-white shadow-lg shadow-synth-purple/30' : 'text-white/40 hover:text-white/70'}`}
           >
             <ListMusic className="w-4 h-4" />
-            My Libraries
+            Library
           </button>
           <button 
             onClick={() => setView('live')}
-            className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${view === 'live' ? 'bg-synth-cyan text-white shadow-lg shadow-synth-cyan/20' : 'text-white/40 hover:text-white/70'}`}
+            className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300 ${view === 'live' ? 'bg-synth-cyan text-white shadow-lg shadow-synth-cyan/30' : 'text-white/40 hover:text-white/70'}`}
           >
             <Radio className="w-4 h-4" />
-            Live Status
+            Live
           </button>
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-12 items-start">
-        <div className="flex-1 space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        {/* Left Column: Info and Controls */}
+        <div className="lg:col-span-5 space-y-8 order-2 lg:order-1">
           <AnimatePresence mode="wait">
             {view === 'library' ? (
               <motion.div 
-                key="library-text"
+                key="library-view"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
-                className="space-y-6"
+                className="space-y-8"
               >
-                <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none">Sonic Landscapes</h2>
-                <p className="text-[var(--text-secondary)] text-lg leading-relaxed">
-                  Music is the architecture of my focus. Explore my curated rotations across services. If you're signed in, you can listen directly from these players.
-                </p>
-                
+                <div className="space-y-4">
+                  <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none italic text-transparent bg-clip-text bg-gradient-to-r from-synth-purple to-synth-pink">Sonic Archive</h2>
+                  <p className="text-[var(--text-secondary)] text-lg leading-relaxed font-light">
+                    My musical DNA. A curated collection of rotations that define my workflow and creative process.
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-xs font-black uppercase tracking-[0.2em] text-white/40 mb-2">Recent Rotation</h3>
+                  <div className="grid gap-3">
+                    {loadingLibrary ? (
+                      [...Array(5)].map((_, i) => (
+                        <div key={i} className="h-16 bg-white/5 rounded-xl animate-pulse" />
+                      ))
+                    ) : (
+                      library.slice(0, 6).map((track, i) => (
+                        <motion.a
+                          key={i}
+                          href={track.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: i * 0.05 }}
+                          className="flex items-center gap-4 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-synth-purple/30 transition-all group/track"
+                        >
+                          <div className="relative w-10 h-10 rounded-lg overflow-hidden shrink-0">
+                            <img src={track.image} alt={track.album} className="w-full h-full object-cover" />
+                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover/track:opacity-100 transition-opacity">
+                              <Play className="w-4 h-4 text-white fill-current" />
+                            </div>
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <h4 className="text-sm font-bold text-white truncate group-hover/track:text-synth-purple transition-colors">{track.title}</h4>
+                            <p className="text-xs text-white/40 truncate italic">{track.artist}</p>
+                          </div>
+                          {track.nowPlaying && (
+                            <div className="flex gap-0.5 items-end h-2 px-2">
+                              <motion.div animate={{ height: [4, 8, 5, 8] }} transition={{ repeat: Infinity, duration: 0.8 }} className="w-0.5 bg-synth-cyan" />
+                              <motion.div animate={{ height: [6, 4, 8, 6] }} transition={{ repeat: Infinity, duration: 0.7 }} className="w-0.5 bg-synth-pink" />
+                              <motion.div animate={{ height: [8, 5, 4, 8] }} transition={{ repeat: Infinity, duration: 0.9 }} className="w-0.5 bg-synth-purple" />
+                            </div>
+                          )}
+                        </motion.a>
+                      ))
+                    )}
+                  </div>
+                </div>
+
                 {/* Service Toggle */}
-                <div className="flex gap-4">
+                <div className="flex gap-3 pt-4">
                   <button 
                     onClick={() => setService('apple')}
-                    className={`flex items-center gap-2.5 px-4.5 py-2.5 rounded-xl border transition-all font-bold text-[11px] uppercase tracking-widest ${service === 'apple' ? 'border-[#FC3C44] bg-[#FC3C44]/20 text-white shadow-[0_4px_15px_rgba(252,60,68,0.2)]' : 'border-white/5 text-white/40 hover:text-white hover:border-white/20'}`}
+                    className={`flex-1 flex items-center justify-center gap-2.5 px-6 py-3 rounded-xl border transition-all font-bold text-[10px] uppercase tracking-widest ${service === 'apple' ? 'border-[#FC3C44] bg-[#FC3C44]/20 text-white shadow-[0_4px_20px_rgba(252,60,68,0.25)]' : 'border-white/5 text-white/40 hover:text-white hover:border-white/20'}`}
                   >
-                    <svg className={`w-3.5 h-3.5 transition-transform ${service === 'apple' ? 'fill-white scale-110' : 'fill-current'}`} role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Apple Music</title><path d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.877-.726 10.496 10.496 0 00-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026-.747.043-1.49.123-2.193.4-1.336.53-2.3 1.452-2.865 2.78-.192.448-.292.925-.363 1.408-.056.392-.088.785-.1 1.18 0 .032-.007.062-.01.093v12.223c.01.14.017.283.027.424.05.815.154 1.624.497 2.373.65 1.42 1.738 2.353 3.234 2.801.42.127.856.187 1.293.228.555.053 1.11.06 1.667.06h11.03a12.5 12.5 0 001.57-.1c.822-.106 1.596-.35 2.295-.81a5.046 5.046 0 001.88-2.207c.186-.42.293-.87.37-1.324.113-.675.138-1.358.137-2.04-.002-3.8 0-7.595-.003-11.393zm-6.423 3.99v5.712c0 .417-.058.827-.244 1.206-.29.59-.76.962-1.388 1.14-.35.1-.706.157-1.07.173-.95.045-1.773-.6-1.943-1.536a1.88 1.88 0 011.038-2.022c.323-.16.67-.25 1.018-.324.378-.082.758-.153 1.134-.24.274-.063.457-.23.51-.516a.904.904 0 00.02-.193c0-1.815 0-3.63-.002-5.443a.725.725 0 00-.026-.185c-.04-.15-.15-.243-.304-.234-.16.01-.318.035-.475.066-.76.15-1.52.303-2.28.456l-2.325.47-1.374.278c-.016.003-.032.01-.048.013-.277.077-.377.203-.39.49-.002.042 0 .086 0 .13-.002 2.602 0 5.204-.003 7.805 0 .42-.047.836-.215 1.227-.278.64-.77 1.04-1.434 1.233-.35.1-.71.16-1.075.172-.96.036-1.755-.6-1.92-1.544-.14-.812.23-1.685 1.154-2.075.357-.15.73-.232 1.108-.31.287-.06.575-.116.86-.177.383-.083.583-.323.6-.714v-.15c0-2.96 0-5.922.002-8.882 0-.123.013-.25.042-.37.07-.285.273-.448.546-.518.255-.066.515-.112.774-.165.733-.15 1.466-.296 2.2-.444l2.27-.46c.67-.134 1.34-.27 2.01-.403.22-.043.442-.088.663-.106.31-.025.523.17.554.482.008.073.012.148.012.223.002 1.91.002 3.822 0 5.732z"/></svg>
                     Apple Music
                   </button>
                   <button 
                     onClick={() => setService('spotify')}
-                    className={`flex items-center gap-2.5 px-4.5 py-2.5 rounded-xl border transition-all font-bold text-[11px] uppercase tracking-widest ${service === 'spotify' ? 'border-[#1ED760] bg-[#1ED760]/20 text-white shadow-[0_4px_15px_rgba(30,215,96,0.2)]' : 'border-white/5 text-white/40 hover:text-white hover:border-white/20'}`}
+                    className={`flex-1 flex items-center justify-center gap-2.5 px-6 py-3 rounded-xl border transition-all font-bold text-[10px] uppercase tracking-widest ${service === 'spotify' ? 'border-[#1ED760] bg-[#1ED760]/20 text-white shadow-[0_4px_20px_rgba(30,215,96,0.25)]' : 'border-white/5 text-white/40 hover:text-white hover:border-white/20'}`}
                   >
-                    <svg className={`w-3.5 h-3.5 transition-transform ${service === 'spotify' ? 'fill-white scale-110' : 'fill-current'}`} role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Spotify</title><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
                     Spotify
                   </button>
                 </div>
               </motion.div>
             ) : (
               <motion.div 
-                key="live-text"
+                key="live-view"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
-                className="space-y-6"
+                className="space-y-8"
               >
-                <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none text-synth-cyan">Now Spinning</h2>
-                <p className="text-[var(--text-secondary)] text-lg leading-relaxed">
-                  Real-time broadcast of my current auditory journey. This bridge connects to both my mobile and desktop listening sessions.
-                </p>
+                <div className="space-y-4">
+                  <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none italic text-transparent bg-clip-text bg-gradient-to-r from-synth-cyan to-synth-periwinkle">Now Spinning</h2>
+                  <p className="text-[var(--text-secondary)] text-lg leading-relaxed font-light">
+                    A live broadcast of my current auditory landscape. Real-time synchronization with my mobile and desktop sessions.
+                  </p>
+                </div>
+                
                 <MusicStatus />
+
+                <div className="p-6 rounded-2xl bg-synth-cyan/5 border border-synth-cyan/20 space-y-4">
+                  <div className="flex items-center gap-3 text-synth-cyan">
+                    <Headphones className="w-5 h-5" />
+                    <span className="text-xs font-black uppercase tracking-[0.2em]">Hardware Stack</span>
+                  </div>
+                  <p className="text-sm text-white/60 leading-relaxed italic">
+                    Currently pushing signals through a balanced DAC/Amp setup to a pair of Sennheiser HD 600s or Sony WH-1000XM5s depending on the environment.
+                  </p>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        <div className="w-full lg:w-[450px] shrink-0">
+        {/* Right Column: Player Interface */}
+        <div className="lg:col-span-7 order-1 lg:order-2">
           <motion.div 
             layout
-            className="relative rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/10 bg-black/40 backdrop-blur-xl group"
+            className="relative rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] border border-white/10 bg-black/60 backdrop-blur-2xl group"
           >
+            {/* Player Glow Effect */}
+            <div className={`absolute -inset-4 blur-[80px] opacity-20 transition-colors duration-1000 -z-10 ${view === 'library' ? 'bg-synth-purple' : 'bg-synth-cyan'}`}></div>
+
             <AnimatePresence mode="wait">
               {view === 'library' ? (
                 <motion.div
@@ -97,12 +180,12 @@ export default function MusicSection() {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 1.05 }}
-                  transition={{ duration: 0.4 }}
+                  transition={{ duration: 0.5, ease: "circOut" }}
                 >
                   <iframe 
                     allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" 
                     frameBorder="0" 
-                    height="450" 
+                    height="500" 
                     style={{ width: '100%', maxWidth: '100%', overflow: 'hidden', background: 'transparent' }} 
                     sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" 
                     src={service === 'apple' ? applePlaylist : spotifyPlaylist}
@@ -114,16 +197,29 @@ export default function MusicSection() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="h-[450px] flex flex-col items-center justify-center p-12 text-center space-y-8"
+                  className="h-[500px] flex flex-col items-center justify-center p-12 text-center space-y-10 relative overflow-hidden"
                 >
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-synth-cyan/20 blur-3xl rounded-full animate-pulse"></div>
-                    <Radio className="w-32 h-32 text-synth-cyan relative z-10 animate-bounce" style={{ animationDuration: '3s' }} />
+                  {/* Decorative Visualizer Elements */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-10">
+                    <div className="w-[150%] h-[150%] border-[40px] border-synth-cyan/30 rounded-full animate-[spin_20s_linear_infinite]"></div>
+                    <div className="absolute w-[120%] h-[120%] border-[20px] border-synth-cyan/20 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
                   </div>
-                  <div className="space-y-2">
-                    <h4 className="text-white font-black uppercase tracking-widest text-xl">Live Feed Active</h4>
-                    <p className="text-white/40 text-sm font-medium leading-relaxed">
-                      The bridge is monitoring for new signals from Apple Music & Spotify.
+
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-synth-cyan/40 blur-[100px] rounded-full animate-pulse"></div>
+                    <div className="relative z-10 p-10 rounded-full bg-black/40 border border-synth-cyan/20 backdrop-blur-3xl shadow-2xl shadow-synth-cyan/20">
+                      <Radio className="w-32 h-32 text-synth-cyan animate-pulse" />
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4 relative z-10">
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-synth-cyan/10 text-synth-cyan text-[10px] font-black uppercase tracking-widest border border-synth-cyan/20">
+                      <span className="flex h-1.5 w-1.5 rounded-full bg-synth-cyan animate-ping"></span>
+                      Direct Link Active
+                    </div>
+                    <h4 className="text-white font-black uppercase tracking-widest text-2xl italic">System Synchronized</h4>
+                    <p className="text-white/40 text-sm font-medium leading-relaxed max-w-xs mx-auto italic">
+                      The bridge is actively monitoring for new signals across all connected devices.
                     </p>
                   </div>
                 </motion.div>
