@@ -215,11 +215,12 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    /* Mobile: Let body handle scrolling */
+    /* Mobile: Let body handle scrolling but prevent horizontal overflow */
     @media (max-width: 767px) {
       perspective: none;
       height: auto;
-      overflow: visible;
+      overflow-x: hidden;
+      overflow-y: visible;
     }
   }
 
