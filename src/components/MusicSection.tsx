@@ -19,7 +19,7 @@ export default function MusicSection() {
   const [loadingLibrary, setLoadingLibrary] = useState(false);
 
   const applePlaylist = "https://embed.music.apple.com/us/playlist/heavy-rotation/pl.u-38oWWXvFY56E1k";
-  const spotifyPlaylist = "https://open.spotify.com/embed/playlist/37i9dQZF1E366m0nE6QeO6?utm_source=generator&theme=0";
+  const spotifyPlaylist = "https://open.spotify.com/embed/playlist/7uUkcVP0SpSzyt9UUS9AJT?utm_source=generator&theme=0";
 
   useEffect(() => {
     if (view === 'library') {
