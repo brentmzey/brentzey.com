@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Music, Radio, ListMusic, Play, ExternalLink, Headphones } from 'lucide-react';
+import { Music, Radio, ListMusic, Play, ExternalLink, Headphones, Disc3 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MusicStatus from './MusicStatus';
+import AppleMusicPlayer from './AppleMusicPlayer';
 
 interface Track {
   title: string;
@@ -13,7 +14,7 @@ interface Track {
 }
 
 export default function MusicSection() {
-  const [view, setView] = useState<'live' | 'library'>('library');
+  const [view, setView] = useState<'live' | 'library' | 'player'>('player');
   const [service, setService] = useState<'apple' | 'spotify'>('apple');
   const [library, setLibrary] = useState<Track[]>([]);
   const [loadingLibrary, setLoadingLibrary] = useState(false);
@@ -36,9 +37,16 @@ export default function MusicSection() {
 
   return (
     <div className="space-y-12">
-      {/* View Toggle (Live vs Library) */}
+      {/* View Toggle (Live vs Library vs Player) */}
       <div className="flex justify-center md:justify-start">
         <div className="inline-flex p-1.5 rounded-2xl bg-black/40 border border-white/5 backdrop-blur-xl shadow-2xl">
+          <button 
+            onClick={() => setView('player')}
+            className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300 ${view === 'player' ? 'bg-[#FC3C44] text-white shadow-lg shadow-[#FC3C44]/30' : 'text-white/40 hover:text-white/70'}`}
+          >
+            <Disc3 className="w-4 h-4" />
+            Player
+          </button>
           <button 
             onClick={() => setView('library')}
             className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300 ${view === 'library' ? 'bg-gradient-to-r from-synth-purple to-synth-pink text-white shadow-lg shadow-synth-purple/30' : 'text-white/40 hover:text-white/70'}`}
@@ -60,7 +68,51 @@ export default function MusicSection() {
         {/* Left Column: Info and Controls */}
         <div className="lg:col-span-5 space-y-8 order-2 lg:order-1">
           <AnimatePresence mode="wait">
-            {view === 'library' ? (
+            {view === 'player' ? (
+              <motion.div 
+                key="player-view"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                className="space-y-8"
+              >
+                <div className="space-y-4">
+                  <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none italic text-transparent bg-clip-text bg-gradient-to-r from-[#FC3C44] to-[#FF453A]">Now Playing</h2>
+                  <p className="text-[var(--text-secondary)] text-lg leading-relaxed font-light">
+                    Your personal music hub. Browse, play, and share your favorite tracks directly from your library.
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-xs font-black uppercase tracking-[0.2em] text-white/40 mb-2">Quick Actions</h3>
+                  <div className="space-y-3">
+                    <a
+                      href="https://music.apple.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 p-4 rounded-xl bg-[#FC3C44]/10 border border-[#FC3C44]/30 hover:bg-[#FC3C44]/20 hover:border-[#FC3C44]/50 transition-all group"
+                    >
+                      <Music className="w-5 h-5 text-[#FC3C44] shrink-0" />
+                      <div>
+                        <p className="text-sm font-bold text-white">Open Apple Music</p>
+                        <p className="text-xs text-white/60">Listen on the official app</p>
+                      </div>
+                      <ExternalLink className="w-4 h-4 text-white/40 group-hover:text-white/70 ml-auto transition-colors" />
+                    </a>
+                  </div>
+                </div>
+
+                <div className="p-6 rounded-2xl bg-synth-cyan/5 border border-synth-cyan/20 space-y-4">
+                  <div className="flex items-center gap-3 text-synth-cyan">
+                    <Music className="w-5 h-5" />
+                    <span className="text-xs font-black uppercase tracking-[0.2em]">About This Player</span>
+                  </div>
+                  <p className="text-sm text-white/60 leading-relaxed italic">
+                    Powered by your Last.fm library. Browse your rotation, see what's playing, and jump to Apple Music to listen.
+                  </p>
+                </div>
+              </motion.div>
+            ) : view === 'library' ? (
               <motion.div 
                 key="library-view"
                 initial={{ opacity: 0, x: -20 }}
@@ -178,16 +230,27 @@ export default function MusicSection() {
                 <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
               </div>
               <div className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 flex-grow text-center">
-                What I'm Listening To
+                {view === 'player' ? 'Apple Music Player' : 'What I\'m Listening To'}
               </div>
               <div className="w-20"></div> {/* Spacer to keep title centered */}
             </div>
 
             {/* Player Glow Effect */}
-            <div className={`absolute -inset-4 blur-[80px] opacity-20 transition-colors duration-1000 -z-10 ${view === 'library' ? 'bg-synth-purple' : 'bg-synth-cyan'}`}></div>
+            <div className={`absolute -inset-4 blur-[80px] opacity-20 transition-colors duration-1000 -z-10 ${view === 'player' ? 'bg-[#FC3C44]' : view === 'library' ? 'bg-synth-purple' : 'bg-synth-cyan'}`}></div>
 
             <AnimatePresence mode="wait">
-              {view === 'library' ? (
+              {view === 'player' ? (
+                <motion.div
+                  key="player"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.05 }}
+                  transition={{ duration: 0.5, ease: "circOut" }}
+                  className="p-6 bg-black/20"
+                >
+                  <AppleMusicPlayer />
+                </motion.div>
+              ) : view === 'library' ? (
                 <motion.div
                   key={service}
                   initial={{ opacity: 0, scale: 0.95 }}
