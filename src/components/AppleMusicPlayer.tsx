@@ -11,10 +11,16 @@ interface Track {
   duration: number;
   url: string;
   previewUrl: string;
+  appleUrl: string;
+  spotifyUrl: string;
   nowPlaying?: boolean;
 }
 
-export default function AppleMusicPlayer() {
+interface PlayerProps {
+  service?: 'apple' | 'spotify';
+}
+
+export default function AppleMusicPlayer({ service = 'apple' }: PlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
   const [progress, setProgress] = useState(0);
@@ -24,6 +30,18 @@ export default function AppleMusicPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [playlistTracks, setPlaylistTracks] = useState<Track[]>([]);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+
+  // Dynamic colors based on service
+  const brandColor = service === 'apple' ? '#FC3C44' : '#1ED760';
+  const brandGradient = service === 'apple' 
+    ? 'from-[#FC3C44] to-[#FF453A]' 
+    : 'from-[#1ED760] to-[#1DB954]';
+  const brandShadow = service === 'apple' 
+    ? 'shadow-[#FC3C44]/30' 
+    : 'shadow-[#1ED760]/30';
+  const brandHoverShadow = service === 'apple' 
+    ? 'hover:shadow-[#FC3C44]/50' 
+    : 'hover:shadow-[#1ED760]/50';
 
   useEffect(() => {
     fetchLibrary();
@@ -71,6 +89,8 @@ export default function AppleMusicPlayer() {
           duration: 30, // Default for preview
           url: track.url,
           previewUrl: track.previewUrl,
+          appleUrl: track.appleUrl,
+          spotifyUrl: track.spotifyUrl,
           nowPlaying: track.nowPlaying
         }));
         
@@ -84,17 +104,12 @@ export default function AppleMusicPlayer() {
           setCurrentTrack(firstTrack);
           setCurrentTrackIndex(0);
           setProgress(0);
-          // Don't auto-play on initial load to avoid browser restrictions
         } 
         // Polling: Update if a new track is scrobbling
         else if (isNewTrack && firstTrack.nowPlaying) {
           setCurrentTrack(firstTrack);
           setCurrentTrackIndex(0);
           setProgress(0);
-          // If we were playing, keep playing the new track
-          if (isPlaying) {
-             // Let the useEffect handle it
-          }
         } else if (!isNewTrack && currentTrack) {
           // Just update the "Live" status if it's the same track
           setCurrentTrack(prev => prev ? { ...prev, nowPlaying: firstTrack.nowPlaying } : firstTrack);
@@ -121,7 +136,6 @@ export default function AppleMusicPlayer() {
     if (!currentTrack?.nowPlaying) {
       playNext();
     } else {
-      // If live, just loop it or stay at end
       setIsPlaying(false);
       setProgress(100);
     }
@@ -156,6 +170,8 @@ export default function AppleMusicPlayer() {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
+  const currentServiceUrl = service === 'apple' ? currentTrack?.appleUrl : currentTrack?.spotifyUrl;
+
   if (loading) {
     return (
       <div className="w-full h-full bg-gradient-to-br from-slate-900 via-slate-800 to-black rounded-2xl p-8 flex items-center justify-center border border-white/10">
@@ -172,6 +188,7 @@ export default function AppleMusicPlayer() {
       {/* Album Art */}
       <div className="relative aspect-square bg-black overflow-hidden group">
         <audio 
+          key={currentTrack?.id}
           ref={audioRef}
           src={currentTrack?.previewUrl}
           onTimeUpdate={handleTimeUpdate}
@@ -187,14 +204,17 @@ export default function AppleMusicPlayer() {
             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
             
             {currentTrack?.nowPlaying && (
-              <div className="absolute top-4 right-4 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FC3C44] text-[10px] font-black uppercase tracking-[0.2em] text-white shadow-2xl border border-white/20">
+              <div 
+                className="absolute top-4 right-4 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-white shadow-2xl border border-white/20 transition-colors"
+                style={{ backgroundColor: brandColor }}
+              >
                 <span className="flex h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
                 Live Now
               </div>
             )}
           </>
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-synth-purple to-synth-pink flex items-center justify-center">
+          <div className={`w-full h-full bg-gradient-to-br ${service === 'apple' ? 'from-synth-purple to-synth-pink' : 'from-[#1ED760]/20 to-[#1DB954]/40'} flex items-center justify-center`}>
             <Music className="w-24 h-24 text-white/50" />
           </div>
         )}
@@ -253,7 +273,7 @@ export default function AppleMusicPlayer() {
             }}
           >
             <div
-              className="h-full bg-gradient-to-r from-synth-purple to-synth-pink transition-all duration-100"
+              className={`h-full bg-gradient-to-r ${brandGradient} transition-all duration-100`}
               style={{ width: `${Math.min(progress, 100)}%` }}
             />
           </div>
@@ -274,8 +294,8 @@ export default function AppleMusicPlayer() {
             <Heart 
               className="w-5 h-5 transition-colors"
               fill={liked ? 'currentColor' : 'none'}
-              stroke={liked ? '#FC3C44' : 'currentColor'}
-              color={liked ? '#FC3C44' : 'white'}
+              stroke={liked ? brandColor : 'currentColor'}
+              color={liked ? brandColor : 'white'}
             />
           </motion.button>
 
@@ -294,7 +314,7 @@ export default function AppleMusicPlayer() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={togglePlayPause}
-              className="p-3 bg-gradient-to-r from-synth-purple to-synth-pink rounded-full hover:shadow-lg hover:shadow-synth-purple/30 transition-all"
+              className={`p-3 bg-gradient-to-r ${brandGradient} rounded-full hover:shadow-lg transition-all ${brandShadow} ${brandHoverShadow}`}
             >
               {isPlaying ? (
                 <Pause className="w-5 h-5 text-white fill-current" />
@@ -317,7 +337,7 @@ export default function AppleMusicPlayer() {
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            onClick={() => currentTrack && window.open(currentTrack.url, '_blank')}
+            onClick={() => currentServiceUrl && window.open(currentServiceUrl, '_blank')}
             className="p-2 hover:bg-white/10 rounded-lg transition-colors"
           >
             <Share2 className="w-5 h-5 text-white" />
@@ -333,22 +353,27 @@ export default function AppleMusicPlayer() {
             max="100"
             value={volume}
             onChange={(e) => setVolume(Number(e.target.value))}
-            className="flex-1 h-1 bg-white/10 rounded-full appearance-none cursor-pointer accent-synth-purple"
+            className="flex-1 h-1 bg-white/10 rounded-full appearance-none cursor-pointer"
             style={{
-              background: `linear-gradient(to right, rgba(147, 51, 234, 0.5) 0%, rgba(147, 51, 234, 0.5) ${volume}%, rgba(255, 255, 255, 0.1) ${volume}%, rgba(255, 255, 255, 0.1) 100%)`
+              accentColor: brandColor,
+              background: `linear-gradient(to right, ${brandColor}80 0%, ${brandColor}80 ${volume}%, rgba(255, 255, 255, 0.1) ${volume}%, rgba(255, 255, 255, 0.1) 100%)`
             }}
           />
           <span className="text-xs text-white/60 w-8 text-right font-mono">{volume}%</span>
         </div>
 
-        {/* Now Playing in Apple Music Link */}
+        {/* Service Action Button */}
         <a
-          href={currentTrack?.url}
+          href={currentServiceUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full mt-4 py-3 px-4 bg-[#FC3C44] hover:bg-[#FF453A] text-white font-bold rounded-lg transition-colors text-center text-sm uppercase tracking-wide shadow-lg shadow-[#FC3C44]/30 hover:shadow-[#FC3C44]/50"
+          className="block w-full mt-4 py-3 px-4 text-white font-bold rounded-lg transition-colors text-center text-sm uppercase tracking-wide shadow-lg"
+          style={{ 
+            backgroundColor: brandColor,
+            boxShadow: `0 10px 15px -3px ${brandColor}40`
+          }}
         >
-          Open in Apple Music
+          Open in {service === 'apple' ? 'Apple Music' : 'Spotify'}
         </a>
       </div>
 
@@ -369,7 +394,7 @@ export default function AppleMusicPlayer() {
                 whileHover={{ x: 4 }}
                 className={`w-full text-left p-3 rounded-lg transition-all group ${
                   index === currentTrackIndex
-                    ? 'bg-synth-purple/20 border border-synth-purple/30'
+                    ? 'bg-white/5 border border-white/10'
                     : 'hover:bg-white/5 border border-transparent'
                 }`}
               >
@@ -378,7 +403,9 @@ export default function AppleMusicPlayer() {
                     {index + 1}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-semibold text-white truncate group-hover:text-synth-purple transition-colors">
+                    <p className={`text-sm font-semibold truncate transition-colors ${
+                      index === currentTrackIndex ? 'text-white' : 'text-white/70 group-hover:text-white'
+                    }`}>
                       {track.title}
                     </p>
                     <p className="text-xs text-white/50 truncate">
@@ -387,8 +414,8 @@ export default function AppleMusicPlayer() {
                   </div>
                   {index === currentTrackIndex && isPlaying && (
                     <div className="flex gap-0.5 items-end h-2.5 flex-shrink-0">
-                      <motion.div animate={{ height: [4, 8, 5, 8] }} transition={{ repeat: Infinity, duration: 0.8 }} className="w-0.5 bg-synth-cyan" />
-                      <motion.div animate={{ height: [6, 4, 8, 6] }} transition={{ repeat: Infinity, duration: 0.7 }} className="w-0.5 bg-synth-pink" />
+                      <motion.div animate={{ height: [4, 8, 5, 8] }} transition={{ repeat: Infinity, duration: 0.8 }} className="w-0.5" style={{ backgroundColor: brandColor }} />
+                      <motion.div animate={{ height: [6, 4, 8, 6] }} transition={{ repeat: Infinity, duration: 0.7 }} className="w-0.5" style={{ backgroundColor: brandColor }} />
                     </div>
                   )}
                 </div>

@@ -77,24 +77,40 @@ export default function MusicSection() {
                 className="space-y-8"
               >
                 <div className="space-y-4">
-                  <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none italic text-transparent bg-clip-text bg-gradient-to-r from-[#FC3C44] to-[#FF453A]">Now Playing</h2>
+                  <h2 className={`text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none italic text-transparent bg-clip-text bg-gradient-to-r ${service === 'apple' ? 'from-[#FC3C44] to-[#FF453A]' : 'from-[#1ED760] to-[#1DB954]'}`}>Now Playing</h2>
                   <p className="text-[var(--text-secondary)] text-lg leading-relaxed font-light">
-                    Your personal music hub. Browse, play, and share your favorite tracks directly from your library.
+                    Your personal music hub. Browse, play, and share your favorite tracks directly from your {service === 'apple' ? 'Apple Music' : 'Spotify'} library.
                   </p>
+                </div>
+
+                {/* Service Toggle */}
+                <div className="flex gap-3 pt-2">
+                  <button 
+                    onClick={() => setService('apple')}
+                    className={`flex-1 flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl border transition-all font-bold text-[10px] uppercase tracking-widest ${service === 'apple' ? 'border-[#FC3C44] bg-[#FC3C44]/20 text-white shadow-[0_4px_20px_rgba(252,60,68,0.25)]' : 'border-white/5 text-white/40 hover:text-white hover:border-white/20'}`}
+                  >
+                    Apple Music
+                  </button>
+                  <button 
+                    onClick={() => setService('spotify')}
+                    className={`flex-1 flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl border transition-all font-bold text-[10px] uppercase tracking-widest ${service === 'spotify' ? 'border-[#1ED760] bg-[#1ED760]/20 text-white shadow-[0_4px_20px_rgba(30,215,96,0.25)]' : 'border-white/5 text-white/40 hover:text-white hover:border-white/20'}`}
+                  >
+                    Spotify
+                  </button>
                 </div>
 
                 <div className="space-y-4">
                   <h3 className="text-xs font-black uppercase tracking-[0.2em] text-white/40 mb-2">Quick Actions</h3>
                   <div className="space-y-3">
                     <a
-                      href="https://music.apple.com"
+                      href={service === 'apple' ? 'https://music.apple.com' : 'https://open.spotify.com'}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-3 p-4 rounded-xl bg-[#FC3C44]/10 border border-[#FC3C44]/30 hover:bg-[#FC3C44]/20 hover:border-[#FC3C44]/50 transition-all group"
+                      className={`flex items-center gap-3 p-4 rounded-xl border transition-all group ${service === 'apple' ? 'bg-[#FC3C44]/10 border-[#FC3C44]/30 hover:bg-[#FC3C44]/20 hover:border-[#FC3C44]/50' : 'bg-[#1ED760]/10 border-[#1ED760]/30 hover:bg-[#1ED760]/20 hover:border-[#1ED760]/50'}`}
                     >
-                      <Music className="w-5 h-5 text-[#FC3C44] shrink-0" />
+                      <Music className={`w-5 h-5 shrink-0 ${service === 'apple' ? 'text-[#FC3C44]' : 'text-[#1ED760]'}`} />
                       <div>
-                        <p className="text-sm font-bold text-white">Open Apple Music</p>
+                        <p className="text-sm font-bold text-white">Open {service === 'apple' ? 'Apple Music' : 'Spotify'}</p>
                         <p className="text-xs text-white/60">Listen on the official app</p>
                       </div>
                       <ExternalLink className="w-4 h-4 text-white/40 group-hover:text-white/70 ml-auto transition-colors" />
@@ -108,7 +124,7 @@ export default function MusicSection() {
                     <span className="text-xs font-black uppercase tracking-[0.2em]">About This Player</span>
                   </div>
                   <p className="text-sm text-white/60 leading-relaxed italic">
-                    Powered by your Last.fm library. Browse your rotation, see what's playing, and jump to Apple Music to listen.
+                    Powered by your Last.fm library. Browse your rotation, see what's playing, and jump to {service === 'apple' ? 'Apple Music' : 'Spotify'} to listen.
                   </p>
                 </div>
               </motion.div>
@@ -127,6 +143,22 @@ export default function MusicSection() {
                   </p>
                 </div>
 
+                {/* Service Toggle */}
+                <div className="flex gap-3 pt-2">
+                  <button 
+                    onClick={() => setService('apple')}
+                    className={`flex-1 flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl border transition-all font-bold text-[10px] uppercase tracking-widest ${service === 'apple' ? 'border-[#FC3C44] bg-[#FC3C44]/20 text-white shadow-[0_4px_20px_rgba(252,60,68,0.25)]' : 'border-white/5 text-white/40 hover:text-white hover:border-white/20'}`}
+                  >
+                    Apple Music
+                  </button>
+                  <button 
+                    onClick={() => setService('spotify')}
+                    className={`flex-1 flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl border transition-all font-bold text-[10px] uppercase tracking-widest ${service === 'spotify' ? 'border-[#1ED760] bg-[#1ED760]/20 text-white shadow-[0_4px_20px_rgba(30,215,96,0.25)]' : 'border-white/5 text-white/40 hover:text-white hover:border-white/20'}`}
+                  >
+                    Spotify
+                  </button>
+                </div>
+
                 <div className="space-y-4">
                   <h3 className="text-xs font-black uppercase tracking-[0.2em] text-white/40 mb-2">Recent Rotation</h3>
                   <div className="grid gap-3">
@@ -138,7 +170,7 @@ export default function MusicSection() {
                       library.slice(0, 6).map((track, i) => (
                         <motion.a
                           key={i}
-                          href={track.url}
+                          href={service === 'apple' ? (track as any).appleUrl || track.url : (track as any).spotifyUrl || track.url}
                           target="_blank"
                           rel="noopener noreferrer"
                           initial={{ opacity: 0, y: 10 }}
@@ -167,22 +199,6 @@ export default function MusicSection() {
                       ))
                     )}
                   </div>
-                </div>
-
-                {/* Service Toggle */}
-                <div className="flex gap-3 pt-4">
-                  <button 
-                    onClick={() => setService('apple')}
-                    className={`flex-1 flex items-center justify-center gap-2.5 px-6 py-3 rounded-xl border transition-all font-bold text-[10px] uppercase tracking-widest ${service === 'apple' ? 'border-[#FC3C44] bg-[#FC3C44]/20 text-white shadow-[0_4px_20px_rgba(252,60,68,0.25)]' : 'border-white/5 text-white/40 hover:text-white hover:border-white/20'}`}
-                  >
-                    Apple Music
-                  </button>
-                  <button 
-                    onClick={() => setService('spotify')}
-                    className={`flex-1 flex items-center justify-center gap-2.5 px-6 py-3 rounded-xl border transition-all font-bold text-[10px] uppercase tracking-widest ${service === 'spotify' ? 'border-[#1ED760] bg-[#1ED760]/20 text-white shadow-[0_4px_20px_rgba(30,215,96,0.25)]' : 'border-white/5 text-white/40 hover:text-white hover:border-white/20'}`}
-                  >
-                    Spotify
-                  </button>
                 </div>
               </motion.div>
             ) : (
@@ -230,13 +246,13 @@ export default function MusicSection() {
                 <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
               </div>
               <div className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 flex-grow text-center">
-                {view === 'player' ? 'Apple Music Player' : 'What I\'m Listening To'}
+                {view === 'player' ? `${service === 'apple' ? 'Apple Music' : 'Spotify'} Player` : 'What I\'m Listening To'}
               </div>
               <div className="w-20"></div> {/* Spacer to keep title centered */}
             </div>
 
             {/* Player Glow Effect */}
-            <div className={`absolute -inset-4 blur-[80px] opacity-20 transition-colors duration-1000 -z-10 ${view === 'player' ? 'bg-[#FC3C44]' : view === 'library' ? 'bg-synth-purple' : 'bg-synth-cyan'}`}></div>
+            <div className={`absolute -inset-4 blur-[80px] opacity-20 transition-colors duration-1000 -z-10 ${view === 'player' ? (service === 'apple' ? 'bg-[#FC3C44]' : 'bg-[#1ED760]') : view === 'library' ? 'bg-synth-purple' : 'bg-synth-cyan'}`}></div>
 
             <AnimatePresence mode="wait">
               {view === 'player' ? (
@@ -248,7 +264,7 @@ export default function MusicSection() {
                   transition={{ duration: 0.5, ease: "circOut" }}
                   className="p-6 bg-black/20"
                 >
-                  <AppleMusicPlayer />
+                  <AppleMusicPlayer service={service} />
                 </motion.div>
               ) : view === 'library' ? (
                 <motion.div

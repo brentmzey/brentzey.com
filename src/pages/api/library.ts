@@ -27,8 +27,9 @@ export const GET: APIRoute = async () => {
       const images = track.image || [];
       const image = images[3]?.['#text'] || images[2]?.['#text'] || images[1]?.['#text'] || '';
 
-      // Try to get a preview URL from iTunes
+      // Try to get a preview URL and Apple Music link from iTunes
       let previewUrl = '';
+      let appleUrl = track.url; // Fallback to last.fm
       try {
         const itunesRes = await fetch(
           `https://itunes.apple.com/search?term=${encodeURIComponent(`${artist} ${title}`)}&entity=song&limit=1`
@@ -36,10 +37,14 @@ export const GET: APIRoute = async () => {
         const itunesData = await itunesRes.json();
         if (itunesData.results && itunesData.results.length > 0) {
           previewUrl = itunesData.results[0].previewUrl;
+          appleUrl = itunesData.results[0].trackViewUrl;
         }
       } catch (e) {
         console.error('iTunes search failed for', title);
       }
+
+      // Generate a Spotify Search link (best without API key)
+      const spotifyUrl = `https://open.spotify.com/search/${encodeURIComponent(`${artist} ${title}`)}`;
 
       return {
         title,
@@ -48,6 +53,8 @@ export const GET: APIRoute = async () => {
         image,
         url: track.url,
         previewUrl,
+        appleUrl,
+        spotifyUrl,
         nowPlaying: track['@attr']?.nowplaying === 'true',
       };
     }));
