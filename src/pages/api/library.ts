@@ -16,13 +16,40 @@ export const GET: APIRoute = async () => {
       `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USERNAME}&api_key=${LASTFM_API_KEY}&format=json&limit=10`
     );
     const data = await response.json();
-    const tracks = data.recenttracks.track.map((track: any) => ({
-      title: track.name,
-      artist: track.artist['#text'],
-      album: track.album['#text'],
-      image: track.image[3]['#text'],
-      url: track.url,
-      nowPlaying: track['@attr']?.nowplaying === 'true',
+    const trackList = Array.isArray(data.recenttracks.track) ? data.recenttracks.track : [data.recenttracks.track];
+    
+    const tracks = await Promise.all(trackList.map(async (track: any) => {
+      const title = track.name;
+      const artist = track.artist['#text'];
+      const album = track.album['#text'];
+      
+      // Get the best possible image
+      const images = track.image || [];
+      const image = images[3]?.['#text'] || images[2]?.['#text'] || images[1]?.['#text'] || '';
+
+      // Try to get a preview URL from iTunes
+      let previewUrl = '';
+      try {
+        const itunesRes = await fetch(
+          `https://itunes.apple.com/search?term=${encodeURIComponent(`${artist} ${title}`)}&entity=song&limit=1`
+        );
+        const itunesData = await itunesRes.json();
+        if (itunesData.results && itunesData.results.length > 0) {
+          previewUrl = itunesData.results[0].previewUrl;
+        }
+      } catch (e) {
+        console.error('iTunes search failed for', title);
+      }
+
+      return {
+        title,
+        artist,
+        album,
+        image,
+        url: track.url,
+        previewUrl,
+        nowPlaying: track['@attr']?.nowplaying === 'true',
+      };
     }));
 
     return new Response(JSON.stringify({ tracks }), {

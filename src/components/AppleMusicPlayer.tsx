@@ -10,6 +10,7 @@ interface Track {
   image: string;
   duration: number;
   url: string;
+  previewUrl: string;
   nowPlaying?: boolean;
 }
 
@@ -31,29 +32,29 @@ export default function AppleMusicPlayer() {
     return () => clearInterval(interval);
   }, []);
 
-  // Simulated progress bar logic
+  // Update audio element whenever current track or play state changes
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-    
-    if (isPlaying) {
-      interval = setInterval(() => {
-        setProgress((prev) => {
-          if (prev >= 100) {
-            // Only auto-play next if we're not currently "Live" on Last.fm
-            // to avoid desyncing with what the user is actually hearing
-            if (!currentTrack?.nowPlaying) {
-              playNext();
-              return 0;
-            }
-            return prev; // Stay at 100 or wait for next poll if live
-          }
-          return prev + (100 / (currentTrack?.duration || 180));
-        });
-      }, 1000);
+    if (audioRef.current) {
+      if (isPlaying) {
+        // Only attempt to play if there's a source
+        if (audioRef.current.src) {
+          audioRef.current.play().catch(e => {
+            console.error('Audio play failed:', e);
+            setIsPlaying(false);
+          });
+        }
+      } else {
+        audioRef.current.pause();
+      }
     }
-    
-    return () => clearInterval(interval);
   }, [isPlaying, currentTrack]);
+
+  // Sync volume
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume / 100;
+    }
+  }, [volume]);
 
   const fetchLibrary = async (isPoll = false) => {
     try {
@@ -67,8 +68,9 @@ export default function AppleMusicPlayer() {
           artist: track.artist,
           album: track.album,
           image: track.image,
-          duration: 180,
+          duration: 30, // Default for preview
           url: track.url,
+          previewUrl: track.previewUrl,
           nowPlaying: track.nowPlaying
         }));
         
@@ -77,19 +79,22 @@ export default function AppleMusicPlayer() {
         const firstTrack = tracks[0];
         const isNewTrack = !currentTrack || firstTrack.title !== currentTrack.title || firstTrack.artist !== currentTrack.artist;
         
-        // Initial load: Set current track and start playing
+        // Initial load: Set current track
         if (!isPoll) {
           setCurrentTrack(firstTrack);
           setCurrentTrackIndex(0);
           setProgress(0);
-          setIsPlaying(true);
+          // Don't auto-play on initial load to avoid browser restrictions
         } 
-        // Polling: Update if a new track is scrobbling or if the current track's "Live" status changed
+        // Polling: Update if a new track is scrobbling
         else if (isNewTrack && firstTrack.nowPlaying) {
           setCurrentTrack(firstTrack);
           setCurrentTrackIndex(0);
           setProgress(0);
-          setIsPlaying(true);
+          // If we were playing, keep playing the new track
+          if (isPlaying) {
+             // Let the useEffect handle it
+          }
         } else if (!isNewTrack && currentTrack) {
           // Just update the "Live" status if it's the same track
           setCurrentTrack(prev => prev ? { ...prev, nowPlaying: firstTrack.nowPlaying } : firstTrack);
@@ -99,6 +104,26 @@ export default function AppleMusicPlayer() {
       console.error('Failed to fetch library:', error);
     } finally {
       if (!isPoll) setLoading(false);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      const current = audioRef.current.currentTime;
+      const total = audioRef.current.duration;
+      if (total) {
+        setProgress((current / total) * 100);
+      }
+    }
+  };
+
+  const handleEnded = () => {
+    if (!currentTrack?.nowPlaying) {
+      playNext();
+    } else {
+      // If live, just loop it or stay at end
+      setIsPlaying(false);
+      setProgress(100);
     }
   };
 
@@ -146,6 +171,12 @@ export default function AppleMusicPlayer() {
     <div className="w-full bg-gradient-to-br from-slate-900 via-slate-800 to-black rounded-2xl overflow-hidden border border-white/10 shadow-2xl hover:border-white/20 transition-colors">
       {/* Album Art */}
       <div className="relative aspect-square bg-black overflow-hidden group">
+        <audio 
+          ref={audioRef}
+          src={currentTrack?.previewUrl}
+          onTimeUpdate={handleTimeUpdate}
+          onEnded={handleEnded}
+        />
         {currentTrack?.image ? (
           <>
             <img 
@@ -188,12 +219,21 @@ export default function AppleMusicPlayer() {
       {/* Track Info */}
       <div className="p-6 space-y-4">
         <div className="space-y-1.5">
-          <h3 className="text-lg font-bold text-white truncate">
-            {currentTrack?.title || 'No track'}
-          </h3>
-          <p className="text-sm text-white/60 truncate">
-            {currentTrack?.artist || 'Unknown Artist'}
-          </p>
+          <div className="flex justify-between items-start gap-4">
+            <div className="min-w-0 flex-1">
+              <h3 className="text-lg font-bold text-white truncate">
+                {currentTrack?.title || 'No track'}
+              </h3>
+              <p className="text-sm text-white/60 truncate">
+                {currentTrack?.artist || 'Unknown Artist'}
+              </p>
+            </div>
+            {!currentTrack?.previewUrl && !loading && (
+              <span className="text-[10px] bg-white/10 text-white/40 px-2 py-1 rounded uppercase tracking-tighter shrink-0">
+                No Preview
+              </span>
+            )}
+          </div>
           <p className="text-xs text-white/40 truncate italic">
             {currentTrack?.album || 'Unknown Album'}
           </p>
@@ -201,15 +241,25 @@ export default function AppleMusicPlayer() {
 
         {/* Progress Bar */}
         <div className="space-y-2 pt-2">
-          <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden cursor-pointer group hover:h-1.5 transition-all">
+          <div 
+            className="w-full h-1 bg-white/10 rounded-full overflow-hidden cursor-pointer group hover:h-1.5 transition-all"
+            onClick={(e) => {
+              if (audioRef.current && audioRef.current.duration) {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const pct = x / rect.width;
+                audioRef.current.currentTime = pct * audioRef.current.duration;
+              }
+            }}
+          >
             <div
               className="h-full bg-gradient-to-r from-synth-purple to-synth-pink transition-all duration-100"
               style={{ width: `${Math.min(progress, 100)}%` }}
             />
           </div>
           <div className="flex justify-between text-xs text-white/40 font-mono">
-            <span>{formatTime(currentTrack?.duration ? currentTrack.duration * (progress / 100) : 0)}</span>
-            <span>{formatTime(currentTrack?.duration || 0)}</span>
+            <span>{formatTime(audioRef.current?.currentTime || 0)}</span>
+            <span>{formatTime(audioRef.current?.duration || 0)}</span>
           </div>
         </div>
 
