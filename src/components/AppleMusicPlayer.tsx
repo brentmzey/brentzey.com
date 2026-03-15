@@ -10,6 +10,7 @@ interface Track {
   image: string;
   duration: number;
   url: string;
+  nowPlaying?: boolean;
 }
 
 export default function AppleMusicPlayer() {
@@ -25,11 +26,38 @@ export default function AppleMusicPlayer() {
 
   useEffect(() => {
     fetchLibrary();
+    // Poll every 30 seconds to keep synced with Last.fm
+    const interval = setInterval(() => fetchLibrary(true), 30000);
+    return () => clearInterval(interval);
   }, []);
 
-  const fetchLibrary = async () => {
+  // Simulated progress bar logic
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    
+    if (isPlaying) {
+      interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 100) {
+            // Only auto-play next if we're not currently "Live" on Last.fm
+            // to avoid desyncing with what the user is actually hearing
+            if (!currentTrack?.nowPlaying) {
+              playNext();
+              return 0;
+            }
+            return prev; // Stay at 100 or wait for next poll if live
+          }
+          return prev + (100 / (currentTrack?.duration || 180));
+        });
+      }, 1000);
+    }
+    
+    return () => clearInterval(interval);
+  }, [isPlaying, currentTrack]);
+
+  const fetchLibrary = async (isPoll = false) => {
     try {
-      setLoading(true);
+      if (!isPoll) setLoading(true);
       const response = await fetch('/api/library');
       const data = await response.json();
       if (data.tracks && data.tracks.length > 0) {
@@ -41,16 +69,36 @@ export default function AppleMusicPlayer() {
           image: track.image,
           duration: 180,
           url: track.url,
+          nowPlaying: track.nowPlaying
         }));
+        
         setPlaylistTracks(tracks);
-        if (tracks.length > 0) {
-          setCurrentTrack(tracks[0]);
+
+        const firstTrack = tracks[0];
+        const isNewTrack = !currentTrack || firstTrack.title !== currentTrack.title || firstTrack.artist !== currentTrack.artist;
+        
+        // Initial load: Set current track and start playing
+        if (!isPoll) {
+          setCurrentTrack(firstTrack);
+          setCurrentTrackIndex(0);
+          setProgress(0);
+          setIsPlaying(true);
+        } 
+        // Polling: Update if a new track is scrobbling or if the current track's "Live" status changed
+        else if (isNewTrack && firstTrack.nowPlaying) {
+          setCurrentTrack(firstTrack);
+          setCurrentTrackIndex(0);
+          setProgress(0);
+          setIsPlaying(true);
+        } else if (!isNewTrack && currentTrack) {
+          // Just update the "Live" status if it's the same track
+          setCurrentTrack(prev => prev ? { ...prev, nowPlaying: firstTrack.nowPlaying } : firstTrack);
         }
       }
     } catch (error) {
       console.error('Failed to fetch library:', error);
     } finally {
-      setLoading(false);
+      if (!isPoll) setLoading(false);
     }
   };
 
@@ -106,6 +154,13 @@ export default function AppleMusicPlayer() {
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+            
+            {currentTrack?.nowPlaying && (
+              <div className="absolute top-4 right-4 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FC3C44] text-[10px] font-black uppercase tracking-[0.2em] text-white shadow-2xl border border-white/20">
+                <span className="flex h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+                Live Now
+              </div>
+            )}
           </>
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-synth-purple to-synth-pink flex items-center justify-center">
